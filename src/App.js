@@ -1,13 +1,19 @@
 import React from 'react';
-import { Text, Box } from 'native-base';
-
+import Home from './navigation/Home';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+const Stack = createNativeStackNavigator();
 const App = () => {
   return (
-    <Box flex={1} bg="#fff" alignItems="center" justifyContent="center">
-      <Text fontSize={28} fontFamily={'monospace'}>
-        start!
-      </Text>
-    </Box>
+    <Stack.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: 'orange',
+        },
+      }}
+    >
+      <Stack.Screen component={Home} name="Home" />
+    </Stack.Navigator>
   );
 };
 
