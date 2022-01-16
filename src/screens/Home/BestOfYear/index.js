@@ -15,7 +15,7 @@ const BestOfYear = () => {
     <HomeView>
       <Heading>Топ 2021 года</Heading>
       <View style={{ flexDirection: 'row', marginLeft: 6 }}>
-        <Pick
+        {/* <Pick
           set={setSortByMass}
           choice={mass}
           current={sortByMass}
@@ -26,9 +26,9 @@ const BestOfYear = () => {
           set={setSortByType}
           choice={type}
           current={sortByType}
-          clicked={!clicked}
+          clicked={clicked}
           setClicked={setClicked}
-        />
+        /> */}
       </View>
       <MangaCarousel />
     </HomeView>

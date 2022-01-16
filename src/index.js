@@ -3,10 +3,11 @@ import App from './App';
 import { registerRootComponent } from 'expo';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { StatusBar, View } from 'react-native';
-import * as NavigationBar from 'expo-navigation-bar';
 import { ThemeProvider } from './contexts/theme';
+
 import { useFonts } from 'expo-font';
+import * as NavigationBar from 'expo-navigation-bar';
+import { StatusBar } from 'react-native';
 
 const Main = () => {
   useEffect(() => {
@@ -15,9 +16,13 @@ const Main = () => {
     NavigationBar.setPositionAsync('absolute');
     NavigationBar.setBackgroundColorAsync('rgba(0,0,0,0)');
   }, []);
-  useFonts({
-    OpenSans: require('../assets/OpenSans.ttf'),
-    'OpenSans-SemiBold': require('../assets/OpenSans-SemiBold.ttf'),
+  const [load, error] = useFonts({
+    OpenSans300: require('../assets/fonts/OpenSans/OpenSans300.ttf'),
+    OpenSans400: require('../assets/fonts/OpenSans/OpenSans400.ttf'),
+    OpenSans500: require('../assets/fonts/OpenSans/OpenSans500.ttf'),
+    OpenSans600: require('../assets/fonts/OpenSans/OpenSans600.ttf'),
+    OpenSans700: require('../assets/fonts/OpenSans/OpenSans700.ttf'),
+    OpenSans800: require('../assets/fonts/OpenSans/OpenSans800.ttf'),
   });
   return (
     <SafeAreaProvider>

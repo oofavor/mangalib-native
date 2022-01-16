@@ -1,14 +1,22 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React from 'react';
+import { TouchableOpacity, View } from 'react-native';
+import Heading from '../../../components/Home/Heading';
+import HomeView from '../../../components/Home/HomeView';
+import PrimaryText from '../../../components/Home/PrimaryText';
+import New from './New';
 
-const index = () => {
+const News = () => {
   return (
-    <View>
-      <Text></Text>
-    </View>
-  )
-}
-
-export default index
-
-const styles = StyleSheet.create({})
+    <HomeView>
+      <Heading>Последние новости</Heading>
+      <New />
+      <New />
+      <New />
+      <New />
+      <TouchableOpacity style={{ marginTop: 6 }}>
+        <PrimaryText style={{ fontSize: 14 }}>Все новости {' >'}</PrimaryText>
+      </TouchableOpacity>
+    </HomeView>
+  );
+};
+export default News;

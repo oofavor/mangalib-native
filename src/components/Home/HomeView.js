@@ -10,8 +10,14 @@ const HomeView = (props) => {
       style={{
         backgroundColor: theme.foreground,
         paddingHorizontal: 12,
-        paddingVertical:10,
-        marginBottom: 12,
+        paddingTop: 6,
+        paddingBottom: 12,
+        marginBottom: 10,
+        shadowColor: theme.shadow,
+        shadowOffset: { width: 3454, height: 199 }, // fix it for ios
+        shadowOpacity: 0.2,
+        shadowRadius: 10,
+        elevation: 3,
         ...props.style,
       }}
     />

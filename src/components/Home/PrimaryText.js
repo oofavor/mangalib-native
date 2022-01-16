@@ -1,17 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text as Text_, View } from 'react-native';
+import { Text } from 'react-native';
 import useTheme from '../../hooks/useTheme';
 
-const PrimaryText = (props) => {
+const PrimaryText = ({ fontWeight, ...props }) => {
   const { theme } = useTheme();
   return (
-    <Text_
+    <Text
       {...props}
-      numberOfLines={2}
       style={{
-        fontFamily: theme.fontFamily,
-        color: theme.textPrimary,
         fontSize: 13,
+        fontFamily: fontWeight ? theme.font['w' + fontWeight] : theme.font.w400,
+        color: theme.textPrimary,
         ...props.style,
       }}
     />
@@ -19,5 +18,3 @@ const PrimaryText = (props) => {
 };
 
 export default PrimaryText;
-
-const styles = StyleSheet.create({});

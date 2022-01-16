@@ -7,14 +7,16 @@ import {
   View,
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import useTheme from '../../../hooks/useTheme';
 
 const Pick = ({ choice, set, current, clicked, setClicked }) => {
+  const { theme } = useTheme();
   return (
     <View style={{ marginBottom: 10, marginRight: 10 }}>
       <TouchableOpacity
         style={{
           borderColor: 'black',
-          backgroundColor: 'red',
+          backgroundColor: theme.buttonDefaultBg,
           alignSelf: 'flex-start',
           paddingVertical: 4,
           paddingHorizontal: 10,
@@ -27,21 +29,21 @@ const Pick = ({ choice, set, current, clicked, setClicked }) => {
           {current} <AntDesign name="caretdown" size={13} color="black" />
         </Text>
       </TouchableOpacity>
-      {clicked && (
-        <View
-          style={{
-            position: 'absolute',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-            backgroundColor: 'green',
-            marginTop: 30,
-            zIndex: 1,
-            borderRadius: 8,
-          }}
-        >
-          {choice.map((n) => {
+      <View
+        style={{
+          position: 'absolute',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          backgroundColor: 'green',
+          marginTop: 30,
+          zIndex: 1,
+          borderRadius: 8,
+        }}
+      >
+        {clicked &&
+          choice.map((n) => {
             return (
-              <TouchableOpacity
+              <Pressable
                 style={{ paddingVertical: 5, paddingLeft: 20, width: 100 }}
                 onPress={() => {
                   if (current !== n) set(n);
@@ -49,11 +51,10 @@ const Pick = ({ choice, set, current, clicked, setClicked }) => {
                 }}
               >
                 <Text style={{ fontSize: 16 }}>{n}</Text>
-              </TouchableOpacity>
+              </Pressable>
             );
           })}
-        </View>
-      )}
+      </View>
     </View>
   );
 };

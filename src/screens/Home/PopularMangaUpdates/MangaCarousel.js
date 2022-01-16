@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import faker from 'faker';
 import MangaPreview from './MangaPreview';
 
@@ -14,7 +14,8 @@ const MangaCarousel = () => {
       data={data}
       renderItem={({ item }) => <MangaPreview manga={item} />}
       horizontal={true}
-      ItemSeparatorComponent={() => <View style={{ width: 12 }} />} 
+      ItemSeparatorComponent={() => <View style={{ width: 12 }} />}
+      keyExtractor={(item, id) => id} // !!! change to item.id in future
       // gap between
     />
   );

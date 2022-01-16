@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { Animated } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import HomeScreen from '../../screens/Home';
 import useTheme from '../../hooks/useTheme';
 import TabButton from './TabButton';
 import Stab from '../../components/general/Stab';
-
 const Tab = createBottomTabNavigator();
-
 // const routes = [
 //   {
 //     name: 'Home',
@@ -59,6 +58,22 @@ const Tab = createBottomTabNavigator();
 const Home = () => {
   const insets = useSafeAreaInsets();
   const { theme } = useTheme();
+  const tabOffsetValue = useRef(new Animated.Value(0)).current;
+  let offset = 0;
+  let prevDirection = 0;
+
+  const hideBottomTabs = (e) => {
+    const currentOffset = e.nativeEvent.contentOffset.y;
+    const offsetDifference = currentOffset - offset;
+    const direction = Number(currentOffset > offset);
+    offset = currentOffset;
+    if (Math.abs(offsetDifference) < 10 || direction === prevDirection) return;
+    prevDirection = direction;
+    Animated.spring(tabOffsetValue, {
+      toValue: direction * (insets.bottom + 60),
+      useNativeDriver: true,
+    }).start();
+  };
   return (
     <Tab.Navigator
       screenOptions={{
@@ -74,11 +89,11 @@ const Home = () => {
           borderTopColor: 'transparent',
         },
       }}
-      initialRouteName="Home"
+      initialRouteName="HomeScreen"
     >
       <Tab.Screen
-        name="Home"
         component={HomeScreen}
+        name="HomeScreen"
         options={{
           tabBarShowLabel: false,
           tabBarLabel: 'Home',
