@@ -2,17 +2,16 @@ import React, { useEffect } from 'react';
 import App from './App';
 import { registerRootComponent } from 'expo';
 import { NavigationContainer } from '@react-navigation/native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ThemeProvider } from './contexts/theme';
 
 import { useFonts } from 'expo-font';
 import * as NavigationBar from 'expo-navigation-bar';
-import { StatusBar } from 'react-native';
+import * as StatusBar from 'expo-status-bar';
 
 const Main = () => {
   useEffect(() => {
-    StatusBar.setTranslucent(true);
-    StatusBar.setBarStyle('light-content');
+    StatusBar.setStatusBarTranslucent(true)
     NavigationBar.setPositionAsync('absolute');
     NavigationBar.setBackgroundColorAsync('rgba(0,0,0,0)');
   }, []);

@@ -20,7 +20,7 @@ const Home = () => {
       <PopularMangaUpdates />
       <News />
       <News />
-      <MangaUpdates />
+      <MangaUpdates  />
       <Footer />
     </ScrollView>
   );

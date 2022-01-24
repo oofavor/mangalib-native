@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     top: 0,
-    borderRadius: 8,
+    borderRadius: 4,
     height: 110,
   },
   mangaText: {
@@ -88,7 +88,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
-    // backgroundColor: 'red',
   },
   infoText: {},
 });
