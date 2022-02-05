@@ -1,1 +1,3 @@
 # Still in development.
+i am in pain
+im stoopid...
