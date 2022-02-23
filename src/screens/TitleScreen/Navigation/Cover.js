@@ -1,12 +1,12 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { Image, ImageBackground, } from 'react-native';
+import { Image, ImageBackground } from 'react-native';
 
 const Cover = (props) => {
   return (
     <ImageBackground
       style={{
-        position: 'absolute',
+        position: 'relative',
         width: 400,
         height: 390,
         alignItems: 'center',
@@ -18,13 +18,12 @@ const Cover = (props) => {
       }}
     >
       <LinearGradient
-        colors={['rgba(0,0,0,0.5)', 'rgba(0,0,0,0.5)']}
+        colors={['rgba(0,0,0,0.6)', 'rgba(0,0,0,0.6)']}
         style={{
           position: 'absolute',
           left: 0,
           right: 0,
           top: 0,
-          borderRadius: 4,
           height: '100%',
         }}
       />

@@ -2,25 +2,27 @@ import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
-import Ripple from 'react-native-material-ripple';
 
 import useTheme from '../../../hooks/useTheme';
 import { TextPrimary } from '../../../components/Text';
+import { RectButton } from 'react-native-gesture-handler';
 
 const MangaPreview = ({ manga }) => {
   const { theme } = useTheme();
   const navigation = useNavigation();
   return (
-    <Ripple
+    <RectButton
       style={styles.wrapper}
-      rippleContainerBorderRadius={5}
       rippleColor="orange"
-      rippleDuration={600}
-      rippleOpacity={0.5}
       onPress={() => navigation.navigate('Manga')}
+      underlayColor="black"
     >
       <View
-        style={{ height: 160, alignItems: 'center', justifyContent: 'center' }}
+        style={{
+          height: 160,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
       >
         <Image source={{ uri: manga.image }} style={styles.mangaImage} />
         <LinearGradient
@@ -36,7 +38,7 @@ const MangaPreview = ({ manga }) => {
       <View style={{ marginVertical: 2 }}>
         <TextPrimary numberOfLines={2}>Система Сильнейшей злодейки</TextPrimary>
       </View>
-    </Ripple>
+    </RectButton>
   );
 };
 
@@ -44,6 +46,8 @@ const styles = StyleSheet.create({
   wrapper: {
     width: 110,
     paddingBottom: 5,
+    borderRadius: 5,
+    zIndex: 1,
   },
   mangaImage: {
     width: 110,

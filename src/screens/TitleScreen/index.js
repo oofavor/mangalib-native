@@ -1,20 +1,31 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, View, Text, ScrollView, Animated } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  Animated,
+  RefreshControl,
+} from 'react-native';
 import PagerView from 'react-native-pager-view';
 import { useSharedValue } from 'react-native-reanimated';
-import Chapters from './Chapters';
-import CollapsibleView from './CollapsibleView';
-import Comments from './Comments';
-import Cover from './Cover';
-import Discussions from './Discussions';
-import Info from './Info';
 import { useNavigation } from '@react-navigation/native';
-import NavBar from './NavBar';
-import MediaInfo from './MediaInfo';
 
-const Manga = () => {
+import Chapters from './ChaptersModule';
+import CollapsibleView from './Navigation/CollapsibleView';
+import Comments from './CommentsModule';
+import Cover from './Navigation/Cover';
+import Discussions from './DiscussionsModule';
+import Info from './InfoModule';
+import NavBar from './Navigation/NavBar';
+import MediaInfo from './Navigation/MediaInfo';
+import useTheme from '../../hooks/useTheme';
+import { SharedElement } from 'react-native-shared-element';
+
+const TitleScreen = () => {
   const [current, setCurrent] = useState(0);
   const navigation = useNavigation();
+  const { theme } = useTheme();
   useEffect(() => {
     navigation.setOptions({
       headerTransparent: true,
@@ -22,21 +33,21 @@ const Manga = () => {
   }, []);
 
   return (
-    <Animated.ScrollView
-      style={{ flex: 1 }}
-      style={{ backgroundColor: 'white' }}
+    <ScrollView
+      bounces={false}
+      overScrollMode="never"
+      style={{ backgroundColor: theme.background }}
     >
       <Cover />
+      <MediaInfo />
+      <NavBar setRoute={setCurrent} />
       <View
         style={{
-          borderTopRightRadius: 18,
-          borderTopLeftRadius: 18,
-          marginTop: 375,
-          backgroundColor: 'white',
+          borderTopRightRadius: 20,
+          borderTopLeftRadius: 20,
+          backgroundColor: theme.background,
         }}
       >
-        <MediaInfo />
-        <NavBar setRoute={setCurrent} />
         <CollapsibleView current={current} route={0}>
           <Info />
         </CollapsibleView>
@@ -50,8 +61,8 @@ const Manga = () => {
           <Discussions />
         </CollapsibleView>
       </View>
-    </Animated.ScrollView>
+    </ScrollView>
   );
 };
 
-export default Manga;
+export default TitleScreen;

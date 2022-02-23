@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-const Discussions = (props) => {
+const DiscussionsModule = (props) => {
   return (
     <View style={props.style}>
       {Array.from(Array(160)).map((_, i) => (
@@ -11,4 +11,4 @@ const Discussions = (props) => {
   );
 };
 
-export default Discussions;
+export default DiscussionsModule;

@@ -40,7 +40,7 @@ const HomeNavigation = () => {
           borderRadius: 16,
           paddingBottom: -insets.bottom,
           marginBottom: insets.bottom + 10,
-          backgroundColor: theme.primary,
+          backgroundColor: theme.backgroundHeader,
           borderTopColor: 'transparent',
         },
       }}

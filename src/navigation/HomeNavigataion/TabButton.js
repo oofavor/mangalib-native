@@ -11,10 +11,9 @@ const TabButton = ({ name, ...props }) => {
       {...props}
       style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
     >
-      <FontAwesome5 name={name} size={18} color={theme.textPrimary} />
+      <FontAwesome5 name={name} size={18} color="white" />
     </TouchableOpacity>
   );
 };
 
 export default TabButton;
-
