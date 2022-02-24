@@ -1,1 +1,1 @@
-# Clone of (mangalib.net)[mangalib] PWA to React Native.
+# Clone of (https://mangalib.me/)[mangalib] PWA to React Native.
