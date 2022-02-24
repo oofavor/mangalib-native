@@ -85,7 +85,7 @@ const theme = {
     green: '#3cce7b',
     purple: '#6f42c1',
     borderBase: '#e5e5e5',
-    'border-light': '#e9e9e9',
+    borderLight: '#e9e9e9',
     'border-opacity': 'rgba(60,60,67,.29)',
     textPrimary: '#212529',
     'text-primary-inverse': '#fff',

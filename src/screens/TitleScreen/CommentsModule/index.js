@@ -46,6 +46,9 @@ const CommentsModule = (props) => {
   return (
     <Section>
       <Comment comment={comments} depth={1} maxDepth={5} />
+      {sub.map((com, idx) => (
+        <Comment comment={com} depth={1} maxDepth={5} key={idx} />
+      ))}
     </Section>
   );
 };

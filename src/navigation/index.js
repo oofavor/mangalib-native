@@ -23,8 +23,14 @@ const MainNavigation = () => {
       screenOptions={({ route, navigation }) => ({
         cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
         transitionSpec: {
-          open: TransitionSpecs.TransitionIOSSpec,
-          close: TransitionSpecs.TransitionIOSSpec,
+          open: {
+            config: { delay: 0 },
+            animation: 'timing',
+          },
+          close: {
+            config: { delay: 0 },
+            animation: 'timing',
+          },
         },
         headerStyle: {
           backgroundColor: theme.backgroundHeader,

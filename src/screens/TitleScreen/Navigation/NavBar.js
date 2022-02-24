@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import Ripple from 'react-native-material-ripple';
+import { RippleButton } from '../../../components/Button';
 import { Text, TextPrimary } from '../../../components/Text';
 import useTheme from '../../../hooks/useTheme';
 const NavBar = ({ setRoute }) => {
@@ -14,18 +15,18 @@ const NavBar = ({ setRoute }) => {
         textAlign: 'center',
       }}
     >
-      <Ripple onPress={() => setRoute(0)}>
+      <RippleButton onPress={() => setRoute(0)}>
         <TextPrimary size={16}>Информация</TextPrimary>
-      </Ripple>
-      <Ripple onPress={() => setRoute(1)}>
+      </RippleButton>
+      <RippleButton onPress={() => setRoute(1)}>
         <TextPrimary size={16}>Главы</TextPrimary>
-      </Ripple>
-      <Ripple onPress={() => setRoute(2)}>
+      </RippleButton>
+      <RippleButton onPress={() => setRoute(2)}>
         <TextPrimary size={16}>Комментарии</TextPrimary>
-      </Ripple>
-      <Ripple onPress={() => setRoute(3)}>
+      </RippleButton>
+      <RippleButton onPress={() => setRoute(3)}>
         <TextPrimary size={16}>Обсуждения</TextPrimary>
-      </Ripple>
+      </RippleButton>
     </View>
   );
 };

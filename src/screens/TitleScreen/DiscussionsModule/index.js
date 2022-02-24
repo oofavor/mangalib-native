@@ -1,13 +1,16 @@
 import React from 'react';
 import { Text, View } from 'react-native';
+import { Section } from '../../../components/Container';
+import Discussion from './Discussion';
 
 const DiscussionsModule = (props) => {
   return (
-    <View style={props.style}>
-      {Array.from(Array(160)).map((_, i) => (
-        <Text key={i}>Discussions page</Text>
-      ))}
-    </View>
+    <Section>
+      <Discussion />
+      <Discussion />
+      <Discussion />
+      <Discussion />
+    </Section>
   );
 };
 

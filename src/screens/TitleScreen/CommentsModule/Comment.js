@@ -25,27 +25,29 @@ const Comment = ({ comment, depth, maxDepth }) => {
     radius: 16,
   };
   return (
-    <View>
+    <View style={{ marginTop: 12 }}>
       {/* Top Info */}
       <View style={styles.topInfoContainer}>
-        <RippleButton
-          style={[
-            styles.topInfoContainer,
-            { marginRight: 'auto', padding: 3, margin: -3 },
-          ]}
-        >
-          <Image
-            source={{ uri: 'https://i.imgur.com/msRGMnX.gif' }}
-            style={[styles.avatar, { overlayColor: theme.foreground }]}
-          />
-          <View>
-            <TextPrimary size={13} weight={700}>
-              Имя Пользователя
-            </TextPrimary>
-            <TextSecondary>X дней назад</TextSecondary>
+        <RippleButton style={{ padding: 3, margin: -3 }}>
+          <View style={styles.topInfoContainer}>
+            <Image
+              source={{ uri: 'https://i.imgur.com/msRGMnX.gif' }}
+              style={[styles.avatar, { overlayColor: theme.foreground }]}
+            />
+            <View>
+              <TextPrimary size={13} weight={700}>
+                Имя Пользователя
+              </TextPrimary>
+              <TextSecondary>X дней назад</TextSecondary>
+            </View>
           </View>
         </RippleButton>
-        <MaterialIcons name="sports-basketball" size={16} color="blue" />
+        <MaterialIcons
+          name="sports-basketball"
+          size={16}
+          color="blue"
+          style={{ marginLeft: 'auto' }}
+        />
       </View>
       {/* Comment body*/}
       <View>
@@ -172,6 +174,6 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
   },
-  answerButton: { marginRight: 5, padding: 5, margin: -5 },
+  answerButton: { padding: 5, margin: -5, marginRight: 5 },
 });
 export default Comment;

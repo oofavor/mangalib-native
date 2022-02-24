@@ -12,6 +12,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import RippleButton from '../../../components/Button/RippleButton';
 import Borderless from '../../../components/Button/Borderless';
+import { useNavigation } from '@react-navigation/native';
 
 let data = [
   { name: 'Том 2 Глава 101', date: '12.12.2012', user: 'w' },
@@ -26,7 +27,7 @@ let data = [
 const Chapters = (props) => {
   const { theme } = useTheme();
   const [clicked, setClicked] = useState(false);
-
+  const navigation = useNavigation();
   return (
     <View style={{ marginTop: 20 }}>
       <RippleButton
@@ -46,7 +47,10 @@ const Chapters = (props) => {
           <View
             style={{ borderColor: theme.backgroundFill3, borderBottomWidth: 1 }}
           >
-            <RippleButton style={[styles.container]}>
+            <RippleButton
+              style={styles.container}
+              onPress={() => navigation.navigate('/reader')}
+            >
               <Borderless style={styles.watchIcon}>
                 <MaterialIcons
                   name="remove-red-eye"

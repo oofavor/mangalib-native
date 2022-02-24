@@ -7,6 +7,7 @@ import useTheme from '../../hooks/useTheme';
 import TabButton from './TabButton';
 import HomeScreen from '../../screens/HomeScreen';
 import { Stab } from '../../components/Placeholder';
+import CatalogScreen from '../../screens/CatalogScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -34,14 +35,11 @@ const HomeNavigation = () => {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          height: 50,
           position: 'absolute',
-          marginHorizontal: 16,
-          borderRadius: 16,
-          paddingBottom: -insets.bottom,
-          marginBottom: insets.bottom + 10,
-          backgroundColor: theme.backgroundHeader,
-          borderTopColor: 'transparent',
+          height: 60 + insets.bottom,
+          paddingBottom: insets.bottom,
+          backgroundColor: theme.background,
+          borderTopWidth: 0,
         },
       }}
       initialRouteName="HomeScreen"
@@ -57,7 +55,7 @@ const HomeNavigation = () => {
       />
       <Tab.Screen
         name="Search"
-        component={Stab}
+        component={CatalogScreen}
         options={{
           tabBarShowLabel: false,
           tabBarLabel: 'Search',
