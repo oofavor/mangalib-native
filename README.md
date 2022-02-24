@@ -1,3 +1,1 @@
-# Still in development.
-i am in pain
-im stoopid...
+# Clone of (mangalib.net)[mangalib] PWA to React Native.
