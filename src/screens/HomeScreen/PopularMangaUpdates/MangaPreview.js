@@ -6,15 +6,19 @@ import { useNavigation } from '@react-navigation/native';
 import useTheme from '../../../hooks/useTheme';
 import { TextPrimary } from '../../../components/Text';
 import { RectButton } from 'react-native-gesture-handler';
+import { RippleButton } from '../../../components/Button';
 
 const MangaPreview = ({ manga }) => {
   const { theme } = useTheme();
   const navigation = useNavigation();
   return (
-    <RectButton
+    <RippleButton
       style={styles.wrapper}
-      rippleColor="orange"
-      onPress={() => navigation.navigate('Manga')}
+      rippleColor={theme.primary}
+      onPress={() => {
+        console.log('123');
+        navigation.navigate('Manga');
+      }}
       underlayColor="black"
     >
       <View
@@ -38,7 +42,7 @@ const MangaPreview = ({ manga }) => {
       <View style={{ marginVertical: 2 }}>
         <TextPrimary numberOfLines={2}>Система Сильнейшей злодейки</TextPrimary>
       </View>
-    </RectButton>
+    </RippleButton>
   );
 };
 

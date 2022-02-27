@@ -1,6 +1,7 @@
 {
   "expo": {
-    "entryPoint": "./src/index.js",
+    "jsEngine": "hermes",
+    "entryPoint": "./index.js",
     "name": "mangalib-native",
     "slug": "mangalib-native",
     "version": "1.0.0",

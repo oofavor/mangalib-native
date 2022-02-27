@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import MainNavigation from './navigation';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ThemeProvider } from './contexts/theme';
 
@@ -23,13 +23,13 @@ const App = () => {
     OpenSans700: require('../assets/fonts/OpenSans/OpenSans700.ttf'),
     OpenSans800: require('../assets/fonts/OpenSans/OpenSans800.ttf'),
   });
+
+
   return (
     load && (
       <SafeAreaProvider>
-        <ThemeProvider defaultTheme="light">
-          <NavigationContainer>
+        <ThemeProvider defaultTheme="dark">
             <MainNavigation />
-          </NavigationContainer>
         </ThemeProvider>
       </SafeAreaProvider>
     )

@@ -45,6 +45,7 @@ const Chapters = (props) => {
       >
         {data.map((e, idx) => (
           <View
+            key={idx}
             style={{ borderColor: theme.backgroundFill3, borderBottomWidth: 1 }}
           >
             <RippleButton

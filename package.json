@@ -19,7 +19,7 @@
     "expo": "~44.0.0",
     "expo-blur": "~11.0.0",
     "expo-font": "~10.0.4",
-    "expo-linear-gradient": "~11.0.0",
+    "expo-linear-gradient": "~11.0.3",
     "expo-navigation-bar": "~1.1.1",
     "expo-splash-screen": "~0.14.1",
     "expo-status-bar": "~1.2.0",
@@ -40,7 +40,8 @@
     "react-native-svg": "12.1.1",
     "react-native-tab-view": "^3.1.1",
     "react-native-vector-icons": "^9.0.0",
-    "react-native-web": "0.17.1"
+    "react-native-web": "0.17.1",
+    "react-navigation-heavy-screen": "^1.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

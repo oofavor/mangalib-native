@@ -12,8 +12,8 @@ const InfoGeneral = (props) => {
       <Table />
       <Description />
       <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-        {Array.from(Array(20)).map((e) => (
-          <Chip text="Жанр" />
+        {Array.from(Array(20)).map((e, idx) => (
+          <Chip text="Жанр" key={idx} />
         ))}
       </View>
       <Translators />

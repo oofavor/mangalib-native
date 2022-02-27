@@ -10,11 +10,7 @@ const Home = () => {
   const { theme } = useTheme();
 
   return (
-    <ScrollView
-      style={{
-        backgroundColor: theme.background,
-      }}
-    >
+    <ScrollView>
       <PopularMangaUpdates />
       <News />
       <News />

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
+import { ScreenContainer, Screen, } from 'react-native-screens';
 import useTheme from '../../hooks/useTheme';
 
 const Section = (props) => {

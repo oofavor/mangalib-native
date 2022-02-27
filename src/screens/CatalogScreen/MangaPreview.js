@@ -27,7 +27,7 @@ const MangaPreview = (props) => {
           Манхва
         </TextPrimary>
         <TextPrimary style={{ color: 'white' }} numberOfLines={2}>
-          Поднятие уровня в одиyn
+          Поднятие уровня в одиночку
         </TextPrimary>
       </View>
       <View style={styles.infoChip}>
