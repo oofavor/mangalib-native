@@ -1,5 +1,11 @@
 import React from 'react';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Pressable,
+} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import useTheme from '../../../hooks/useTheme';
 import Chip from './Chip';
@@ -19,7 +25,7 @@ const MangaPreview = ({ manga }) => {
 
   return (
     <View style={styles.wrapper}>
-      <TouchableOpacity style={styles.mangaWrapper}>
+      <Pressable style={styles.mangaWrapper}>
         <Image source={{ uri: manga.image }} style={styles.mangaImage} />
         <LinearGradient
           // shadow for image
@@ -27,7 +33,7 @@ const MangaPreview = ({ manga }) => {
           style={styles.mangaShadow}
         />
         <TextPrimary style={styles.mangaText}>Манга</TextPrimary>
-      </TouchableOpacity>
+      </Pressable>
       <View style={{ flex: 1 }}>
         <View style={styles.infoWrapper}>
           <TextPrimary style={{ flex: 1 }} numberOfLines={1} fontWeight="600">

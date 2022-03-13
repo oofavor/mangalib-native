@@ -1,22 +1,24 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View, Pressable } from 'react-native';
 import { RippleButton } from '../../components/Button';
 import { TextPrimary } from '../../components/Text';
 import useTheme from '../../hooks/useTheme';
 import { useNavigation } from '@react-navigation/native';
-const url =
-  'https://staticlib.me/uploads/cover/i-alone-level-up/cover/SiIlhsGKHZR5_250x350.jpg';
-const MangaPreview = (props) => {
-  const { theme } = useTheme();
+import { baseUrl } from '../../constants/urls';
+
+const MangaPreview = ({ manga }) => {
   const navigation = useNavigation();
   return (
-    <RippleButton
+    <Pressable
       style={styles.container}
-      onPress={() => navigation.navigate('Manga')}
+      onPress={() => navigation.navigate('Manga', { title: manga.dir })}
     >
       <View style={styles.imageContainer}>
-        <Image source={{ uri: url }} style={styles.image} />
+        <Image
+          source={{ uri: `${baseUrl}/${manga.img.mid}` }}
+          style={styles.image}
+        />
       </View>
       <LinearGradient
         colors={['rgba(0,0,0,.01)', 'rgba(0,0,0,.8)']}
@@ -24,10 +26,10 @@ const MangaPreview = (props) => {
       />
       <View style={styles.infoContainer}>
         <TextPrimary style={{ color: 'white', marginBottom: 3 }} size={12}>
-          Манхва
+          {manga.type}
         </TextPrimary>
         <TextPrimary style={{ color: 'white' }} numberOfLines={2}>
-          Поднятие уровня в одиночку
+          {manga.rus_name}
         </TextPrimary>
       </View>
       <View style={styles.infoChip}>
@@ -35,7 +37,7 @@ const MangaPreview = (props) => {
           Читаю
         </TextPrimary>
       </View>
-    </RippleButton>
+    </Pressable>
   );
 };
 

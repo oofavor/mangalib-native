@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import faker from 'faker';
 import MangaPreview from './MangaPreview';
-
-const data = Array.from(Array(10), () => ({
-  name: faker.name.title(),
-  image: faker.image.abstract(512, 512),
-}));
-
+import { getRecentTop } from '../../../services';
 const MangaCarousel = () => {
+  const [manga, setManga] = useState([]);
+
+  useEffect(() => {
+    getRecentTop().then((data) => setManga(data));
+  }, []);
   return (
     <FlatList
-      data={data}
+      data={manga}
       renderItem={({ item }) => <MangaPreview manga={item} />}
       horizontal={true}
       ItemSeparatorComponent={() => <View style={{ width: 10 }} />}

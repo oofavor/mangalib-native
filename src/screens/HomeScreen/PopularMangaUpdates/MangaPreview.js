@@ -1,25 +1,22 @@
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 
 import useTheme from '../../../hooks/useTheme';
 import { TextPrimary } from '../../../components/Text';
-import { RectButton } from 'react-native-gesture-handler';
-import { RippleButton } from '../../../components/Button';
+import { baseUrl } from '../../../constants/urls';
 
 const MangaPreview = ({ manga }) => {
   const { theme } = useTheme();
   const navigation = useNavigation();
   return (
-    <RippleButton
+    <Pressable
       style={styles.wrapper}
-      rippleColor={theme.primary}
       onPress={() => {
         console.log('123');
-        navigation.navigate('Manga');
+        navigation.navigate('Manga', { title: manga.dir });
       }}
-      underlayColor="black"
     >
       <View
         style={{
@@ -28,7 +25,10 @@ const MangaPreview = ({ manga }) => {
           justifyContent: 'center',
         }}
       >
-        <Image source={{ uri: manga.image }} style={styles.mangaImage} />
+        <Image
+          source={{ uri: `${baseUrl}/${manga.img.mid}` }}
+          style={styles.mangaImage}
+        />
         <LinearGradient
           // shadow for image
           colors={['transparent', 'rgba(0,0,0,.01)', 'rgba(0,0,0,.8)']}
@@ -36,13 +36,13 @@ const MangaPreview = ({ manga }) => {
         />
 
         <TextPrimary style={styles.mangaText} numberOfLines={2}>
-          Том 2 Глава 53
+          Глава {manga.count_chapters}
         </TextPrimary>
       </View>
       <View style={{ marginVertical: 2 }}>
-        <TextPrimary numberOfLines={2}>Система Сильнейшей злодейки</TextPrimary>
+        <TextPrimary numberOfLines={2}>{manga.rus_name}</TextPrimary>
       </View>
-    </RippleButton>
+    </Pressable>
   );
 };
 

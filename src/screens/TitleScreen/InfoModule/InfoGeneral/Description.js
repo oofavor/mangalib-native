@@ -1,23 +1,35 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { TextPrimary } from '../../../../components/Text';
-const desc =
-  '"После целой ночи крепкого пьянства я оказалась внутри романа в теле злодейки — императрицы Юлии, которую через три дня должны были казнить за измену." Эта история о женщине-трудоголике, которая живет в теле правительницы и пытается предотвратить все жестокие события. Сможет ли она стать хорошей и мудрой императрицей? Так и начинается царствование Императрицы Юлии - кроткой снаружи, но железной внутри.';
+import RenderHtml from 'react-native-render-html';
+import { useManga } from '../../MangaContext';
 
 const Description = (props) => {
   const [numLines, setNumLines] = useState(4);
-
+  const manga = useManga();
+  const { width } = useWindowDimensions();
   return (
-    <View style={{ paddingTop: 5, marginBottom: 16 }}>
-      <TextPrimary
+    <View
+      style={
+        {
+          // paddingTop: 5,
+          // marginBottom: 16
+        }
+      }
+    >
+      {/* <TextPrimary
         size={14}
         numberOfLines={numLines}
         ellipsizeMode={'clip'}
         style={{ lineHeight: 21 }}
-      >
-        {desc}
-      </TextPrimary>
-      <TouchableOpacity
+      ></TextPrimary> */}
+      <RenderHtml
+        source={{ html: manga?.description }}
+        systemFonts={['Open-Sans-400']}
+        contentWidth={width - 32}
+      />
+
+      {/* <TouchableOpacity
         onPress={() => {
           setNumLines((e) => (e === 4 ? 0 : 4));
         }}
@@ -25,7 +37,7 @@ const Description = (props) => {
         <TextPrimary size={14} style={{ color: 'orange' }}>
           {numLines === 4 ? 'Подробнее...' : 'Свернуть'}
         </TextPrimary>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

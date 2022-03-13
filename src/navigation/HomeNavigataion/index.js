@@ -8,7 +8,7 @@ import TabButton from './TabButton';
 import HomeScreen from '../../screens/HomeScreen';
 import { Stab } from '../../components/Placeholder';
 import CatalogScreen from '../../screens/CatalogScreen';
-
+import { EvilIcons } from '@expo/vector-icons';
 const Tab = createBottomTabNavigator();
 
 const HomeNavigation = () => {
@@ -23,11 +23,12 @@ const HomeNavigation = () => {
     const offsetDifference = currentOffset - offset;
     const direction = Number(currentOffset > offset);
     offset = currentOffset;
-    if (Math.abs(offsetDifference) < 10 || direction === prevDirection) return;
+    if (Math.abs(offsetDifference) < 6 || direction === prevDirection) return;
     prevDirection = direction;
-    Animated.spring(tabOffsetValue, {
+    Animated.timing(tabOffsetValue, {
       toValue: direction * (insets.bottom + 60),
       useNativeDriver: true,
+      duration: 200,
     }).start();
   };
   return (
@@ -35,11 +36,11 @@ const HomeNavigation = () => {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          position: 'absolute',
-          height: 60 + insets.bottom,
+          height: insets.bottom + 50,
           paddingBottom: insets.bottom,
-          backgroundColor: theme.background,
+          backgroundColor: theme.primary,
           borderTopWidth: 0,
+          transform: [{ translateY: tabOffsetValue }],
         },
       }}
       initialRouteName="HomeScreen"
@@ -50,7 +51,17 @@ const HomeNavigation = () => {
         options={{
           tabBarShowLabel: false,
           tabBarLabel: 'Home',
-          tabBarButton: (props) => <TabButton {...props} name="home" />,
+          tabBarIcon: (props) => (
+            <EvilIcons
+              {...props}
+              name="heart"
+              color={
+                props.focused
+                  ? theme.buttonPrimaryColor
+                  : theme.buttonDefaultColor
+              }
+            />
+          ),
         }}
       />
       <Tab.Screen
@@ -59,7 +70,17 @@ const HomeNavigation = () => {
         options={{
           tabBarShowLabel: false,
           tabBarLabel: 'Search',
-          tabBarButton: (props) => <TabButton {...props} name="search" />,
+          tabBarIcon: (props) => (
+            <EvilIcons
+              {...props}
+              name="credit-card"
+              color={
+                props.focused
+                  ? theme.buttonPrimaryColor
+                  : theme.buttonDefaultColor
+              }
+            />
+          ),
         }}
       />
       <Tab.Screen
@@ -68,7 +89,17 @@ const HomeNavigation = () => {
         options={{
           tabBarShowLabel: false,
           tabBarLabel: 'Settings',
-          tabBarButton: (props) => <TabButton {...props} name="cog" />,
+          tabBarIcon: (props) => (
+            <EvilIcons
+              {...props}
+              name="archive"
+              color={
+                props.focused
+                  ? theme.buttonPrimaryColor
+                  : theme.buttonDefaultColor
+              }
+            />
+          ),
         }}
       />
       <Tab.Screen
@@ -77,7 +108,17 @@ const HomeNavigation = () => {
         options={{
           tabBarShowLabel: false,
           tabBarLabel: 'About',
-          tabBarButton: (props) => <TabButton {...props} name="exclamation" />,
+          tabBarIcon: (props) => (
+            <EvilIcons
+              {...props}
+              name="bell"
+              color={
+                props.focused
+                  ? theme.buttonPrimaryColor
+                  : theme.buttonDefaultColor
+              }
+            />
+          ),
         }}
       />
       <Tab.Screen
@@ -86,7 +127,17 @@ const HomeNavigation = () => {
         options={{
           tabBarShowLabel: false,
           tabBarLabel: 'Add',
-          tabBarButton: (props) => <TabButton {...props} name="plus" />,
+          tabBarIcon: (props) => (
+            <EvilIcons
+              {...props}
+              name="bell"
+              color={
+                props.focused
+                  ? theme.buttonPrimaryColor
+                  : theme.buttonDefaultColor
+              }
+            />
+          ),
         }}
       />
     </Tab.Navigator>

@@ -3,9 +3,9 @@ import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const Footer = () => {
-  const insets = useSafeAreaInsets();
+  
 
-  return <View style={{ paddingBottom: insets.bottom + 60 }}></View>;
+  return ;
 };
 
 export default Footer;

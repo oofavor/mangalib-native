@@ -11,6 +11,7 @@ import {
 import useTheme from '../../hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { optimizeHeavyScreen } from 'react-navigation-heavy-screen';
 
 const FilterModal = (props) => {
   const { theme } = useTheme();
@@ -326,4 +327,4 @@ const styles = StyleSheet.create({
     minWidth: '100%',
   },
 });
-export default FilterModal;
+export default optimizeHeavyScreen(FilterModal);

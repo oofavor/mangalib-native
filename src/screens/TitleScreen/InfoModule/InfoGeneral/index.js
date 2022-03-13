@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View } from 'react-native';
 import { Section } from '../../../../components/Container';
 import Chip from './GenreChip';
 import Description from './Description';
 import Table from './Table';
 import Translators from './Translators';
+import { useManga } from '../../MangaContext';
 
 const InfoGeneral = (props) => {
+  const manga = useManga();
   return (
     <Section style={{ marginTop: 0 }}>
       <Table />

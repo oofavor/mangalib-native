@@ -1,44 +1,50 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { Image, ImageBackground } from 'react-native';
+import { Image, ImageBackground, View } from 'react-native';
+import { baseUrl } from '../../../constants/urls';
+import { useManga } from '../MangaContext';
 
-const Cover = (props) => {
+const Cover = ({ cover }) => {
+  const manga = useManga();
   return (
-    <ImageBackground
-      style={{
-        position: 'relative',
-        width: 400,
-        height: 390,
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        overflow: 'hidden',
-      }}
-      source={{
-        uri: 'https://media.istockphoto.com/photos/st-basils-cathedral-picture-id502362300?k=20&m=502362300&s=612x612&w=0&h=BXAIKqtQV5VhhtBaXh6jL5d7qmNHSWYsDZgHTQhuQtM=',
-      }}
-    >
-      <LinearGradient
-        colors={['rgba(0,0,0,0.6)', 'rgba(0,0,0,0.6)']}
+    <View style={{ width: 400, height: 340 }}>
+      <ImageBackground
         style={{
+          width: 400,
+          height: 360,
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          overflow: 'hidden',
           position: 'absolute',
-          left: 0,
-          right: 0,
-          top: 0,
-          height: '100%',
         }}
-      />
-      <Image
         source={{
-          uri: 'https://staticlib.me/uploads/cover/aeneulg-eun-i/cover/rduoXvpitrSz_250x350.jpg',
+          uri: `${baseUrl}/${manga?.img?.mid}`,
         }}
-        style={{
-          width: 220,
-          borderRadius: 8,
-          aspectRatio: 250 / 350,
-          bottom: -10,
-        }}
-      />
-    </ImageBackground>
+      >
+        <LinearGradient
+          colors={['rgba(0,0,0,0.6)', 'rgba(0,0,0,0.6)']}
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            height: '100%',
+          }}
+        />
+        <Image
+          source={{
+            uri: `${baseUrl}/${manga?.img?.high}`,
+          }}
+          style={{
+            width: 220,
+            borderRadius: 8,
+            aspectRatio: 250 / 350,
+            bottom: -10,
+            position: 'absolute',
+          }}
+        />
+      </ImageBackground>
+    </View>
   );
 };
 

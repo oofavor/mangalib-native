@@ -56,7 +56,6 @@ const MainStack = () => {
         component={SearchScreen}
         name="/search"
         options={{
-          headerTransparent: true,
           headerRight: '',
           cardStyleInterpolator: CardStyleInterpolators.forBottomSheetAndroid,
         }}
@@ -72,7 +71,10 @@ const MainStack = () => {
       <Stack.Screen
         component={FilterModal}
         name="Filter"
-        options={{ presentation: 'modal' }}
+        options={{
+          presentation: 'modal',
+          ...TransitionPresets.ModalSlideFromBottomIOS,
+        }}
       />
       <Stack.Screen
         component={GenreModal}

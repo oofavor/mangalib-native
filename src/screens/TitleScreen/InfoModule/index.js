@@ -8,18 +8,19 @@ import InfoRelated from './InfoRelated';
 import InfoSimiliar from './InfoSimiliar';
 import InfoRating from './InfoRating';
 import InfoCount from './InfoCount';
-const InfoModule = (props) => {
-  const [check, setCheck] = useState('loading...');
+import { Segmented } from 'react-native-collapsible-segmented-view';
+import { optimizeHeavyScreen } from 'react-navigation-heavy-screen';
+const InfoModule = () => {
   const navigation = useNavigation();
   const { theme } = useTheme();
   return (
-    <View>
+    <Segmented.ScrollView>
       <InfoGeneral />
       <InfoRelated />
       <InfoSimiliar />
       <InfoCount />
       <InfoRating />
-    </View>
+    </Segmented.ScrollView>
   );
 };
 

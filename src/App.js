@@ -24,12 +24,11 @@ const App = () => {
     OpenSans800: require('../assets/fonts/OpenSans/OpenSans800.ttf'),
   });
 
-
   return (
     load && (
       <SafeAreaProvider>
-        <ThemeProvider defaultTheme="dark">
-            <MainNavigation />
+        <ThemeProvider defaultTheme="light">
+          <MainNavigation />
         </ThemeProvider>
       </SafeAreaProvider>
     )

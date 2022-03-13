@@ -21,15 +21,15 @@ const Discussion = (props) => {
               justifyContent: 'center',
             }}
           >
-            <MaterialIcons size={14} name="chat" color="#868e96" />
-            <TextSecondary size={14}>1337</TextSecondary>
+            <MaterialIcons size={13} name="chat" color="#868e96" />
+            <TextSecondary size={13}>1337</TextSecondary>
             <MaterialIcons
-              size={14}
+              size={13}
               name="remove-red-eye"
               color="#868e96"
               style={{ marginLeft: 10 }}
             />
-            <TextSecondary size={14}>88</TextSecondary>
+            <TextSecondary size={13}>88</TextSecondary>
           </View>
         </View>
         {/* Details */}
