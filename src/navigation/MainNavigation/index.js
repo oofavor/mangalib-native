@@ -3,21 +3,23 @@ import {
   createStackNavigator,
   TransitionPresets,
 } from '@react-navigation/stack';
+import { CardStyleInterpolators } from '@react-navigation/stack';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
-import SearchScreen from '../screens/SearchScreen';
-import MangaReaderScreen from '../screens/MangaReaderScreen';
-import TitleScreen from '../screens/TitleScreen';
-import HomeNavigation from './HomeNavigataion';
-import useTheme from '../hooks/useTheme';
-import { CardStyleInterpolators } from '@react-navigation/stack';
-import GenreModal from '../screens/GenreModal';
-import TagModal from '../screens/TagModal';
-import FilterModal from '../screens/FilterModal';
+
+import SearchScreen from '../../screens/SearchScreen';
+import MangaReaderScreen from '../../screens/MangaReaderScreen';
+import TitleScreen from '../../screens/TitleScreen';
+import GenreModal from '../../screens/GenreModal';
+import TagModal from '../../screens/TagModal';
+import FilterModal from '../../screens/FilterModal';
+
+import HomeNavigation from '../HomeNavigataion';
+import useTheme from '../../hooks/useTheme';
 
 const Stack = createStackNavigator();
 
-const MainStack = () => {
+const MainNavigation = () => {
   const { theme } = useTheme();
   return (
     <Stack.Navigator
@@ -90,4 +92,4 @@ const MainStack = () => {
   );
 };
 
-export default MainStack;
+export default MainNavigation;

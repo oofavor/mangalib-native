@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { TextPrimary, TextSecondary } from '../../../components/Text';
 import useTheme from '../../../hooks/useTheme';
@@ -19,6 +19,9 @@ import { Segmented } from 'react-native-collapsible-segmented-view';
 import ChooseTranslation from './ChooseTranslation';
 import { Section } from '../../../components/Container';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Tabs } from 'react-native-collapsible-tab-view';
+import { LargeList, WaterfallList } from 'react-native-largelist';
+import { SpringScrollView } from 'react-native-spring-scrollview';
 
 let data = [
   { name: 'Том 2 Глава 101', date: '12.12.2012', user: 'w' },
@@ -34,8 +37,8 @@ const ChaptersModule = () => {
   const manga = useManga();
   const [chapters, setChapters] = useState([]);
   const [page, setPage] = useState(1);
-  const { theme } = useTheme();
-  const insets = useSafeAreaInsets();
+  const ref = useRef();
+
   useEffect(() => {
     fetchMore();
   }, [manga]);
@@ -44,33 +47,35 @@ const ChaptersModule = () => {
     if (manga?.branches) {
       getChapters(manga.branches[0].id, page).then((data) => {
         setChapters((e) => e.concat(data));
+        if (ref.current) {
+          ref.current.endLoading();
+        }
         if (data.length === 0) {
-          fetchMore = () => {};
+          fetchMore = () => {
+            if (ref.current) {
+              ref.current.endLoading();
+            }
+          };
         }
       });
       setPage((e) => e + 1);
     }
   };
+
+  const renderItem = (item, index) => (
+    <ChapterPreview chapter={item} key={index} />
+  );
   return (
-    <Segmented.FlatList
-      extraData={fetchMore}
-      removeClippedSubviews
-      contentContainerStyle={{ backgroundColor: theme.foreground }}
+    <SpringScrollView
+      ref={ref}
+      heightForIndexPath={(item, index) => 57}
       onEndReached={fetchMore}
       data={chapters}
-      renderItem={({ item }) => <ChapterPreview chapter={item} />}
-      ListHeaderComponent={() => (
-        <View style={{ paddingTop: 12 }}>
-          <View style={{ paddingHorizontal: 12 }}>
-            <ChooseTranslation />
-          </View>
+      renderItem={renderItem}
+      renderHeader={() => (
+        <View style={{ overflow: 'hidden' }}>
           <View style={{ marginTop: 20 }}>
-            <RippleButton
-              onPress={() => {
-                data = data.reverse();
-              }}
-              style={styles.sortContainer}
-            >
+            <RippleButton onPress={() => {}} style={styles.sortContainer}>
               <MaterialIcons name="sort" size={18} />
               <TextPrimary size={16}>Сортировать</TextPrimary>
             </RippleButton>
@@ -78,7 +83,11 @@ const ChaptersModule = () => {
         </View>
       )}
       keyExtractor={(item, idx) => item.id}
-    />
+      numColumns={1}
+      onLoading={fetchMore}
+    >
+      {chapters.map(renderItem)}
+    </SpringScrollView>
   );
 };
 

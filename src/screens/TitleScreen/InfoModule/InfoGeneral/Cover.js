@@ -1,10 +1,10 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { Image, ImageBackground, View } from 'react-native';
-import { baseUrl } from '../../../constants/urls';
-import { useManga } from '../MangaContext';
+import { baseUrl } from '../../../../constants/urls';
+import { useManga } from '../../MangaContext';
 
-const Cover = ({ cover }) => {
+const Cover = () => {
   const manga = useManga();
   return (
     <View style={{ width: 400, height: 340 }}>
@@ -16,6 +16,7 @@ const Cover = ({ cover }) => {
           justifyContent: 'flex-end',
           overflow: 'hidden',
           position: 'absolute',
+          backgroundColor: 'grey',
         }}
         source={{
           uri: `${baseUrl}/${manga?.img?.mid}`,

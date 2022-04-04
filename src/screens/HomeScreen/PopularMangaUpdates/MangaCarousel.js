@@ -9,14 +9,14 @@ const MangaCarousel = () => {
   useEffect(() => {
     getRecentTop().then((data) => setManga(data));
   }, []);
+
   return (
     <FlatList
       data={manga}
       renderItem={({ item }) => <MangaPreview manga={item} />}
       horizontal={true}
       ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
-      keyExtractor={(item, id) => id} // !!! change to item.id in future
-      // gap between
+      keyExtractor={(item, id) => id} // TODO: change to item.id in future
     />
   );
 };

@@ -1,10 +1,11 @@
 import React from 'react';
 import useTheme from '../hooks/useTheme';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
-import MainStack from './MainStack';
+import MainNavigation from './MainNavigation';
 
-const MainNavigation = () => {
+const NavigationRoot = () => {
   const { theme } = useTheme();
+
   const navTheme = {
     ...DefaultTheme,
     colors: {
@@ -12,11 +13,12 @@ const MainNavigation = () => {
       background: theme.background,
     },
   };
+
   return (
     <NavigationContainer theme={navTheme}>
-      <MainStack />
+      <MainNavigation />
     </NavigationContainer>
   );
 };
 
-export default MainNavigation;
+export default NavigationRoot;

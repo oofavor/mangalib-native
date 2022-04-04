@@ -9,7 +9,7 @@ import RippleButton from '../../../../components/Button/RippleButton';
 import { TextPrimary } from '../../../../components/Text';
 import useTheme from '../../../../hooks/useTheme';
 
-const Chip = ({ text }) => {
+const Chip = ({ text, onPress }) => {
   const { theme } = useTheme();
   return (
     <View
@@ -19,7 +19,7 @@ const Chip = ({ text }) => {
         backgroundColor: theme.backgroundFill4,
       }}
     >
-      <RippleButton style={{ borderRadius: 4 }}>
+      <RippleButton style={{ borderRadius: 4 }} onPress={onPress}>
         <TextPrimary
           size={14}
           style={{

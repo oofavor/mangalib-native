@@ -3,28 +3,18 @@ import { Image, StyleSheet, View, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 
-import useTheme from '../../../hooks/useTheme';
 import { TextPrimary } from '../../../components/Text';
 import { baseUrl } from '../../../constants/urls';
 
 const MangaPreview = ({ manga }) => {
-  const { theme } = useTheme();
   const navigation = useNavigation();
+
   return (
     <Pressable
       style={styles.wrapper}
-      onPress={() => {
-        console.log('123');
-        navigation.navigate('Manga', { title: manga.dir });
-      }}
+      onPress={() => navigation.navigate('Manga', { title: manga.dir })}
     >
-      <View
-        style={{
-          height: 160,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
+      <View style={styles.innerContainer}>
         <Image
           source={{ uri: `${baseUrl}/${manga.img.mid}` }}
           style={styles.mangaImage}
@@ -34,7 +24,6 @@ const MangaPreview = ({ manga }) => {
           colors={['transparent', 'rgba(0,0,0,.01)', 'rgba(0,0,0,.8)']}
           style={styles.mangaShadow}
         />
-
         <TextPrimary style={styles.mangaText} numberOfLines={2}>
           Глава {manga.count_chapters}
         </TextPrimary>
@@ -65,6 +54,7 @@ const styles = StyleSheet.create({
     top: 0,
     borderRadius: 5,
     height: '100%',
+    width: '100%',
   },
   mangaText: {
     position: 'absolute',
@@ -75,6 +65,11 @@ const styles = StyleSheet.create({
     paddingBottom: 6,
     color: 'white',
     fontFamily: 'OpenSans400',
+  },
+  innerContainer: {
+    height: 160,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

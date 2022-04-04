@@ -8,6 +8,7 @@ const Description = (props) => {
   const [numLines, setNumLines] = useState(4);
   const manga = useManga();
   const { width } = useWindowDimensions();
+
   return (
     <View
       style={
@@ -24,8 +25,13 @@ const Description = (props) => {
         style={{ lineHeight: 21 }}
       ></TextPrimary> */}
       <RenderHtml
-        source={{ html: manga?.description }}
-        systemFonts={['Open-Sans-400']}
+        source={{
+          html: manga?.description?.replace(
+            '<p>',
+            '<p style="font-family: "OpenSans400">'
+          ),
+        }}
+        systemFonts={['OpenSans400']}
         contentWidth={width - 32}
       />
 

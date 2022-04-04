@@ -1,18 +1,22 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { Image, StyleSheet, View, Pressable } from 'react-native';
+import { Image, StyleSheet, View, Pressable, Dimensions } from 'react-native';
 import { RippleButton } from '../../components/Button';
 import { TextPrimary } from '../../components/Text';
 import useTheme from '../../hooks/useTheme';
 import { useNavigation } from '@react-navigation/native';
 import { baseUrl } from '../../constants/urls';
-
+import { NativeViewGestureHandler } from 'react-native-gesture-handler';
 const MangaPreview = ({ manga }) => {
   const navigation = useNavigation();
   return (
     <Pressable
+      unstable_pressDelay={300}
       style={styles.container}
-      onPress={() => navigation.navigate('Manga', { title: manga.dir })}
+      onPress={(e) => {
+        console.log(e.isTrusted);
+        navigation.navigate('Manga', { title: manga.dir });
+      }}
     >
       <View style={styles.imageContainer}>
         <Image
@@ -69,7 +73,7 @@ const styles = StyleSheet.create({
     paddingBottom: 9,
     color: 'white',
   },
-  container: { width: '33.3333%', padding: 4, overflow: 'visible' },
+  container: { flex: 1, padding: 4, overflow: 'visible' },
   infoChip: {
     position: 'absolute',
     top: 9,

@@ -1,24 +1,13 @@
 import React from 'react';
-import {
-  Image,
-  StyleSheet,
-  TouchableNativeFeedback,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, StyleSheet, View, Dimensions } from 'react-native';
 import { TextPrimary, TextSecondary } from '../../../../components/Text';
 import { MaterialIcons } from '@expo/vector-icons';
-import Ripple from 'react-native-advanced-ripple';
-import { TouchableRipple } from 'react-native-paper';
-import {
-  BaseButton,
-  BorderlessButton,
-  RectButton,
-} from 'react-native-gesture-handler';
+
 import useTheme from '../../../../hooks/useTheme';
 import RippleButton from '../../../../components/Button/RippleButton';
 import Borderless from '../../../../components/Button/Borderless';
-
+import { baseUrl } from '../../../../constants/urls';
+const { width } = Dimensions.get('window');
 const Preview = ({ data }) => {
   const { theme } = useTheme();
 
@@ -26,17 +15,18 @@ const Preview = ({ data }) => {
     <RippleButton
       style={[styles.container, { backgroundColor: theme.backgroundElevated2 }]}
     >
-      <Image source={{ uri: data.url }} style={styles.image} />
+      <Image
+        source={{ uri: `${baseUrl}/${data.img.mid}` }}
+        style={styles.image}
+      />
       <View style={styles.infoContainer}>
         <TextPrimary style={styles.text1}>{data.type}</TextPrimary>
-        <TextPrimary size={16} weight={600} style={styles.title}>
-          {data.name}
+        <TextPrimary size={16} weight={600} style={styles.title} numberOfLines={2}>
+          {data.rus_name}
         </TextPrimary>
         <View style={styles.bottomText}>
-          <TextSecondary size={14} style={styles.statusText}>
-            {data.status}
-          </TextSecondary>
-          <TextSecondary size={14}>{data.typeOf}</TextSecondary>
+          <TextSecondary size={14} style={styles.statusText}></TextSecondary>
+          <TextSecondary size={14}>{/* {data.typeOf} */}</TextSecondary>
         </View>
       </View>
       <View style={styles.buttonsContainer}>
@@ -49,9 +39,7 @@ const Preview = ({ data }) => {
             textAlign: 'center',
             textAlignVertical: 'center',
           }}
-        >
-          {data.count}
-        </TextPrimary>
+        ></TextPrimary>
         <Borderless rippleColor="rgba(255,0,0,0.25)">
           <MaterialIcons
             name="remove"

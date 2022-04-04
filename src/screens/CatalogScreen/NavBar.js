@@ -12,12 +12,7 @@ const NavBar = ({ setShowFilter }) => {
     <View
       style={{
         flexDirection: 'row',
-        position: 'absolute',
-        bottom: 0,
         backgroundColor: theme.foreground,
-        paddingHorizontal: 4,
-        paddingVertical: 6,
-        flex: 1,
       }}
     >
       <Pressable

@@ -1,26 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
-import Ripple from 'react-native-material-ripple';
-import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { ScrollView, View } from 'react-native';
 import InfoGeneral from './InfoGeneral';
-import useTheme from '../../../hooks/useTheme';
 import InfoRelated from './InfoRelated';
-import InfoSimiliar from './InfoSimiliar';
+import InfoSimilar from './InfoSimilar';
 import InfoRating from './InfoRating';
 import InfoCount from './InfoCount';
-import { Segmented } from 'react-native-collapsible-segmented-view';
-import { optimizeHeavyScreen } from 'react-navigation-heavy-screen';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SpringScrollView } from 'react-native-spring-scrollview';
+
 const InfoModule = () => {
-  const navigation = useNavigation();
-  const { theme } = useTheme();
+  const insets = useSafeAreaInsets();
+
   return (
-    <Segmented.ScrollView>
+    <SpringScrollView>
       <InfoGeneral />
-      <InfoRelated />
-      <InfoSimiliar />
-      <InfoCount />
-      <InfoRating />
-    </Segmented.ScrollView>
+      {false && <InfoRelated />}
+      <InfoSimilar />
+      {false && <InfoCount />}
+      {false && <InfoRating />}
+      <View style={{ height: insets.bottom }} />
+    </SpringScrollView>
   );
 };
 

@@ -6,24 +6,17 @@ import useTheme from '../../../hooks/useTheme';
 import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
 import RippleButton from '../../../components/Button/RippleButton';
 import Borderless from '../../../components/Button/Borderless';
-const data = [
-  {
-    name: 'Ньюби',
-    url: 'https://staticlib.me/uploads/cover/the-descent-of-the-demonic-master/cover/4Xr6WrEO2Nrh_250x350.jpg',
-  },
-  {
-    name: 'Ньюби',
-    url: 'https://staticlib.me/uploads/cover/the-descent-of-the-demonic-master/cover/4Xr6WrEO2Nrh_250x350.jpg',
-  },
-];
+import { useManga } from '../MangaContext';
+
 const ChooseTranslation = (props) => {
   const [active, setActive] = useState(0);
   const { theme } = useTheme();
+  const manga = useManga();
   return (
-    <View>
+    <View style={{ paddingTop: 12 }}>
       <Heading>Выбрать перевод</Heading>
       <View style={styles.chipContainer}>
-        {data.map((e, idx) => (
+        {manga?.branches.map((e, idx) => (
           <RippleButton
             onPress={() => {
               if (idx === active) return;

@@ -1,5 +1,16 @@
 import { baseUrl } from '../constants/urls';
 
+const getAuthorization = async () => {
+  try {
+    const value = await AsyncStorage.getItem('@token');
+    if (value !== null) {
+      // value previously stored
+    }
+  } catch (e) {
+    // error reading value
+  }
+};
+
 export const getRecentTop = async () => {
   const res = await fetch(`${baseUrl}/api/titles/daily-top/?count=10`);
   const data = await res.json();
@@ -38,6 +49,12 @@ export const getSearch = async (query, page) => {
   const res = await fetch(
     `${baseUrl}/api/search/?count=10&page=${page}&query=${query}`
   );
+  const data = await res.json();
+  return data.content;
+};
+
+export const getSimilar = async (title) => {
+  const res = await fetch(`${baseUrl}/api/titles/${title}/similar`);
   const data = await res.json();
   return data.content;
 };
