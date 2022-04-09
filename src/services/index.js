@@ -1,14 +1,12 @@
+import CookieManager, {
+  CookieManagerStatic,
+} from '@react-native-cookies/cookies';
 import { baseUrl } from '../constants/urls';
 
-const getAuthorization = async () => {
-  try {
-    const value = await AsyncStorage.getItem('@token');
-    if (value !== null) {
-      // value previously stored
-    }
-  } catch (e) {
-    // error reading value
-  }
+export const getAuthorization = async () => {};
+
+export const getCookie = async () => {
+  CookieManager.get('https://remanga.org').then((res) => console.log(res));
 };
 
 export const getRecentTop = async () => {

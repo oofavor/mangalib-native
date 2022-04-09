@@ -36,7 +36,7 @@ const MangaReader = ({ route }) => {
             ${images
               .map(
                 (item) =>
-                  `<img width="${width}" height="${
+                  `<img decoding="sync" width="${width}" height="${
                     (width / item.width) * item.height
                   }" src=${item.link} loading="lazy"></img>`
               )
@@ -47,5 +47,4 @@ const MangaReader = ({ route }) => {
     />
   );
 };
-
 export default MangaReader;

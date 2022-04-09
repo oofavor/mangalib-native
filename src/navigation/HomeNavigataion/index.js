@@ -9,6 +9,8 @@ import HomeScreen from '../../screens/HomeScreen';
 import { Stab } from '../../components/Placeholder';
 import CatalogScreen from '../../screens/CatalogScreen';
 import { EvilIcons } from '@expo/vector-icons';
+import SettingsScreen from '../../screens/SettingsScreen';
+import ProfileScreen from '../../screens/ProfileScreen';
 const Tab = createBottomTabNavigator();
 
 const HomeNavigation = () => {
@@ -85,7 +87,7 @@ const HomeNavigation = () => {
       />
       <Tab.Screen
         name="Settings"
-        component={Stab}
+        component={ProfileScreen}
         options={{
           tabBarShowLabel: false,
           tabBarLabel: 'Settings',
@@ -104,7 +106,7 @@ const HomeNavigation = () => {
       />
       <Tab.Screen
         name="About"
-        component={Stab}
+        component={ProfileScreen}
         options={{
           tabBarShowLabel: false,
           tabBarLabel: 'About',
@@ -123,7 +125,7 @@ const HomeNavigation = () => {
       />
       <Tab.Screen
         name="Add"
-        component={Stab}
+        component={SettingsScreen}
         options={{
           tabBarShowLabel: false,
           tabBarLabel: 'Add',
