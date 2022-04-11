@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import {  StyleSheet, View } from 'react-native';
 import { Checkbox, CheckboxThree, RippleButton } from '../../components/Button';
 import FilterInput from '../../components/Input/FilterInput';
 import {
@@ -12,13 +12,14 @@ import useTheme from '../../hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { optimizeHeavyScreen } from 'react-navigation-heavy-screen';
+import { SpringScrollView } from 'react-native-spring-scrollview';
 
 const FilterModal = (props) => {
   const { theme } = useTheme();
   const navigation = useNavigation();
 
   return (
-    <ScrollView
+    <SpringScrollView
       style={{ flex: 1, backgroundColor: theme.foreground, padding: 7 }}
     >
       <RippleButton
@@ -274,7 +275,7 @@ const FilterModal = (props) => {
           </RippleButton>
         </View>
       </View>
-    </ScrollView>
+    </SpringScrollView>
   );
 };
 

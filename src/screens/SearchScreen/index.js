@@ -41,6 +41,7 @@ const Search = ({ navigation }) => {
     getSearch(input, page).then((data) => setResults((e) => e.concat(data)));
     setPage((e) => e + 1);
   };
+
   return (
     <VirtualizedList
       data={results}

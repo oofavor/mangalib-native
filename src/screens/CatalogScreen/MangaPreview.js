@@ -1,21 +1,27 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { Image, StyleSheet, View, Pressable, Dimensions } from 'react-native';
-import { RippleButton } from '../../components/Button';
 import { TextPrimary } from '../../components/Text';
-import useTheme from '../../hooks/useTheme';
 import { useNavigation } from '@react-navigation/native';
 import { baseUrl } from '../../constants/urls';
-import { NativeViewGestureHandler } from 'react-native-gesture-handler';
+import BlankButton from '../../components/Button/BlankButton';
+
+const bookmarkColor = {
+  Читаю: '#3cce7b',
+  'Буду читать': 'yellow',
+  Прочитано: 'orange',
+  Отложено: 'blue',
+  Брошено: 'violet',
+  'Не интересно': 'grey',
+};
+
 const MangaPreview = ({ manga }) => {
   const navigation = useNavigation();
   return (
-    <Pressable
-      unstable_pressDelay={300}
+    <BlankButton
       style={styles.container}
-      onPress={(e) => {
-        console.log(e.isTrusted);
-        navigation.navigate('Manga', { title: manga.dir });
+      onPress={() => {
+        navigation.navigate('TitleScreen', { title: manga.dir });
       }}
     >
       <View style={styles.imageContainer}>
@@ -36,33 +42,28 @@ const MangaPreview = ({ manga }) => {
           {manga.rus_name}
         </TextPrimary>
       </View>
-      <View style={styles.infoChip}>
-        <TextPrimary style={{ color: '#fff' }} size={11}>
-          Читаю
-        </TextPrimary>
-      </View>
-    </Pressable>
+      {manga.bookmark_type && (
+        <View
+          style={[
+            styles.infoChip,
+            { backgroundColor: bookmarkColor[manga.bookmark_type] },
+          ]}
+        >
+          <TextPrimary style={{ color: '#fff' }} size={11}>
+            {manga.bookmark_type}
+          </TextPrimary>
+        </View>
+      )}
+    </BlankButton>
   );
 };
 
 const styles = StyleSheet.create({
+  container: { flex: 1, padding: 4, overflow: 'visible', position: 'relative' },
   imageContainer: {
     width: '100%',
-    aspectRatio: 0.7,
+    // aspectRatio: 0.7,
     overflow: 'hidden',
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 4,
-  },
-  shadow: {
-    position: 'absolute',
-    left: 4,
-    bottom: 4,
-    height: 110,
-    width: '100%',
-    borderRadius: 4,
   },
   infoContainer: {
     position: 'absolute',
@@ -73,7 +74,19 @@ const styles = StyleSheet.create({
     paddingBottom: 9,
     color: 'white',
   },
-  container: { flex: 1, padding: 4, overflow: 'visible' },
+  image: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 4,
+  },
+  shadow: {
+    position: 'absolute',
+    left: 4,
+    bottom: 4,
+    right: 4,
+    height: 110,
+    borderRadius: 4,
+  },
   infoChip: {
     position: 'absolute',
     top: 9,
@@ -81,7 +94,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
     borderRadius: 3,
     fontSize: 11,
-    backgroundColor: '#3cce7b',
   },
 });
 export default MangaPreview;

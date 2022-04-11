@@ -4,6 +4,7 @@ import { Text, TextPrimary, TextSecondary } from '../../../components/Text';
 import { MaterialIcons } from '@expo/vector-icons';
 import useTheme from '../../../hooks/useTheme';
 import { RippleButton } from '../../../components/Button';
+
 const Discussion = (props) => {
   const { theme } = useTheme();
   return (

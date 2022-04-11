@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import {  StyleSheet, View } from 'react-native';
 import { Checkbox, CheckboxThree, RippleButton } from '../../components/Button';
 import FilterInput from '../../components/Input/FilterInput';
 import {
@@ -11,13 +11,14 @@ import {
 import useTheme from '../../hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { SpringScrollView } from 'react-native-spring-scrollview';
 
 const TagModal = (props) => {
   const { theme } = useTheme();
   const navigation = useNavigation();
   console.log('123');
   return (
-    <ScrollView
+    <SpringScrollView
       style={{ flex: 1, backgroundColor: theme.foreground, padding: 7 }}
     >
       <View
@@ -30,7 +31,7 @@ const TagModal = (props) => {
           Популярные
         </TextPrimary>
       </View>
-    </ScrollView>
+    </SpringScrollView>
   );
 };
 

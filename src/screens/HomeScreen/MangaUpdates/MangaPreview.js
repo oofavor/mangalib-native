@@ -12,6 +12,7 @@ import Chip from './Chip';
 import Table from './Table';
 import faker from 'faker';
 import { TextPrimary, TextSecondary } from '../../../components/Text';
+import BlankButton from '../../../components/Button/BlankButton';
 
 const data = [
   faker.name.firstName(),
@@ -25,7 +26,7 @@ const MangaPreview = ({ manga }) => {
 
   return (
     <View style={styles.wrapper}>
-      <Pressable style={styles.mangaWrapper}>
+      <BlankButton style={styles.mangaWrapper}>
         <Image source={{ uri: manga.image }} style={styles.mangaImage} />
         <LinearGradient
           // shadow for image
@@ -33,7 +34,7 @@ const MangaPreview = ({ manga }) => {
           style={styles.mangaShadow}
         />
         <TextPrimary style={styles.mangaText}>Манга</TextPrimary>
-      </Pressable>
+      </BlankButton>
       <View style={{ flex: 1 }}>
         <View style={styles.infoWrapper}>
           <TextPrimary style={{ flex: 1 }} numberOfLines={1} fontWeight="600">

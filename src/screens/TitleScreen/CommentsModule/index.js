@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
-import { Segmented } from 'react-native-collapsible-segmented-view';
-import { Tabs } from 'react-native-collapsible-tab-view';
+import { SpringScrollView } from 'react-native-spring-scrollview';
+
 import { optimizeHeavyScreen } from 'react-navigation-heavy-screen';
 import { Section } from '../../../components/Container';
 import Comment from './Comment';
@@ -47,14 +46,14 @@ const comments = {
 
 const CommentsModule = (props) => {
   return (
-    <ScrollView>
+    <SpringScrollView>
       <Section>
         <Comment comment={comments} depth={1} maxDepth={5} />
         {sub.map((com, idx) => (
           <Comment comment={com} depth={1} maxDepth={5} key={idx} />
         ))}
       </Section>
-    </ScrollView>
+    </SpringScrollView>
   );
 };
 

@@ -1,9 +1,7 @@
 import React from 'react';
 import {
   Image,
-  ScrollView,
   StyleSheet,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';

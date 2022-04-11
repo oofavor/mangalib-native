@@ -4,8 +4,6 @@ import {
   TransitionPresets,
 } from '@react-navigation/stack';
 import { CardStyleInterpolators } from '@react-navigation/stack';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { TouchableOpacity } from 'react-native';
 
 import SearchScreen from '../../screens/SearchScreen';
 import MangaReaderScreen from '../../screens/MangaReaderScreen';
@@ -13,81 +11,63 @@ import TitleScreen from '../../screens/TitleScreen';
 import GenreModal from '../../screens/GenreModal';
 import TagModal from '../../screens/TagModal';
 import FilterModal from '../../screens/FilterModal';
+import LoginModal from '../../screens/LoginModal';
 
 import HomeNavigation from '../HomeNavigataion';
 import useTheme from '../../hooks/useTheme';
+import SearchIcon from './SearchIcon';
 
 const Stack = createStackNavigator();
+
+const screenOptions = {
+  searchScreen: {
+    headerRight: '',
+    cardStyleInterpolator: CardStyleInterpolators.forBottomSheetAndroid,
+  },
+  mangaReaderScreen: {
+    headerShown: false,
+    statusBarHidden: true,
+  },
+  modal: {
+    presentation: 'modal',
+    ...TransitionPresets.ModalPresentationIOS,
+  },
+};
 
 const MainNavigation = () => {
   const { theme } = useTheme();
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="HomeNavigation"
       screenOptions={({ route, navigation }) => ({
-        cardStyle: {
-          backgroundColor: theme.background,
-        },
         headerStyle: {
           backgroundColor: theme.backgroundHeader,
           height: 80,
           elevation: 0,
         },
         headerTitle: '',
-        headerBackTitleStyle: {
-          backgroundColor: 'white',
-        },
         ...TransitionPresets.SlideFromRightIOS,
-        headerRight: () => {
-          return (
-            <TouchableOpacity onPress={() => navigation.navigate('/search')}>
-              <FontAwesome5
-                name="search"
-                size={16}
-                color="white"
-                style={{ marginRight: 20 }}
-              />
-            </TouchableOpacity>
-          );
-        },
+        headerRight: SearchIcon,
       })}
     >
-      <Stack.Screen component={HomeNavigation} name="Home" />
-      <Stack.Screen component={TitleScreen} name="Manga" />
+      <Stack.Screen component={HomeNavigation} name="HomeNavigation" />
+      <Stack.Screen component={TitleScreen} name="TitleScreen" />
       <Stack.Screen
         component={SearchScreen}
-        name="/search"
-        options={{
-          headerRight: '',
-          cardStyleInterpolator: CardStyleInterpolators.forBottomSheetAndroid,
-        }}
+        name="SearchScreen"
+        options={screenOptions.searchScreen}
       />
       <Stack.Screen
         component={MangaReaderScreen}
-        name="/reader"
-        options={{
-          headerShown: false,
-          statusBarHidden: true,
-        }}
+        name="MangaReaderScreen"
+        options={screenOptions.mangaReaderScreen}
       />
-      <Stack.Screen
-        component={FilterModal}
-        name="Filter"
-        options={{
-          presentation: 'modal',
-          ...TransitionPresets.ModalSlideFromBottomIOS,
-        }}
-      />
-      <Stack.Screen
-        component={GenreModal}
-        name="Filter/Genre"
-        options={{ presentation: 'modal' }}
-      />
-      <Stack.Screen
-        component={TagModal}
-        name="Filter/Tag"
-        options={{ presentation: 'modal' }}
-      />
+      <Stack.Group screenOptions={screenOptions.modal}>
+        <Stack.Screen component={FilterModal} name="Filter" />
+        <Stack.Screen component={GenreModal} name="Filter/Genre" />
+        <Stack.Screen component={TagModal} name="Filter/Tag" />
+        <Stack.Screen component={LoginModal} name="LoginModal" />
+      </Stack.Group>
     </Stack.Navigator>
   );
 };

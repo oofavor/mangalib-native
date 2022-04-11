@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
-import MainNavigation from './navigation';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import MainNavigation from './navigation';
 import { ThemeProvider } from './contexts/theme';
 
 import { useFonts } from 'expo-font';
 import { edgeToEdgeMode } from './utils/uiModes';
+import UserContext from './contexts/user/userContext';
+import UserProvider from './contexts/user/userProvider';
 
 const App = () => {
   useEffect(() => {
@@ -24,7 +26,9 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <ThemeProvider defaultTheme="light">
-        <MainNavigation />
+        <UserProvider>
+          <MainNavigation />
+        </UserProvider>
       </ThemeProvider>
     </SafeAreaProvider>
   );

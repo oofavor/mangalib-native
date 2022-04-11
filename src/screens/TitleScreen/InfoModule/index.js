@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, View } from 'react-native';
+import {  View } from 'react-native';
 import InfoGeneral from './InfoGeneral';
 import InfoRelated from './InfoRelated';
 import InfoSimilar from './InfoSimilar';

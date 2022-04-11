@@ -1,23 +1,22 @@
 import React from 'react';
-import { ScrollView, View, Animated } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SpringScrollView } from 'react-native-spring-scrollview';
 import useTheme from '../../hooks/useTheme';
-import Footer from './Footer';
 import MangaUpdates from './MangaUpdates';
 import News from './News';
 import PopularMangaUpdates from './PopularMangaUpdates';
 
-const Home = ({ route }) => {
+const HomeScreen = ({ route }) => {
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   return (
-    <ScrollView>
+    <SpringScrollView>
       <PopularMangaUpdates />
       <News />
       <News />
       <MangaUpdates />
-    </ScrollView>
+    </SpringScrollView>
   );
 };
 
-export default Home;
+export default HomeScreen;

@@ -1,19 +1,18 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import {  StyleSheet, View } from 'react-native';
 import { Checkbox, CheckboxThree, RippleButton } from '../../components/Button';
 import FilterInput from '../../components/Input/FilterInput';
 import {
-  Heading,
-  Text,
   TextPrimary,
   TextSecondary,
 } from '../../components/Text';
 import useTheme from '../../hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
+import { SpringScrollView } from 'react-native-spring-scrollview';
 const FilterModal = (props) => {
   const { theme } = useTheme();
   return (
-    <ScrollView
+    <SpringScrollView
       style={{ flex: 1, backgroundColor: theme.foreground, padding: 7 }}
     >
       <RippleButton style={styles.navigateButtonContainer}>
@@ -263,7 +262,7 @@ const FilterModal = (props) => {
           </RippleButton>
         </View>
       </View>
-    </ScrollView>
+    </SpringScrollView>
   );
 };
 

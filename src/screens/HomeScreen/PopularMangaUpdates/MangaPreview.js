@@ -5,14 +5,15 @@ import { useNavigation } from '@react-navigation/native';
 
 import { TextPrimary } from '../../../components/Text';
 import { baseUrl } from '../../../constants/urls';
+import BlankButton from '../../../components/Button/BlankButton';
 
 const MangaPreview = ({ manga }) => {
   const navigation = useNavigation();
 
   return (
-    <Pressable
+    <BlankButton
       style={styles.wrapper}
-      onPress={() => navigation.navigate('Manga', { title: manga.dir })}
+      onPress={() => navigation.navigate('TitleScreen', { title: manga.dir })}
     >
       <View style={styles.innerContainer}>
         <Image
@@ -31,7 +32,7 @@ const MangaPreview = ({ manga }) => {
       <View style={{ marginVertical: 2 }}>
         <TextPrimary numberOfLines={2}>{manga.rus_name}</TextPrimary>
       </View>
-    </Pressable>
+    </BlankButton>
   );
 };
 

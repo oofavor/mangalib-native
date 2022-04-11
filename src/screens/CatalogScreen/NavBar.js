@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RippleButton } from '../../components/Button';
+import BlankButton from '../../components/Button/BlankButton';
 import { TextSecondary } from '../../components/Text';
 import useTheme from '../../hooks/useTheme';
 
@@ -15,7 +16,7 @@ const NavBar = ({ setShowFilter }) => {
         backgroundColor: theme.foreground,
       }}
     >
-      <Pressable
+      <BlankButton
         style={{
           backgroundColor: theme.buttonDefaultBg,
           borderRadius: 5,
@@ -36,8 +37,8 @@ const NavBar = ({ setShowFilter }) => {
         >
           Сортировать
         </TextSecondary>
-      </Pressable>
-      <Pressable
+      </BlankButton>
+      <BlankButton
         onPress={() => setShowFilter(true)}
         style={{
           backgroundColor: theme.buttonDefaultBg,
@@ -59,7 +60,7 @@ const NavBar = ({ setShowFilter }) => {
         >
           Фильтры
         </TextSecondary>
-      </Pressable>
+      </BlankButton>
     </View>
   );
 };
