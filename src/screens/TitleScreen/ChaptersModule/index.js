@@ -36,6 +36,7 @@ const ChaptersModule = () => {
   const renderItem = (item, index) => (
     <ChapterPreview chapter={item} key={index} />
   );
+
   return (
     <SpringScrollView
       allLoaded={allLoaded}

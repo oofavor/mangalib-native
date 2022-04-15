@@ -56,4 +56,4 @@ const TitleScreen = ({ route }) => {
 </Segmented.View>; */
 }
 
-export default optimizeHeavyScreen(TitleScreen, Loading);
+export default TitleScreen;

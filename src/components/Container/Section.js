@@ -15,7 +15,7 @@ const Section = (props) => {
         paddingBottom: 12,
         marginBottom: 10,
         shadowColor: theme.shadow,
-        elevation: 5,
+        elevation: 1,
         shadowOffset: { width: 3454, height: 199 }, // fix it for ios
         ...props.style,
       }}

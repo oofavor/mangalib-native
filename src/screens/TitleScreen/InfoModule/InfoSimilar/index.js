@@ -6,25 +6,6 @@ import { getSimilar } from '../../../../services';
 import { useManga } from '../../MangaContext';
 import Preview from './Preview';
 
-const data = [
-  {
-    name: 'Становление Богом',
-    status: 'Завершён',
-    typeOf: 'Маньхуа',
-    url: 'https://staticlib.me/uploads/cover/bai-lian-cheng-shen/cover/BBzSQjuC22vV_thumb.jpg',
-    type: 'Схож по жанрам',
-    count: 2,
-  },
-  {
-    name: 'Становление Богом',
-    status: 'Завершён',
-    typeOf: 'Маньхуа',
-    url: 'https://staticlib.me/uploads/cover/bai-lian-cheng-shen/cover/BBzSQjuC22vV_thumb.jpg',
-    type: 'Схож по жанрам',
-    count: 2,
-  },
-];
-
 const InfoSimilar = (props) => {
   const manga = useManga();
   const [similar, setSimilar] = useState([]);

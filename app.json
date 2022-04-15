@@ -1,6 +1,5 @@
 {
   "expo": {
-    "scheme": "mycoolredirect",
     "jsEngine": "hermes",
     "entryPoint": "./index.js",
     "name": "mangalib-native",

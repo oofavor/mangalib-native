@@ -3,7 +3,6 @@ import { Button, Image, Pressable, StyleSheet, View } from 'react-native';
 import { TextPrimary, TextSecondary } from '../../../components/Text';
 import { MaterialIcons } from '@expo/vector-icons';
 import useTheme from '../../../hooks/useTheme';
-import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Borderless, RippleButton } from '../../../components/Button';
 import NestedComments from './NestedComments';

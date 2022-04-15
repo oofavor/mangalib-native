@@ -9,7 +9,7 @@ import BlankButton from '../../../components/Button/BlankButton';
 
 const MangaPreview = ({ manga }) => {
   const navigation = useNavigation();
-
+  
   return (
     <BlankButton
       style={styles.wrapper}

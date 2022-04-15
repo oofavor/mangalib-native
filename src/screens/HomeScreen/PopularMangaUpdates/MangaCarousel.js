@@ -4,6 +4,7 @@ import MangaPreview from './MangaPreview';
 import { getRecentTop } from '../../../services';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import MangaPlaceholder from '../../../components/Placeholder/MangaPlaceholder';
+
 const MangaCarousel = () => {
   const [manga, setManga] = useState([]);
 
