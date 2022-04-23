@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import faker from 'faker';
 import MangaPreview from './MangaPreview';
 import Divider from './Divider';
 import { Section } from '../../../components/Container';
+import { getLatestChapters } from '../../../services';
 
 // fake data, actuall data will be served later
 data = [
@@ -14,13 +15,19 @@ data = [
 ];
 
 const MangaUpdates = () => {
+  const [chapters, setChapters] = useState([]);
+  useEffect(() => {
+    getLatestChapters().then((data) => {
+      setChapters(data);
+    });
+  }, []);
   return (
     <Section>
-      {data.map((item, idx) => (
+      {chapters.map((manga, idx) => (
         <View
-          key={idx + faker.random.word()} // !!! change to item.id in the future
+          key={manga.id} // !!! change to item.id in the future
         >
-          <MangaPreview manga={item} />
+          <MangaPreview manga={manga} />
           {idx !== data.length - 1 && <Divider />}
         </View>
       ))}

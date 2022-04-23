@@ -8,11 +8,14 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import useTheme from '../../../hooks/useTheme';
-import Chip from './Chip';
 import Table from './Table';
 import faker from 'faker';
 import { TextPrimary, TextSecondary } from '../../../components/Text';
 import BlankButton from '../../../components/Button/BlankButton';
+import { baseUrl } from '../../../constants/urls';
+import moment from 'moment';
+import 'moment/locale/ru'; // doesnt work without this line
+import { useNavigation } from '@react-navigation/native';
 
 const data = [
   faker.name.firstName(),
@@ -23,24 +26,46 @@ const data = [
 ];
 const MangaPreview = ({ manga }) => {
   const { theme } = useTheme();
-
+  const navigation = useNavigation();
   return (
     <View style={styles.wrapper}>
-      <BlankButton style={styles.mangaWrapper}>
-        <Image source={{ uri: manga.image }} style={styles.mangaImage} />
-        <LinearGradient
+      <BlankButton
+        style={styles.mangaWrapper}
+        onPress={() => {
+          navigation.navigate('TitleScreen', { title: manga.dir });
+        }}
+      >
+        <Image
+          source={{ uri: `${baseUrl}${manga.img.low}` }}
+          style={styles.mangaImage}
+        />
+        {/* <LinearGradient
           // shadow for image
           colors={['rgba(0,0,0,.8)', 'transparent', 'rgba(0,0,0,.01)']}
           style={styles.mangaShadow}
         />
-        <TextPrimary style={styles.mangaText}>Манга</TextPrimary>
+        <TextPrimary style={styles.mangaText}>Манга</TextPrimary> */}
       </BlankButton>
       <View style={{ flex: 1 }}>
         <View style={styles.infoWrapper}>
           <TextPrimary style={{ flex: 1 }} numberOfLines={1} fontWeight="600">
-            Регрессия короля демонов, убивающего богов
+            {manga['rus_name']}
           </TextPrimary>
-          <Chip />
+          {manga['is_hottest'] && (
+            <TextPrimary
+              style={{
+                textAlign: 'center',
+                backgroundColor: 'red',
+                color: 'white',
+                borderRadius: 10,
+                paddingHorizontal: 5,
+                fontSize: 10,
+                justifyContent: 'center',
+              }}
+            >
+              популярное
+            </TextPrimary>
+          )}
         </View>
         <View
           style={[
@@ -53,11 +78,15 @@ const MangaPreview = ({ manga }) => {
           ]}
         >
           <TextSecondary style={{ flex: 1 }} numberOfLines={1}>
-            Регрессия короля демонов, убивающего богов
+            {manga['en_name']}
           </TextSecondary>
-          <TextSecondary numberOfLines={1}>Вчера</TextSecondary>
+          <TextSecondary numberOfLines={1}>
+            {moment(Date.now() - manga['upload_date'].toFixed(0))
+              .locale('ru')
+              .fromNow()}
+          </TextSecondary>
         </View>
-        <Table data={data} />
+        <Table data={[[manga.tome, manga.chapter, manga.name]]} />
       </View>
     </View>
   );
@@ -72,6 +101,7 @@ const styles = StyleSheet.create({
   mangaImage: {
     width: 80,
     height: 110,
+    resizeMode: 'cover',
     borderRadius: 4,
   },
   mangaShadow: {

@@ -23,14 +23,16 @@ const Table = ({ data }) => {
             key={idx}
             style={{ backgroundColor: idx % 2 === 0 && theme.foregroundDarken }}
           >
-            <TextPrimary style={{ fontSize: 14 }} fontWeight={'600'}>
-              {item}
+            <TextPrimary style={{ fontSize: 14 }} weight={600}>
+              Том {item[0]}. Глава {item[1]}. {item[2]}
             </TextPrimary>
           </View>
         ))}
       </View>
       <TouchableOpacity onPress={() => setCollapsed((e) => !e)}>
-        <TextSecondary>{collapsed ? 'show more' : 'hide'}</TextSecondary>
+        <TextSecondary>
+          {collapsed && data.length > 3 && 'показать'}
+        </TextSecondary>
       </TouchableOpacity>
     </View>
   );

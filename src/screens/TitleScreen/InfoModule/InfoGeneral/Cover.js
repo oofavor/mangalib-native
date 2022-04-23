@@ -19,7 +19,7 @@ const Cover = () => {
           backgroundColor: 'grey',
         }}
         source={{
-          uri: `${baseUrl}/${manga?.img?.mid}`,
+          uri: `${baseUrl}/${manga.img?.mid}`,
         }}
       >
         <LinearGradient
@@ -34,7 +34,7 @@ const Cover = () => {
         />
         <Image
           source={{
-            uri: `${baseUrl}/${manga?.img?.high}`,
+            uri: `${baseUrl}/${manga.img?.high}`,
           }}
           style={{
             width: 220,

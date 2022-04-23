@@ -7,13 +7,15 @@ import useTheme from '../../../../hooks/useTheme';
 import RippleButton from '../../../../components/Button/RippleButton';
 import Borderless from '../../../../components/Button/Borderless';
 import { baseUrl } from '../../../../constants/urls';
+import { useNavigation } from '@react-navigation/native';
 const { width } = Dimensions.get('window');
 const Preview = ({ data }) => {
   const { theme } = useTheme();
-
+  const navigation = useNavigation();
   return (
     <RippleButton
       style={[styles.container, { backgroundColor: theme.backgroundElevated2 }]}
+      onPress={() => navigation.push('TitleScreen', { title: data.dir })}
     >
       <Image
         source={{ uri: `${baseUrl}/${data.img.mid}` }}
@@ -21,7 +23,12 @@ const Preview = ({ data }) => {
       />
       <View style={styles.infoContainer}>
         <TextPrimary style={styles.text1}>{data.type}</TextPrimary>
-        <TextPrimary size={16} weight={600} style={styles.title} numberOfLines={2}>
+        <TextPrimary
+          size={16}
+          weight={600}
+          style={styles.title}
+          numberOfLines={2}
+        >
           {data.rus_name}
         </TextPrimary>
         <View style={styles.bottomText}>

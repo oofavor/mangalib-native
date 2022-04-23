@@ -1,18 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { RippleButton } from '../../../components/Button';
 import { TextSecondary } from '../../../components/Text';
 import useTheme from '../../../hooks/useTheme';
+import { getReplies } from '../../../services';
 import Comment from './Comment';
 
-const NestedComments = ({ depth, maxDepth, subcomments }) => {
+const NestedComments = ({ depth, maxDepth }) => {
   const { theme } = useTheme();
   const [showMoreComments, setShowMoreComments] = useState(false);
+  const [comments, setComments] = useState([]);
+  useEffect(() => {
+    getReplies(comments).then((res) => {
+      setComments(res);
+    });
+  }, []);
 
   return (
     <View>
       {depth < maxDepth &&
-        subcomments?.map((com, idx) => (
+        comments?.map((comment, idx) => (
           <View
             key={idx}
             style={[
@@ -20,25 +27,16 @@ const NestedComments = ({ depth, maxDepth, subcomments }) => {
               { borderColor: theme.borderBase },
             ]}
           >
-            <Comment comment={com} depth={depth + 1} maxDepth={maxDepth} />
+            <Comment
+              comment={comment}
+              depth={depth + 1}
+              maxDepth={maxDepth}
+              more={comment['count_replies']}
+            />
           </View>
         ))}
-      {depth >= maxDepth && subcomments && !showMoreComments && (
-        <RippleButton
-          style={{ padding: 7, marginRight: 'auto' }}
-          onPress={() => setShowMoreComments(true)}
-        >
-          <TextSecondary style={{ color: theme.textMuted }}>
-            Развернуть ветку
-          </TextSecondary>
-        </RippleButton>
-      )}
-      {showMoreComments && (
-        <NestedComments
-          depth={depth}
-          maxDepth={Infinity}
-          subcomments={subcomments}
-        />
+      {depth >= maxDepth && !showMoreComments && (
+        
       )}
     </View>
   );

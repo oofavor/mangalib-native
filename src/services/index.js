@@ -37,7 +37,7 @@ export const getTitle = async (title) => {
   return data.content;
 };
 
-export const getChapters = async (branchId, page) => {
+export const getChapters = async (branchId, page = 1) => {
   const data = await getRequest(
     `/api/titles/chapters/?branch_id=${branchId}&page=${page}&count=60&ordering=-index`
   );
@@ -77,4 +77,29 @@ export const getUserBookmarks = async (page = 1, count = 24, type = 0) => {
     `/api/users/${userData.id}/bookmarks/?type=${type}&count=${count}&page=${page}`
   );
   return data.content;
+};
+
+export const getComments = async (titleId, page = 1) => {
+  const comments = await getRequest(
+    `/api/activity/comments/?title_id=${titleId}&page=${page}&ordering=-id`
+  );
+  return comments.content;
+};
+
+export const getReplies = async (commentId, page = 1) => {
+  const replies = await getRequest(
+    `/api/activity/comments/?reply_to=${commentId}&page=${page}&ordering=-id`
+  );
+  return replies.content;
+};
+
+export const getLatestChapters = async (page = 1, count = 20) => {
+  const chapters = await getRequest(
+    `/api/titles/last-chapters/?page=${page}&count=${count}`
+  );
+  return chapters.content;
+};
+
+export const getNotifications = async (count = 20) => {
+  const notifications = `/api/users/notifications/?count=${count}&status=0&type=0`;
 };

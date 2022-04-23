@@ -1,5 +1,5 @@
 import React from 'react';
-import {  StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Checkbox, CheckboxThree, RippleButton } from '../../components/Button';
 import FilterInput from '../../components/Input/FilterInput';
 import {
@@ -16,7 +16,6 @@ import { SpringScrollView } from 'react-native-spring-scrollview';
 const TagModal = (props) => {
   const { theme } = useTheme();
   const navigation = useNavigation();
-  console.log('123');
   return (
     <SpringScrollView
       style={{ flex: 1, backgroundColor: theme.foreground, padding: 7 }}

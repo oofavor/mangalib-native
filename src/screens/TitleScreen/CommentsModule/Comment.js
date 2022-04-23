@@ -4,14 +4,27 @@ import { TextPrimary, TextSecondary } from '../../../components/Text';
 import { MaterialIcons } from '@expo/vector-icons';
 import useTheme from '../../../hooks/useTheme';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Borderless, RippleButton } from '../../../components/Button';
-import NestedComments from './NestedComments';
+import {
+  BlankButton,
+  Borderless,
+  RippleButton,
+} from '../../../components/Button';
+import { getReplies } from '../../../services';
+import { baseUrl } from '../../../constants/urls';
 
-const Comment = ({ comment, depth, maxDepth }) => {
+const Comment = ({ comment }) => {
   const { theme } = useTheme();
   const [showAllText, setShow] = useState(false);
   const [showMoreButton, setShowMoreButton] = useState(false);
+  const [showSubcomments, setShowSubcomments] = useState(false);
 
+  const [subComments, setSubComments] = useState([]);
+  const fetchSubcomments = () => {
+    setShowSubcomments(true);
+    getReplies(comment.id).then((res) => {
+      setSubComments(res);
+    });
+  };
   const numberOfVotes = 10;
   const greenRipple = {
     color: 'rgba(0,255,0,0.3)',
@@ -30,12 +43,17 @@ const Comment = ({ comment, depth, maxDepth }) => {
         <RippleButton style={{ padding: 3, margin: -3 }}>
           <View style={styles.topInfoContainer}>
             <Image
-              source={{ uri: 'https://i.imgur.com/msRGMnX.gif' }}
+              source={{ uri: `${baseUrl}${comment.user.avatar.low}` }}
               style={[styles.avatar, { overlayColor: theme.foreground }]}
             />
             <View>
-              <TextPrimary size={13} weight={700}>
-                Имя Пользователя
+              <TextPrimary
+                size={13}
+                weight={700}
+                numberOfLines={1}
+                style={{ flex: 1 }}
+              >
+                {comment.user.username}
               </TextPrimary>
               <TextSecondary>X дней назад</TextSecondary>
             </View>
@@ -126,12 +144,25 @@ const Comment = ({ comment, depth, maxDepth }) => {
           />
         </Pressable>
       </View>
+      {/* Get Replies button */}
+      {!showSubcomments && !!comment['count_replies'] && (
+        <BlankButton
+          style={{ padding: 7, marginRight: 'auto' }}
+          onPress={fetchSubcomments}
+        >
+          <TextSecondary style={{ color: theme.textMuted }}>
+            Развернуть ветку
+          </TextSecondary>
+        </BlankButton>
+      )}
       {/* Subcomments (nested) */}
-      <NestedComments
-        depth={depth}
-        maxDepth={maxDepth}
-        subcomments={comment.subcomment}
-      />
+      {showSubcomments && (
+        <View style={styles.subcommentContainer}>
+          {subComments.map((subComment) => (
+            <Comment comment={subComment} key={subComment.id} />
+          ))}
+        </View>
+      )}
     </View>
   );
 };
@@ -174,5 +205,12 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   answerButton: { padding: 5, margin: -5, marginRight: 5 },
+  subcommentContainer: {
+    marginLeft: 0,
+    borderLeftWidth: 1,
+    borderColor: 'lightgrey',
+    paddingLeft: 9,
+    paddingTop: 7,
+  },
 });
 export default Comment;

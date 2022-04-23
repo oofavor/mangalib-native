@@ -1,13 +1,4 @@
-import {
-  View,
-  StyleSheet,
-  Image,
-  Dimensions,
-  ScrollView,
-  Pressable,
-  Text,
-} from 'react-native';
-import { Button } from 'react-native-paper';
+import { View, Image, ScrollView, Pressable, Text } from 'react-native';
 import { TextPrimary, TextSecondary } from '../../components/Text';
 import useTheme from '../../hooks/useTheme';
 
@@ -29,8 +20,10 @@ const ProfileScreen = () => {
     </ScrollView>
   );
 };
+
 const uri =
   'https://api.remanga.org/media/titles/one_hundred_to_make_god/693ce5fef73a07dec62d9a15bdbcae2d.jpg';
+
 const Header = () => {
   const { theme } = useTheme();
   return (
