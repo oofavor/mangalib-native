@@ -12,8 +12,6 @@ const HomeScreen = ({ route }) => {
   return (
     <SpringScrollView>
       <PopularMangaUpdates />
-      <News />
-      <News />
       <MangaUpdates />
     </SpringScrollView>
   );

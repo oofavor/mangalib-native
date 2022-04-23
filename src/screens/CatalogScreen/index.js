@@ -1,30 +1,39 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, Text } from 'react-native';
 import MangaPreview from './MangaPreview';
 import { useNavigation } from '@react-navigation/native';
 import { optimizeHeavyScreen } from 'react-navigation-heavy-screen';
-import { getCatalog } from '../../services';
+import { getCatalog, getCatalogMetadata } from '../../services';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { WaterfallList } from 'react-native-largelist';
 import MangaPlaceholder from '../../components/Placeholder/MangaPlaceholder';
 import useTheme from '../../hooks/useTheme';
 import Animated, { FadeIn } from 'react-native-reanimated';
+import NavBar from './NavBar';
+import { CatalogContext } from './CatalogContext';
 const { width } = Dimensions.get('screen');
 const CatalogScreen = ({ route }) => {
   const ref = useRef();
   const navigation = useNavigation();
   const [manga, setManga] = useState([]);
   const [page, setPage] = useState(1);
-  const insets = useSafeAreaInsets();
   const [allLoaded, setAllLoaded] = useState(false);
+  const [config, setConfig] = useState({ sort: '-rating' });
 
   useEffect(() => {
     fetchMore();
+    getCatalogMetadata().then((res) => setConfig(res));
   }, []);
+
+  useEffect(() => {
+    setManga([]);
+    setPage(0);
+    fetchMore();
+  }, [config]);
 
   const fetchMore = () => {
     if (allLoaded) return;
-    getCatalog(page, 30).then((data) => {
+    getCatalog(page, 30, config).then((data) => {
       ref.current?.endLoading();
       setManga((e) => e.concat(data));
       if (data.length === 0) {
@@ -36,21 +45,18 @@ const CatalogScreen = ({ route }) => {
 
   return (
     <>
-      {allLoaded || manga.length !== 0 ? (
-        <WaterfallList
-          ref={ref}
-          data={manga}
-          heightForItem={() => 186}
-          renderItem={(item) => <MangaPreview manga={item} />}
-          onEndReached={fetchMore}
-          numColumns={3}
-          onLoading={fetchMore}
-          style={{ marginHorizontal: 4 }}
-          allLoaded={allLoaded}
-        />
-      ) : (
-        <Placeholder />
-      )}
+      <WaterfallList
+        ref={ref}
+        data={manga}
+        heightForItem={() => 186}
+        renderItem={(item) => <MangaPreview manga={item} />}
+        onEndReached={fetchMore}
+        numColumns={3}
+        onLoading={fetchMore}
+        style={{ marginHorizontal: 4 }}
+        allLoaded={allLoaded}
+      />
+      <NavBar setConfig={setConfig} config={config} />
     </>
   );
 };

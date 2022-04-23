@@ -3,29 +3,19 @@ import {  StyleSheet, View } from 'react-native';
 import { Checkbox, CheckboxThree, RippleButton } from '../../components/Button';
 import FilterInput from '../../components/Input/FilterInput';
 import {
-  Heading,
-  Text,
   TextPrimary,
   TextSecondary,
 } from '../../components/Text';
 import useTheme from '../../hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { optimizeHeavyScreen } from 'react-navigation-heavy-screen';
 import { SpringScrollView } from 'react-native-spring-scrollview';
-
 const FilterModal = (props) => {
   const { theme } = useTheme();
-  const navigation = useNavigation();
-
   return (
     <SpringScrollView
       style={{ flex: 1, backgroundColor: theme.foreground, padding: 7 }}
     >
-      <RippleButton
-        style={styles.navigateButtonContainer}
-        onPress={() => navigation.navigate('Filter/Genre')}
-      >
+      <RippleButton style={styles.navigateButtonContainer}>
         <TextPrimary size={14} weight={600}>
           Жанры
         </TextPrimary>
@@ -36,10 +26,7 @@ const FilterModal = (props) => {
           <MaterialIcons size={16} name="keyboard-arrow-right" />
         </View>
       </RippleButton>
-      <RippleButton
-        style={styles.navigateButtonContainer}
-        onPress={() => navigation.navigate('Filter/Tag')}
-      >
+      <RippleButton style={styles.navigateButtonContainer}>
         <TextPrimary size={14} weight={600}>
           Теги
         </TextPrimary>
@@ -328,4 +315,4 @@ const styles = StyleSheet.create({
     minWidth: '100%',
   },
 });
-export default optimizeHeavyScreen(FilterModal);
+export default FilterModal;

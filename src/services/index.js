@@ -25,9 +25,9 @@ export const getRecentTop = async () => {
   return data.content;
 };
 
-export const getCatalog = async (from, amount) => {
+export const getCatalog = async (from, amount, config = {}) => {
   const data = await getRequest(
-    `/api/search/catalog/?ordering=-rating&page=${from}&count=${amount}`
+    `/api/search/catalog/?ordering=${config.sort}&page=${from}&count=${amount}`
   );
   return data.content;
 };
@@ -102,4 +102,11 @@ export const getLatestChapters = async (page = 1, count = 20) => {
 
 export const getNotifications = async (count = 20) => {
   const notifications = `/api/users/notifications/?count=${count}&status=0&type=0`;
+};
+
+export const getCatalogMetadata = async () => {
+  const metadata = await getRequest(
+    '/api/forms/titles/?get=genres&get=categories&get=types&get=status&get=age_limit'
+  );
+  return metadata.content;
 };

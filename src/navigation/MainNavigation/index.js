@@ -10,7 +10,6 @@ import MangaReaderScreen from '../../screens/MangaReaderScreen';
 import TitleScreen from '../../screens/TitleScreen';
 import GenreModal from '../../screens/GenreModal';
 import TagModal from '../../screens/TagModal';
-import FilterModal from '../../screens/FilterModal';
 import LoginModal from '../../screens/LoginModal';
 
 import HomeNavigation from '../HomeNavigataion';
@@ -63,9 +62,6 @@ const MainNavigation = () => {
         options={screenOptions.mangaReaderScreen}
       />
       <Stack.Group screenOptions={screenOptions.modal}>
-        <Stack.Screen component={FilterModal} name="Filter" />
-        <Stack.Screen component={GenreModal} name="Filter/Genre" />
-        <Stack.Screen component={TagModal} name="Filter/Tag" />
         <Stack.Screen component={LoginModal} name="LoginModal" />
       </Stack.Group>
     </Stack.Navigator>

@@ -5,6 +5,7 @@ import MangaPreview from './MangaPreview';
 import Divider from './Divider';
 import { Section } from '../../../components/Container';
 import { getLatestChapters } from '../../../services';
+import { TextPrimary } from '../../../components/Text';
 
 // fake data, actuall data will be served later
 data = [
@@ -23,6 +24,9 @@ const MangaUpdates = () => {
   }, []);
   return (
     <Section>
+      <TextPrimary size={17} weight={600}>
+        Обновления Манги
+      </TextPrimary>
       {chapters.map((manga, idx) => (
         <View
           key={manga.id} // !!! change to item.id in the future
