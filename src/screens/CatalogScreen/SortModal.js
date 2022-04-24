@@ -25,10 +25,8 @@ const SortModal = ({ setSort, sort }) => {
     ],
     []
   );
+  const rotation = useSharedValue(sort.includes('-') ? '0deg' : '180deg');
   const [order, setOrder] = useState('-');
-  const [currentSort, setCurrentSort] = useState('rating');
-  const rotation = useSharedValue('0deg');
-
   const animatedStyles = useAnimatedStyle(() => {
     return {
       transform: [{ rotate: rotation.value }],

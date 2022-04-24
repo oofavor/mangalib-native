@@ -36,7 +36,8 @@ const MainNavigation = () => {
   return (
     <Stack.Navigator
       initialRouteName="HomeNavigation"
-      screenOptions={{
+      screenOptions={({ navigation }) => ({
+        detachPreviousScreen: !navigation.isFocused(),
         headerStyle: {
           backgroundColor: theme.backgroundHeader,
           height: 80,
@@ -45,7 +46,7 @@ const MainNavigation = () => {
         headerTitle: '',
         ...TransitionPresets.SlideFromRightIOS,
         headerRight: SearchIcon,
-      }}
+      })}
     >
       <Stack.Screen component={HomeNavigation} name="HomeNavigation" />
       <Stack.Screen component={TitleScreen} name="TitleScreen" />

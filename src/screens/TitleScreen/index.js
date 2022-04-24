@@ -5,7 +5,6 @@ import Loading from '../../components/Placeholder/Loading';
 import TitleNavigation from '../../navigation/TitleNavigation';
 import { useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
-
 const TitleScreen = ({ route }) => {
   const [manga, setManga] = useState();
   const navigation = useNavigation();
