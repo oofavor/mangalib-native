@@ -18,22 +18,33 @@ const CatalogScreen = ({ route }) => {
   const [manga, setManga] = useState([]);
   const [page, setPage] = useState(1);
   const [allLoaded, setAllLoaded] = useState(false);
-  const [config, setConfig] = useState({ sort: '-rating' });
+  const [config, setConfig] = useState();
+  const [sort, setSort] = useState('-rating');
+  const [include, setInclude] = useState([]);
+  const [exclude, setExclude] = useState([]);
 
   useEffect(() => {
     fetchMore();
-    getCatalogMetadata().then((res) => setConfig(res));
+    getCatalogMetadata().then((res) => {
+      for (const key in res) {
+        // settings type for each item
+        // for easier passing to fetchMore
+        res[key] = res[key].map((item) => ({ ...item, type: key }));
+      }
+
+      setConfig(res);
+    });
   }, []);
 
   useEffect(() => {
     setManga([]);
     setPage(0);
     fetchMore();
-  }, [config]);
+  }, [sort, include, exclude]);
 
   const fetchMore = () => {
     if (allLoaded) return;
-    getCatalog(page, 30, config).then((data) => {
+    getCatalog(page, 30, sort, include, exclude).then((data) => {
       ref.current?.endLoading();
       setManga((e) => e.concat(data));
       if (data.length === 0) {
@@ -56,7 +67,15 @@ const CatalogScreen = ({ route }) => {
         style={{ marginHorizontal: 4 }}
         allLoaded={allLoaded}
       />
-      <NavBar setConfig={setConfig} config={config} />
+      <NavBar
+        config={config}
+        setSort={setSort}
+        sort={sort}
+        setInclude={setInclude}
+        include={include}
+        setExclude={setExclude}
+        exclude={exclude}
+      />
     </>
   );
 };

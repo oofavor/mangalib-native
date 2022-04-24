@@ -25,9 +25,21 @@ export const getRecentTop = async () => {
   return data.content;
 };
 
-export const getCatalog = async (from, amount, config = {}) => {
+export const getCatalog = async (
+  from,
+  amount,
+  order,
+  include = [],
+  exclude = []
+) => {
+  const includeInfo = include
+    .map((item) => `${item.type}=${item.id}`)
+    .join('&');
+  const excludeInfo = exclude
+    .map((item) => `exclude_${item.type}=${item.id}`)
+    .join('&');
   const data = await getRequest(
-    `/api/search/catalog/?ordering=${config.sort}&page=${from}&count=${amount}`
+    `/api/search/catalog/?ordering=${order}&${includeInfo}&${excludeInfo}&page=${from}&count=${amount}`
   );
   return data.content;
 };

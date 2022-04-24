@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useMemo, useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Checkbox, CheckboxThree, RippleButton } from '../../components/Button';
 import FilterInput from '../../components/Input/FilterInput';
@@ -12,11 +12,63 @@ import useTheme from '../../hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { optimizeHeavyScreen } from 'react-navigation-heavy-screen';
-import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 
-const FilterModal = (props) => {
+const FilterModal = ({ setInclude, setExclude, include, exclude, config }) => {
   const { theme } = useTheme();
-  const navigation = useNavigation();
+  const includeItem = (item) => {
+    if (include.includes(item)) {
+      setInclude(include.filter((i) => i !== item));
+    } else {
+      setInclude([...include, item]);
+    }
+  };
+
+  const excludeItem = (item) => {
+    if (exclude.includes(item)) {
+      setExclude(exclude.filter((i) => i !== item));
+    } else {
+      setExclude([...exclude, item]);
+    }
+  };
+  const getCheckboxState = (item, handleThree = false) => {
+    if (!handleThree) {
+      return include.includes(item);
+    }
+    return include.includes(item)
+      ? 'yes'
+      : exclude.includes(item)
+      ? 'no'
+      : null;
+  };
+
+  const getCheckboxHandler = (item, handleThree = false) => {
+    const state = getCheckboxState(item, handleThree);
+    if (!handleThree) {
+      return includeItem(item);
+    }
+    if (state === 'yes') {
+      includeItem(item);
+      return excludeItem(item);
+    }
+    if (state === 'no') {
+      return excludeItem(item);
+    }
+    return includeItem(item);
+  };
+
+  const genreModalRef = useRef(null);
+  const tagModalRef = useRef(null);
+
+  const snapPoints = useMemo(() => ['25%', '50%', '75%'], []);
+
+  const genreModalShow = useCallback(() => {
+    genreModalRef.current?.present();
+  }, []);
+
+  const tagModalShow = useCallback(() => {
+    tagModalRef.current?.present();
+  }, []);
 
   return (
     <BottomSheetScrollView
@@ -24,85 +76,52 @@ const FilterModal = (props) => {
     >
       <RippleButton
         style={styles.navigateButtonContainer}
-        onPress={() => navigation.navigate('Filter/Genre')}
+        onPress={genreModalShow}
       >
         <TextPrimary size={14} weight={600}>
           Жанры
         </TextPrimary>
         <View style={styles.navigateButtonInfo}>
           <TextSecondary numberOfLines={1} style={styles.navigateButtonChosen}>
-            ЛюбыеЛюбыеЛюбыеЛюбыеЛюбыеЛюбыеЛюбыеЛюбые,Любые
+            {`${include
+              .filter((item) => item.type === 'genres')
+              .map((item) => item.name)}`}
           </TextSecondary>
           <MaterialIcons size={16} name="keyboard-arrow-right" />
         </View>
       </RippleButton>
       <RippleButton
         style={styles.navigateButtonContainer}
-        onPress={() => navigation.navigate('Filter/Tag')}
+        onPress={tagModalShow}
       >
         <TextPrimary size={14} weight={600}>
           Теги
         </TextPrimary>
         <View style={styles.navigateButtonInfo}>
           <TextSecondary numberOfLines={1} style={styles.navigateButtonChosen}>
-            ЛюбыеЛюбыеЛюбыеЛюбыеЛюбыеЛюбыеЛюбыеЛюбые,Любые
+            {`${include
+              .filter((item) => item.type === 'categories')
+              .map((item) => item.name)}`}
           </TextSecondary>
           <MaterialIcons size={16} name="keyboard-arrow-right" />
         </View>
       </RippleButton>
       <View style={styles.sectionContainer}>
         <TextPrimary size={14} weight={600}>
-          Количество Глав
-        </TextPrimary>
-        <View style={styles.inputGroup}>
-          <FilterInput keyboardType="numeric" placeholder="От" />
-          <TextPrimary style={{ color: theme.textMuted, marginHorizontal: 10 }}>
-            —
-          </TextPrimary>
-          <FilterInput keyboardType="numeric" placeholder="До" />
-        </View>
-      </View>
-      <View style={styles.sectionContainer}>
-        <TextPrimary size={14} weight={600}>
-          Год Выпуска
-        </TextPrimary>
-        <View style={styles.inputGroup}>
-          <FilterInput keyboardType="numeric" placeholder="От" />
-          <TextPrimary style={{ color: theme.textMuted, marginHorizontal: 10 }}>
-            —
-          </TextPrimary>
-          <FilterInput keyboardType="numeric" placeholder="До" />
-        </View>
-      </View>
-      <View style={styles.sectionContainer}>
-        <TextPrimary size={14} weight={600}>
-          Оценка
-        </TextPrimary>
-        <View style={styles.inputGroup}>
-          <FilterInput keyboardType="numeric" placeholder="От" />
-          <TextPrimary style={{ color: theme.textMuted, marginHorizontal: 10 }}>
-            —
-          </TextPrimary>
-          <FilterInput keyboardType="numeric" placeholder="До" />
-        </View>
-      </View>
-      <View style={styles.sectionContainer}>
-        <TextPrimary size={14} weight={600}>
           Возрастной рейтинг
         </TextPrimary>
         <View style={styles.checkboxGroup}>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox25pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>16+</TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox25pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>18+</TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox25pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>Отсутствует</TextPrimary>
-          </RippleButton>
+          {config['age_limit'].map((item) => (
+            <RippleButton
+              style={[styles.checkboxContainer, styles.checkbox25pc]}
+              onPress={() => getCheckboxHandler(item)}
+            >
+              <Checkbox state={getCheckboxState(item)} />
+              <TextPrimary style={styles.checkboxTitle}>
+                {item.name}
+              </TextPrimary>
+            </RippleButton>
+          ))}
         </View>
       </View>
       <View style={styles.sectionContainer}>
@@ -110,92 +129,17 @@ const FilterModal = (props) => {
           Тип
         </TextPrimary>
         <View style={styles.checkboxGroup}>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox50pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>Манга</TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox50pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>OEL-манга</TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox50pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>Манхва</TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox50pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>Маньхуа</TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox50pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>Руманга</TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox50pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>
-              Комикс западный
-            </TextPrimary>
-          </RippleButton>
-        </View>
-      </View>
-      <View style={styles.sectionContainer}>
-        <TextPrimary size={14} weight={600}>
-          Формат выпускаа
-        </TextPrimary>
-        <View style={styles.checkboxGroup}>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox50pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>
-              4-кома (Ёнкома)
-            </TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox50pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>Сборник</TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox50pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>Додзинси</TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox50pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>В цвете</TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox50pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>Сингл</TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox50pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>Веб</TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox50pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>Вебтун</TextPrimary>
-          </RippleButton>
-        </View>
-      </View>
-      <View style={styles.sectionContainer}>
-        <TextPrimary size={14} weight={600}>
-          Статус перевода
-        </TextPrimary>
-        <View style={styles.checkboxGroup}>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox50pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>Продолжается</TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox50pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>Завершен</TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox50pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>Заморожен</TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox50pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>Заброшен</TextPrimary>
-          </RippleButton>
+          {config['types'].map((item) => (
+            <RippleButton
+              style={[styles.checkboxContainer, styles.checkbox50pc]}
+              onPress={() => getCheckboxHandler(item, true)}
+            >
+              <CheckboxThree state={getCheckboxState(item, true)} />
+              <TextPrimary style={styles.checkboxTitle}>
+                {item.name}
+              </TextPrimary>
+            </RippleButton>
+          ))}
         </View>
       </View>
       <View style={styles.sectionContainer}>
@@ -203,78 +147,68 @@ const FilterModal = (props) => {
           Статус тайтла
         </TextPrimary>
         <View style={styles.checkboxGroup}>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox50pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>Онгоинг</TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox50pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>Завершен</TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox50pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>Анонс</TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox50pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>
-              Приостановлен
-            </TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox50pc]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>
-              Выпуск завершен
-            </TextPrimary>
-          </RippleButton>
+          {config['status'].map((item) => (
+            <RippleButton
+              style={[styles.checkboxContainer, styles.checkbox50pc]}
+              onPress={() => getCheckboxHandler(item)}
+            >
+              <Checkbox state={getCheckboxState(item)} />
+              <TextPrimary style={styles.checkboxTitle}>
+                {item.name}
+              </TextPrimary>
+            </RippleButton>
+          ))}
         </View>
       </View>
-      <View style={styles.sectionContainer}>
-        <TextPrimary size={14} weight={600}>
-          Статус тайтла
-        </TextPrimary>
-        <View style={styles.checkboxGroup}>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox100]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>
-              Нет перевода уже 3 месяца
+      <BottomSheetModal
+        ref={genreModalRef}
+        index={1}
+        snapPoints={snapPoints}
+        style={{ padding: 7 }}
+      >
+        <BottomSheetScrollView>
+          <View style={styles.sectionContainer}>
+            <TextPrimary size={14} weight={600}>
+              Жанры
             </TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox100]}>
-            <Checkbox />
-            <TextPrimary style={styles.checkboxTitle}>
-              Лицензировано
+            <View style={styles.checkboxGroup}>
+              {config['genres'].map((item) => (
+                <RippleButton
+                  style={[styles.checkboxContainer, { flexBasis: '100%' }]}
+                  onPress={() => getCheckboxHandler(item, true)}
+                >
+                  <CheckboxThree state={getCheckboxState(item, true)} />
+                  <TextPrimary style={styles.checkboxTitle}>
+                    {item.name}
+                  </TextPrimary>
+                </RippleButton>
+              ))}
+            </View>
+          </View>
+        </BottomSheetScrollView>
+      </BottomSheetModal>
+      <BottomSheetModal ref={tagModalRef} index={1} snapPoints={snapPoints}>
+        <BottomSheetScrollView style={{ padding: 7 }}>
+          <View style={styles.sectionContainer}>
+            <TextPrimary size={14} weight={600}>
+              Теги
             </TextPrimary>
-          </RippleButton>
-        </View>
-      </View>
-      <View style={styles.sectionContainer}>
-        <TextPrimary size={14} weight={600}>
-          Мои списки
-        </TextPrimary>
-        <View style={styles.checkboxGroup}>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox100]}>
-            <CheckboxThree />
-            <TextPrimary style={styles.checkboxTitle}>Читаю</TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox100]}>
-            <CheckboxThree />
-            <TextPrimary style={styles.checkboxTitle}>В планах</TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox100]}>
-            <CheckboxThree />
-            <TextPrimary style={styles.checkboxTitle}>Брошено</TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox100]}>
-            <CheckboxThree />
-            <TextPrimary style={styles.checkboxTitle}>Прочитано</TextPrimary>
-          </RippleButton>
-          <RippleButton style={[styles.checkboxContainer, styles.checkbox100]}>
-            <CheckboxThree />
-            <TextPrimary style={styles.checkboxTitle}>Любимые</TextPrimary>
-          </RippleButton>
-        </View>
-      </View>
+            <View style={styles.checkboxGroup}>
+              {config['categories'].map((item) => (
+                <RippleButton
+                  style={[styles.checkboxContainer, { flexBasis: '100%' }]}
+                  onPress={() => getCheckboxHandler(item, true)}
+                >
+                  <CheckboxThree state={getCheckboxState(item, true)} />
+                  <TextPrimary style={styles.checkboxTitle}>
+                    {item.name}
+                  </TextPrimary>
+                </RippleButton>
+              ))}
+            </View>
+          </View>
+        </BottomSheetScrollView>
+      </BottomSheetModal>
     </BottomSheetScrollView>
   );
 };
@@ -319,13 +253,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   checkbox50pc: {
-    minWidth: '50%',
+    flexBasis: '50%',
   },
   checkbox25pc: {
-    minWidth: '25%',
+    flexBasis: '25%',
   },
   checkbox100: {
-    minWidth: '100%',
+    flexBasis: '100%',
   },
 });
 export default optimizeHeavyScreen(FilterModal);

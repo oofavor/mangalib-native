@@ -11,7 +11,15 @@ import {
 import FilterModal from './FilterModal';
 import SortModal from './SortModal';
 
-const NavBar = ({ config, setConfig }) => {
+const NavBar = ({
+  setSort,
+  sort,
+  setInclude,
+  include,
+  setExclude,
+  exclude,
+  config,
+}) => {
   const { theme } = useTheme();
   const filterModalRef = useRef(null);
   const sortModalRef = useRef(null);
@@ -49,7 +57,6 @@ const NavBar = ({ config, setConfig }) => {
             justifyContent: 'center',
           }}
           onPress={() => {
-            console.log('sort modal');
             sortModalShow();
           }}
         >
@@ -67,7 +74,6 @@ const NavBar = ({ config, setConfig }) => {
         </BlankButton>
         <BlankButton
           onPress={() => {
-            console.log('filter modal');
             filterModalShow();
           }}
           style={{
@@ -93,20 +99,26 @@ const NavBar = ({ config, setConfig }) => {
         </BlankButton>
       </View>
       <BottomSheetModal
-        ref={filterModalRef}
-        index={1}
-        snapPoints={snapPoints}
-        onChange={handleSheetChanges}
-      >
-        <FilterModal config={config} setConfig={setConfig} />
-      </BottomSheetModal>
-      <BottomSheetModal
         ref={sortModalRef}
         index={1}
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
       >
-        <SortModal config={config} setConfig={setConfig} />
+        <SortModal setSort={setSort} sort={sort} />
+      </BottomSheetModal>
+      <BottomSheetModal
+        ref={filterModalRef}
+        index={1}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}
+      >
+        <FilterModal
+          include={include}
+          setInclude={setInclude}
+          exclude={exclude}
+          setExclude={setExclude}
+          config={config}
+        />
       </BottomSheetModal>
     </BottomSheetModalProvider>
   );

@@ -1,21 +1,31 @@
 import React from 'react';
-import {  StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Checkbox, CheckboxThree, RippleButton } from '../../components/Button';
 import FilterInput from '../../components/Input/FilterInput';
 import {
+  Heading,
+  Text,
   TextPrimary,
   TextSecondary,
 } from '../../components/Text';
 import useTheme from '../../hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
-import { SpringScrollView } from 'react-native-spring-scrollview';
+import { useNavigation } from '@react-navigation/native';
+import { optimizeHeavyScreen } from 'react-navigation-heavy-screen';
+import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+
 const FilterModal = (props) => {
   const { theme } = useTheme();
+  const navigation = useNavigation();
+
   return (
-    <SpringScrollView
+    <BottomSheetScrollView
       style={{ flex: 1, backgroundColor: theme.foreground, padding: 7 }}
     >
-      <RippleButton style={styles.navigateButtonContainer}>
+      <RippleButton
+        style={styles.navigateButtonContainer}
+        onPress={() => navigation.navigate('Filter/Genre')}
+      >
         <TextPrimary size={14} weight={600}>
           Жанры
         </TextPrimary>
@@ -26,7 +36,10 @@ const FilterModal = (props) => {
           <MaterialIcons size={16} name="keyboard-arrow-right" />
         </View>
       </RippleButton>
-      <RippleButton style={styles.navigateButtonContainer}>
+      <RippleButton
+        style={styles.navigateButtonContainer}
+        onPress={() => navigation.navigate('Filter/Tag')}
+      >
         <TextPrimary size={14} weight={600}>
           Теги
         </TextPrimary>
@@ -262,7 +275,7 @@ const FilterModal = (props) => {
           </RippleButton>
         </View>
       </View>
-    </SpringScrollView>
+    </BottomSheetScrollView>
   );
 };
 
@@ -315,4 +328,4 @@ const styles = StyleSheet.create({
     minWidth: '100%',
   },
 });
-export default FilterModal;
+export default optimizeHeavyScreen(FilterModal);

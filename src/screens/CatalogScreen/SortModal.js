@@ -11,7 +11,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import useTheme from '../../hooks/useTheme';
 
-const SortModal = ({ setConfig }) => {
+const SortModal = ({ setSort, sort }) => {
   const { theme } = useTheme();
   const ordering = useMemo(
     () => [
@@ -36,21 +36,15 @@ const SortModal = ({ setConfig }) => {
   });
 
   const handlePress = (value) => {
-    if (value.value === currentSort) {
-      setConfig((e) => ({
-        ...e,
-        sort: (order === '-' ? '' : '-') + value.value,
-      }));
+    if (value.value === sort.replace('-', '')) {
+      setSort((order === '-' ? '' : '-') + value.value);
       rotation.value = withTiming(order === '' ? '0deg' : '180deg');
       setOrder(order === '-' ? '' : '-');
     } else {
       setOrder('-');
-      setCurrentSort(value.value);
+      setSort(value.value);
       rotation.value = '0deg';
-      setConfig((e) => ({
-        ...e,
-        sort: '-' + value.value,
-      }));
+      setSort('-' + value.value);
     }
   };
 
@@ -73,7 +67,7 @@ const SortModal = ({ setConfig }) => {
             <TextPrimary size={16} weight={400}>
               {item.text}
             </TextPrimary>
-            {item.value === currentSort && (
+            {item.value === sort.replace('-', '') && (
               <Animated.View style={animatedStyles}>
                 <MaterialIcons name="sort" size={18} />
               </Animated.View>
