@@ -1,6 +1,10 @@
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import { TextPrimary, TextSecondary, Heading } from '../../../../components/Text';
+import {
+  TextPrimary,
+  TextSecondary,
+  Heading,
+} from '../../../../components/Text';
 import { MaterialIcons } from '@expo/vector-icons';
 import useTheme from '../../../../hooks/useTheme';
 import { useManga } from '../../MangaContext';
@@ -23,11 +27,18 @@ const MediaInfo = () => {
       <TouchableOpacity style={{ alignItems: 'center' }}>
         <Heading
           size={20}
-          style={{ alignSelf: 'center', marginBottom: 2, fontSize: 20 }}
+          style={{
+            alignSelf: 'center',
+            marginBottom: 2,
+            fontSize: 20,
+            textAlign: 'center',
+          }}
         >
           {manga?.rus_name}
         </Heading>
-        <TextPrimary size={14}>{manga?.en_name}</TextPrimary>
+        <TextPrimary size={14} style={{ textAlign: 'center' }}>
+          {manga?.en_name}
+        </TextPrimary>
       </TouchableOpacity>
       <View style={{ marginTop: 8, flexDirection: 'row' }}>
         <TextSecondary

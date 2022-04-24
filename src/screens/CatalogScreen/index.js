@@ -4,14 +4,12 @@ import MangaPreview from './MangaPreview';
 import { useNavigation } from '@react-navigation/native';
 import { optimizeHeavyScreen } from 'react-navigation-heavy-screen';
 import { getCatalog, getCatalogMetadata } from '../../services';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { WaterfallList } from 'react-native-largelist';
 import MangaPlaceholder from '../../components/Placeholder/MangaPlaceholder';
 import useTheme from '../../hooks/useTheme';
-import Animated, { FadeIn } from 'react-native-reanimated';
 import NavBar from './NavBar';
-import { CatalogContext } from './CatalogContext';
 const { width } = Dimensions.get('screen');
+
 const CatalogScreen = ({ route }) => {
   const ref = useRef();
   const navigation = useNavigation();
@@ -24,21 +22,20 @@ const CatalogScreen = ({ route }) => {
   const [exclude, setExclude] = useState([]);
 
   useEffect(() => {
-    fetchMore();
     getCatalogMetadata().then((res) => {
       for (const key in res) {
         // settings type for each item
         // for easier passing to fetchMore
         res[key] = res[key].map((item) => ({ ...item, type: key }));
       }
-
       setConfig(res);
     });
   }, []);
 
   useEffect(() => {
     setManga([]);
-    setPage(0);
+    setAllLoaded(false);
+    setPage(1);
     fetchMore();
   }, [sort, include, exclude]);
 

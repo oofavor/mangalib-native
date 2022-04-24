@@ -9,16 +9,26 @@ import {
 import { getChapter } from '../../services';
 import WebView from 'react-native-webview';
 import { exitFullscreenMode, fullscreenMode } from '../../utils/uiModes';
+import Toast from 'react-native-toast-message';
+import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('screen');
 const MangaReader = ({ route }) => {
   const [images, setImages] = useState([]);
-
+  const navigation = useNavigation();
   useEffect(() => {
     fullscreenMode();
-    getChapter(route?.params.chapter).then((e) =>
-      setImages(e.pages.flat(Infinity))
-    );
+    getChapter(route?.params.chapter).then((e) => {
+      if (e.error) {
+        console.log(e.msg);
+        Toast.show({
+          type: 'error',
+          text1: e.msg,
+        });
+        return navigation.goBack();
+      }
+      setImages(e.pages.flat(Infinity));
+    });
     return exitFullscreenMode;
   }, []);
 

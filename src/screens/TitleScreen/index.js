@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { optimizeHeavyScreen } from 'react-navigation-heavy-screen';
 import { getTitle } from '../../services';
 import { MangaContext } from './MangaContext';
 import Loading from '../../components/Placeholder/Loading';
 import TitleNavigation from '../../navigation/TitleNavigation';
+import { useNavigation } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 
 const TitleScreen = ({ route }) => {
   const [manga, setManga] = useState();
-
+  const navigation = useNavigation();
   useEffect(() => {
-    getTitle(route.params.title).then((data) => setManga(data));
+    getTitle(route.params.title).then((data) => {
+      if (data.error) {
+        Toast.show({
+          type: 'error',
+          text1: data.msg,
+        });
+        return navigation.goBack();
+      }
+      setManga(data);
+    });
   }, []);
 
   return (

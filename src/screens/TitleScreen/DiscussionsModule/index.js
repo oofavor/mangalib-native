@@ -1,18 +1,17 @@
 import React from 'react';
-import { SpringScrollView } from 'react-native-spring-scrollview';
+import { ScrollView } from 'react-native';
 import { Section } from '../../../components/Container';
 import Discussion from './Discussion';
-
 const DiscussionsModule = (props) => {
   return (
-    <SpringScrollView>
+    <ScrollView>
       <Section>
         <Discussion />
         <Discussion />
         <Discussion />
         <Discussion />
       </Section>
-    </SpringScrollView>
+    </ScrollView>
   );
 };
 

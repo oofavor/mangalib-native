@@ -1,14 +1,14 @@
 import React from 'react';
-import { SpringScrollView } from 'react-native-spring-scrollview';
+import { ScrollView } from 'react-native';
 import MangaUpdates from './MangaUpdates';
 import PopularMangaUpdates from './PopularMangaUpdates';
 
 const HomeScreen = () => {
   return (
-    <SpringScrollView>
+    <ScrollView>
       <PopularMangaUpdates />
       <MangaUpdates />
-    </SpringScrollView>
+    </ScrollView>
   );
 };
 

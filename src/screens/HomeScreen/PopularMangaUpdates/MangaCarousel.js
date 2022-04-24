@@ -9,21 +9,26 @@ const MangaCarousel = () => {
   const [manga, setManga] = useState([]);
 
   useEffect(() => {
-    getRecentTop().then((data) => setManga(data));
+    getRecentTop().then((data) => {
+      setManga(data);
+    });
   }, []);
 
   return (
     <ScrollView horizontal overScrollMode="never">
-      {manga.map((item) => (
-        <Animated.View
-          style={{ marginRight: 10 }}
-          key={item.id}
-          entering={FadeIn}
-        >
-          <MangaPreview manga={item} />
-        </Animated.View>
-      ))}
-      {manga.length === 0 && <Placeholder />}
+      {manga.length !== 0 ? (
+        manga.map((item) => (
+          <Animated.View
+            style={{ marginRight: 10 }}
+            key={item.id}
+            entering={FadeIn}
+          >
+            <MangaPreview manga={item} />
+          </Animated.View>
+        ))
+      ) : (
+        <Placeholder />
+      )}
     </ScrollView>
   );
 };

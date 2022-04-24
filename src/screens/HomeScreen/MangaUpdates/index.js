@@ -28,9 +28,7 @@ const MangaUpdates = () => {
         Обновления Манги
       </TextPrimary>
       {chapters.map((manga, idx) => (
-        <View
-          key={manga.id} // !!! change to item.id in the future
-        >
+        <View key={manga.id}>
           <MangaPreview manga={manga} />
           {idx !== data.length - 1 && <Divider />}
         </View>

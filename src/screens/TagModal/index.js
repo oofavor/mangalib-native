@@ -11,14 +11,17 @@ import {
 import useTheme from '../../hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { SpringScrollView } from 'react-native-spring-scrollview';
-
+import { ScrollView } from 'react-native';
 const TagModal = (props) => {
   const { theme } = useTheme();
   const navigation = useNavigation();
   return (
-    <SpringScrollView
-      style={{ flex: 1, backgroundColor: theme.foreground, padding: 7 }}
+    <ScrollView
+      contentContainerStyle={{
+        flex: 1,
+        backgroundColor: theme.foreground,
+        padding: 7,
+      }}
     >
       <View
         style={[
@@ -30,7 +33,7 @@ const TagModal = (props) => {
           Популярные
         </TextPrimary>
       </View>
-    </SpringScrollView>
+    </ScrollView>
   );
 };
 

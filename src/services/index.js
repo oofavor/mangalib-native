@@ -3,13 +3,8 @@ import { getToken } from '../utils/loginStorage';
 
 const getRequest = async (request) => {
   const token = await getAuthorization();
-  const headers = {
-    Authorization: token,
-    userAgent:
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.79 Safari/537.36',
-  };
 
-  const res = await fetch(baseUrl + request, { headers });
+  const res = await fetch(baseUrl + request);
   const data = await res.json();
   return data;
 };
@@ -46,6 +41,9 @@ export const getCatalog = async (
 
 export const getTitle = async (title) => {
   const data = await getRequest(`/api/titles/${title}/`);
+  if (data.content.length === 0) {
+    return { error: true, msg: data.msg };
+  }
   return data.content;
 };
 
@@ -58,6 +56,9 @@ export const getChapters = async (branchId, page = 1) => {
 
 export const getChapter = async (chapterId) => {
   const data = await getRequest(`/api/titles/chapters/${chapterId}`);
+  if (data.content['is_paid']) {
+    return { error: true, msg: data.msg };
+  }
   return data.content;
 };
 

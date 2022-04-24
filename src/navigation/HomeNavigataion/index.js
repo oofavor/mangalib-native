@@ -4,9 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import useTheme from '../../hooks/useTheme';
-import TabButton from './TabButton';
 import HomeScreen from '../../screens/HomeScreen';
-import { Stab } from '../../components/Placeholder';
 import CatalogScreen from '../../screens/CatalogScreen';
 import { MaterialIcons } from '@expo/vector-icons';
 import SettingsScreen from '../../screens/SettingsScreen';
@@ -20,6 +18,7 @@ const HomeNavigation = () => {
   const insets = useSafeAreaInsets();
   const { theme } = useTheme();
   const { isLogged } = useUser();
+
   return (
     <Tab.Navigator
       screenOptions={{

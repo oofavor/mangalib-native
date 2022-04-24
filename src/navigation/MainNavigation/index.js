@@ -8,8 +8,6 @@ import { CardStyleInterpolators } from '@react-navigation/stack';
 import SearchScreen from '../../screens/SearchScreen';
 import MangaReaderScreen from '../../screens/MangaReaderScreen';
 import TitleScreen from '../../screens/TitleScreen';
-import GenreModal from '../../screens/GenreModal';
-import TagModal from '../../screens/TagModal';
 import LoginModal from '../../screens/LoginModal';
 
 import HomeNavigation from '../HomeNavigataion';
@@ -38,7 +36,7 @@ const MainNavigation = () => {
   return (
     <Stack.Navigator
       initialRouteName="HomeNavigation"
-      screenOptions={({ route, navigation }) => ({
+      screenOptions={{
         headerStyle: {
           backgroundColor: theme.backgroundHeader,
           height: 80,
@@ -47,7 +45,7 @@ const MainNavigation = () => {
         headerTitle: '',
         ...TransitionPresets.SlideFromRightIOS,
         headerRight: SearchIcon,
-      })}
+      }}
     >
       <Stack.Screen component={HomeNavigation} name="HomeNavigation" />
       <Stack.Screen component={TitleScreen} name="TitleScreen" />
@@ -61,9 +59,11 @@ const MainNavigation = () => {
         name="MangaReaderScreen"
         options={screenOptions.mangaReaderScreen}
       />
-      <Stack.Group screenOptions={screenOptions.modal}>
-        <Stack.Screen component={LoginModal} name="LoginModal" />
-      </Stack.Group>
+      <Stack.Screen
+        component={LoginModal}
+        name="LoginModal"
+        options={screenOptions.modal}
+      />
     </Stack.Navigator>
   );
 };

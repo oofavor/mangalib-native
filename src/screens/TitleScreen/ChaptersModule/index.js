@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, View, Pressable } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { TextPrimary, TextSecondary } from '../../../components/Text';
 import useTheme from '../../../hooks/useTheme';
@@ -8,8 +8,8 @@ import Borderless from '../../../components/Button/Borderless';
 import { useNavigation } from '@react-navigation/native';
 import { useManga } from '../MangaContext';
 import { getChapters } from '../../../services';
-import { SpringScrollView } from 'react-native-spring-scrollview';
 import BlankButton from '../../../components/Button/BlankButton';
+import { ScrollView } from 'react-native';
 
 const ChaptersModule = () => {
   const manga = useManga();
@@ -26,7 +26,6 @@ const ChaptersModule = () => {
     if (manga?.branches) {
       getChapters(manga.branches[0].id, page).then((data) => {
         setChapters((e) => e.concat(data));
-        ref.current.endLoading();
         if (data.length === 0) setAllLoaded(true);
       });
       setPage((e) => e + 1);
@@ -38,11 +37,12 @@ const ChaptersModule = () => {
   );
 
   return (
-    <SpringScrollView
+    <ScrollView
       allLoaded={allLoaded}
       ref={ref}
       heightForIndexPath={(item, index) => 57}
       onEndReached={fetchMore}
+      onEndReachedThreshold={0.5}
       data={chapters}
       renderItem={renderItem}
       renderHeader={() => (
@@ -60,7 +60,7 @@ const ChaptersModule = () => {
       onLoading={fetchMore}
     >
       {chapters.map(renderItem)}
-    </SpringScrollView>
+    </ScrollView>
   );
 };
 
