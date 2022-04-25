@@ -4,7 +4,13 @@ import { getToken } from '../utils/loginStorage';
 const getRequest = async (request) => {
   const token = await getAuthorization();
 
-  const res = await fetch(baseUrl + request);
+  const headers = {
+    Authorization: token,
+    userAgent:
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.79 Safari/537.36',
+  };
+
+  const res = await fetch(baseUrl + request, { headers });
   const data = await res.json();
   return data;
 };
@@ -27,20 +33,24 @@ export const getCatalog = async (
   include = [],
   exclude = []
 ) => {
-  const includeInfo = include
-    .map((item) => `${item.type}=${item.id}`)
-    .join('&');
-  const excludeInfo = exclude
+  let includeInfo = include.map((item) => `${item.type}=${item.id}`).join('&');
+  let excludeInfo = exclude
     .map((item) => `exclude_${item.type}=${item.id}`)
     .join('&');
+  excludeInfo = excludeInfo ? `${excludeInfo}&` : '';
+  includeInfo = includeInfo ? `${includeInfo}&` : '';
+  console.log(
+    `/api/search/catalog/?${includeInfo}${excludeInfo}ordering=${order}&page=${from}&count=${amount}`
+  );
   const data = await getRequest(
-    `/api/search/catalog/?ordering=${order}&${includeInfo}&${excludeInfo}&page=${from}&count=${amount}`
+    `/api/search/catalog/?${includeInfo}${excludeInfo}ordering=${order}&page=${from}&salt=&count=${amount}`
   );
   return data.content;
 };
 
 export const getTitle = async (title) => {
   const data = await getRequest(`/api/titles/${title}/`);
+  console.log(data);
   if (data.content.length === 0) {
     return { error: true, msg: data.msg };
   }

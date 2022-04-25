@@ -34,9 +34,8 @@ const CatalogScreen = ({ route }) => {
 
   useEffect(() => {
     setManga([]);
-    setAllLoaded(false);
     setPage(1);
-    fetchMore();
+    setAllLoaded(false);
   }, [sort, include, exclude]);
 
   const fetchMore = () => {
@@ -44,11 +43,11 @@ const CatalogScreen = ({ route }) => {
     getCatalog(page, 30, sort, include, exclude).then((data) => {
       ref.current?.endLoading();
       setManga((e) => e.concat(data));
+      setPage((e) => e + 1);
       if (data.length === 0) {
         setAllLoaded(true);
       }
     });
-    setPage((e) => e + 1);
   };
 
   return (

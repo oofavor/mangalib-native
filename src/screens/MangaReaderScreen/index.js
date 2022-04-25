@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   Dimensions,
+  View,
 } from 'react-native';
 import { getChapter } from '../../services';
 import WebView from 'react-native-webview';
@@ -33,16 +34,16 @@ const MangaReader = ({ route }) => {
   }, []);
 
   return (
-    <WebView
-      startInLoadingState
-      scalesPageToFit={false}
-      renderToHardwareTextureAndroid
-      androidLayerType="hardware"
-      decelerationRate={0.991}
-      overScrollMode="never"
-      style={{ backgroundColor: 'black' }}
-      source={{
-        html: `<body style="display: flex; align-items: center; justify-content: center; flex-direction: column; min-height: 800px;">
+    <View style={{ flex: 1, overflow: 'hidden' }}>
+      <WebView
+        scalesPageToFit={false}
+        renderToHardwareTextureAndroid
+        androidLayerType="hardware"
+        decelerationRate={0.991}
+        overScrollMode="never"
+        style={{ backgroundColor: 'black' }}
+        source={{
+          html: `<body style="display: flex; align-items: center; justify-content: center; flex-direction: column; min-height: 800px;">
             ${images
               .map(
                 (item) =>
@@ -51,10 +52,11 @@ const MangaReader = ({ route }) => {
                   }" src=${item.link} loading="lazy"></img>`
               )
               .join('')}
-            </body>`,
-      }}
-      renderLoading={() => <ActivityIndicator color="#009b88" size="large" />}
-    />
+                  </body>`,
+        }}
+        renderLoading={() => <ActivityIndicator color="#009b88" size="large" />}
+      />
+    </View>
   );
 };
 export default MangaReader;
