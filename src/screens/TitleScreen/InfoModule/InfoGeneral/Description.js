@@ -1,51 +1,46 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, View, useWindowDimensions } from 'react-native';
+import { TouchableOpacity, View, StyleSheet } from 'react-native';
 import { TextPrimary } from '../../../../components/Text';
-import RenderHtml from 'react-native-render-html';
 import { useManga } from '../../MangaContext';
 
-const Description = (props) => {
+const Description = () => {
   const [numLines, setNumLines] = useState(4);
   const manga = useManga();
-  const { width } = useWindowDimensions();
 
   return (
-    <View
-      style={
-        {
-          // paddingTop: 5,
-          // marginBottom: 16
-        }
-      }
-    >
-      {/* <TextPrimary
+    <View style={styles.container}>
+      <TextPrimary
         size={14}
         numberOfLines={numLines}
-        ellipsizeMode={'clip'}
-        style={{ lineHeight: 21 }}
-      ></TextPrimary> */}
-      <RenderHtml
-        source={{
-          html: manga?.description?.replace(
-            '<p>',
-            '<p style="font-family: "OpenSans400">'
-          ),
-        }}
-        systemFonts={['OpenSans400']}
-        contentWidth={width - 32}
-      />
-
-      {/* <TouchableOpacity
-        onPress={() => {
-          setNumLines((e) => (e === 4 ? 0 : 4));
-        }}
+        ellipsizeMode="clip"
+        style={styles.text}
       >
-        <TextPrimary size={14} style={{ color: 'orange' }}>
+        {/* Replaces html tags with ASCII alternatives */}
+        {manga.description
+          .replace(/(<br \/>)/g, '\n')
+          .replace(/<p>/g, '')
+          .replace(/<\/p>/g, '')}
+      </TextPrimary>
+      <TouchableOpacity onPress={() => setNumLines((e) => (e === 4 ? 0 : 4))}>
+        <TextPrimary size={14} style={styles.buttonLabel}>
           {numLines === 4 ? 'Подробнее...' : 'Свернуть'}
         </TextPrimary>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 5,
+    marginBottom: 16,
+  },
+  text: {
+    lineHeight: 21,
+  },
+  buttonLabel: {
+    color: 'orange',
+  },
+});
 
 export default Description;

@@ -34,7 +34,7 @@ const TitleScreen = ({ route }) => {
   );
 };
 
-{
+
   /* <Segmented.View
   control={(props) => (
     <SegmentedControl
@@ -63,6 +63,6 @@ const TitleScreen = ({ route }) => {
   <Segmented.Segment label="Комментарии" component={Comments} />
   <Segmented.Segment label="Обсуждения" component={Discussions} />
 </Segmented.View>; */
-}
+
 
 export default TitleScreen;

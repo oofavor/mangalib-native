@@ -1,21 +1,30 @@
+import { useEffect, useState } from 'react';
 import { View, Image, ScrollView, Pressable, Text } from 'react-native';
 import { TextPrimary, TextSecondary } from '../../components/Text';
+import { baseUrl } from '../../constants/urls';
 import useTheme from '../../hooks/useTheme';
+import { getUserBookmarks } from '../../services';
 
 const ProfileScreen = () => {
   const { theme } = useTheme();
+  const [manga, setManga] = useState([]);
+  const [type, setType] = useState(0);
+
+  useEffect(() => {
+    getUserBookmarks(1, 30, type).then((res) => {
+      setManga(res);
+    });
+  }, [type]);
+
   return (
     <ScrollView>
       <Header />
       <SearchBar />
-      <Nav />
+      <Nav type={type} setType={setType} />
       <View style={{ backgroundColor: theme.foreground, marginTop: 4 }}>
-        <MangaPreview />
-        <MangaPreview />
-        <MangaPreview />
-        <MangaPreview />
-        <MangaPreview />
-        <MangaPreview />
+        {manga.map((item) => (
+          <MangaPreview manga={item} key={item.id} />
+        ))}
       </View>
     </ScrollView>
   );
@@ -95,7 +104,7 @@ const SearchBar = () => {
   return <View style={{ height: 39 }}></View>;
 };
 
-const Nav = () => {
+const Nav = ({ type, setType }) => {
   return (
     <ScrollView
       horizontal
@@ -103,27 +112,38 @@ const Nav = () => {
       overScrollMode="never"
       showsHorizontalScrollIndicator={false}
     >
-      <Tab num={194} active>
+      <Tab num={194} active={type === 0} onPress={() => setType(0)}>
         Все
       </Tab>
-      <Tab num={194}>Читаю</Tab>
-      <Tab num={194}>В планах</Tab>
-      <Tab num={194}>Брошено</Tab>
-      <Tab num={194}>Прочитано</Tab>
-      <Tab num={194}>Любимые</Tab>
+      <Tab num={194} active={type === 0} onPress={() => setType(0)}>
+        Читаю
+      </Tab>
+      <Tab num={194} active={type === 1} onPress={() => setType(1)}>
+        В планах
+      </Tab>
+      <Tab num={194} active={type === 3} onPress={() => setType(3)}>
+        Брошено
+      </Tab>
+      <Tab num={194} active={type === 2} onPress={() => setType(2)}>
+        Прочитано
+      </Tab>
+      <Tab num={194} active={type === 0} onPress={() => setType(0)}>
+        Любимые
+      </Tab>
     </ScrollView>
   );
 };
 
-const Tab = ({ children, num, active }) => {
+const Tab = ({ children, num, active, ...props }) => {
   const { theme } = useTheme();
   return (
-    <View
+    <Pressable
+      {...props}
       style={{
         paddingVertical: 7,
         paddingHorizontal: 10,
         borderRadius: 3,
-        backgroundColor: active && theme.foreground,
+        backgroundColor: active ? theme.foreground : 'transparent',
         flexDirection: 'row',
       }}
     >
@@ -139,13 +159,12 @@ const Tab = ({ children, num, active }) => {
       >
         {num}
       </TextPrimary>
-    </View>
+    </Pressable>
   );
 };
 
-const MangaPreview = () => {
+const MangaPreview = ({ manga }) => {
   const { theme } = useTheme();
-
   return (
     <View
       style={{
@@ -155,7 +174,7 @@ const MangaPreview = () => {
       }}
     >
       <Image
-        source={{ uri }}
+        source={{ uri: `${baseUrl}${manga.title.img.mid}` }}
         style={{ width: 60, height: 84, marginRight: 12, borderRadius: 3 }}
       />
       <View
@@ -175,17 +194,17 @@ const MangaPreview = () => {
             marginRight: 10,
           }}
         >
-          <Text style={{ marginRight: 5 }}>
+          <Text style={{ marginRight: 5 }} numberOfLines={2}>
             <TextPrimary weight={600} size={14}>
-              Реинкарнация учёного
+              {manga.title['rus_name']}
             </TextPrimary>
             <TextSecondary size={14}> / </TextSecondary>
             <TextSecondary size={12} weight={400}>
-              Hagsajaesaeng
+              {manga.title['en_name']}
             </TextSecondary>
           </Text>
           <TextPrimary size={12} style={{ marginTop: 5 }}>
-            Последняя глава 198
+            Последняя глава {manga.title['count_chapters']}
           </TextPrimary>
           <View
             style={{
@@ -194,7 +213,10 @@ const MangaPreview = () => {
               justifyContent: 'space-between',
             }}
           >
-            <TextSecondary>Продолжить [3-100]</TextSecondary>
+            <TextSecondary>
+              Продолжить [{manga['read_progress']}-
+              {manga['read_progress_total']}]
+            </TextSecondary>
             <TextPrimary>$</TextPrimary>
           </View>
         </View>
@@ -202,4 +224,5 @@ const MangaPreview = () => {
     </View>
   );
 };
+
 export default ProfileScreen;
