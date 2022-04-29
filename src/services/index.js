@@ -50,7 +50,6 @@ export const getCatalog = async (
 
 export const getTitle = async (title) => {
   const data = await getRequest(`/api/titles/${title}/`);
-  console.log(data);
   if (data.content.length === 0) {
     return { error: true, msg: data.msg };
   }

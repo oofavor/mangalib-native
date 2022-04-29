@@ -26,6 +26,8 @@
     "expo-splash-screen": "~0.14.1",
     "expo-status-bar": "~1.2.0",
     "faker": "^5.5.3",
+    "html-entities": "^2.3.3",
+    "html-to-text": "^8.2.0",
     "lottie-ios": "3.2.3",
     "lottie-react-native": "^5.0.1",
     "moment": "^2.29.3",

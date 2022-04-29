@@ -10,6 +10,7 @@ import { useManga } from '../MangaContext';
 import { getChapters } from '../../../services';
 import BlankButton from '../../../components/Button/BlankButton';
 import { ScrollView } from 'react-native';
+import moment from 'moment';
 
 const ChaptersModule = () => {
   const manga = useManga();
@@ -67,7 +68,6 @@ const ChaptersModule = () => {
 const ChapterPreview = ({ chapter }) => {
   const navigation = useNavigation();
   const { theme } = useTheme();
-
   return (
     <View
       style={{
@@ -94,7 +94,7 @@ const ChapterPreview = ({ chapter }) => {
           </TextPrimary>
           <View style={styles.dataContainer}>
             <TextSecondary size={13}>
-              {new Date(chapter.upload_date).toLocaleDateString()}
+              {moment(new Date(chapter.upload_date)).locale('ru').fromNow()}
             </TextSecondary>
             <View style={styles.userContainer}>
               <MaterialIcons name="verified-user" color={theme.textMuted} />
@@ -116,6 +116,7 @@ const ChapterPreview = ({ chapter }) => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     height: 55,
@@ -153,4 +154,5 @@ const styles = StyleSheet.create({
     padding: 5,
   },
 });
+
 export default ChaptersModule;

@@ -71,7 +71,6 @@ const MangaPreview = ({ manga }) => {
       }}
       onPress={() => {
         console.log(manga.dir);
-
         navigate.push('Manga', { title: manga.dir });
       }}
     >

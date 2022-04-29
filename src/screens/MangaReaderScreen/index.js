@@ -21,7 +21,6 @@ const MangaReader = ({ route }) => {
     fullscreenMode();
     getChapter(route?.params.chapter).then((e) => {
       if (e.error) {
-        console.log(e.msg);
         Toast.show({
           type: 'error',
           text1: e.msg,

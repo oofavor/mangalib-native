@@ -1,5 +1,4 @@
-import React, { useEffect, useRef } from 'react';
-import { Animated } from 'react-native';
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -52,7 +51,7 @@ const HomeNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="Search"
+        name="CatalogScreen"
         component={CatalogScreen}
         options={{
           tabBarShowLabel: false,
@@ -111,7 +110,7 @@ const HomeNavigation = () => {
       />
       {isLogged ? (
         <Tab.Screen
-          name="Profile"
+          name="ProfileScreen"
           component={ProfileScreen}
           options={{
             tabBarShowLabel: false,

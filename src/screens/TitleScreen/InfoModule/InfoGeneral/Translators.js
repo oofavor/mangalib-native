@@ -6,9 +6,8 @@ import { Heading, TextPrimary } from '../../../../components/Text';
 import { baseUrl } from '../../../../constants/urls';
 import useTheme from '../../../../hooks/useTheme';
 import { useManga } from '../../MangaContext';
-const rndurl =
-  'https://staticlib.me/uploads/team/korporaciya-x/cover/sVyhjh8ZJKNC_250x350.jpg?';
-const Translators = (props) => {
+
+const Translators = () => {
   const { theme } = useTheme();
   const manga = useManga();
   return (
@@ -17,6 +16,7 @@ const Translators = (props) => {
       <View style={styles.container} horizontal>
         {manga.publishers.map((item) => (
           <RippleButton
+            key={item.id} // todo
             style={[
               styles.chip,
               { backgroundColor: theme.backgroundElevated2 },

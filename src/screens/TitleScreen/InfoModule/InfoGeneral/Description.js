@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { TouchableOpacity, View, StyleSheet } from 'react-native';
 import { TextPrimary } from '../../../../components/Text';
 import { useManga } from '../../MangaContext';
+import { decode } from 'html-entities';
 
 const Description = () => {
   const [numLines, setNumLines] = useState(4);
   const manga = useManga();
-
+  console.log();
   return (
     <View style={styles.container}>
       <TextPrimary
@@ -16,10 +17,14 @@ const Description = () => {
         style={styles.text}
       >
         {/* Replaces html tags with ASCII alternatives */}
-        {manga.description
+        {decode(manga.description)
+          .replace(/\r\n/g, '<br />')
           .replace(/(<br \/>)/g, '\n')
+          .replace(/\n+/g, '\n')
           .replace(/<p>/g, '')
-          .replace(/<\/p>/g, '')}
+          .replace(/<\/p>/g, '')
+          .replace(/<strong>/g, '')
+          .replace(/<\/strong>/g, '')}
       </TextPrimary>
       <TouchableOpacity onPress={() => setNumLines((e) => (e === 4 ? 0 : 4))}>
         <TextPrimary size={14} style={styles.buttonLabel}>

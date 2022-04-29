@@ -1,18 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Dimensions, Text } from 'react-native';
+import { View, Dimensions, ActivityIndicator } from 'react-native';
 import MangaPreview from './MangaPreview';
-import { useNavigation } from '@react-navigation/native';
 import { optimizeHeavyScreen } from 'react-navigation-heavy-screen';
 import { getCatalog, getCatalogMetadata } from '../../services';
-import { WaterfallList } from 'react-native-largelist';
-import MangaPlaceholder from '../../components/Placeholder/MangaPlaceholder';
-import useTheme from '../../hooks/useTheme';
 import NavBar from './NavBar';
-const { width } = Dimensions.get('screen');
+import {
+  DataProvider,
+  LayoutProvider,
+  RecyclerListView,
+} from 'recyclerlistview';
+const screenWidth = Dimensions.get('window').width - 10;
 
 const CatalogScreen = ({ route }) => {
-  const ref = useRef();
-  const navigation = useNavigation();
   const [manga, setManga] = useState([]);
   const [page, setPage] = useState(1);
   const [allLoaded, setAllLoaded] = useState(false);
@@ -20,8 +19,24 @@ const CatalogScreen = ({ route }) => {
   const [sort, setSort] = useState('-rating');
   const [include, setInclude] = useState([]);
   const [exclude, setExclude] = useState([]);
+  const [inProgressNetworkReq, setInProgressNetworkReq] = useState(false);
+  const [dataProvider, setDataProvider] = useState(
+    new DataProvider((r1, r2) => {
+      return r1 !== r2;
+    })
+  );
+  const [layoutProvider, setLayoutProvider] = useState(
+    new LayoutProvider(
+      () => 'VSEL',
+      (_, dim) => {
+        dim.width = screenWidth / 3;
+        dim.height = 186;
+      }
+    )
+  );
 
   useEffect(() => {
+    fetchMore();
     getCatalogMetadata().then((res) => {
       for (const key in res) {
         // settings type for each item
@@ -33,35 +48,59 @@ const CatalogScreen = ({ route }) => {
   }, []);
 
   useEffect(() => {
+    if (route.params?.include) {
+      setInclude(route.params.include);
+      setExclude([]);
+      setPage(1);
+      setSort('-rating');
+      setManga([]);
+      setDataProvider(dataProvider.cloneWithRows([]));
+    }
+  }, [route.params]);
+
+  useEffect(() => {
     setManga([]);
+    setDataProvider(dataProvider.cloneWithRows([]));
     setPage(1);
     setAllLoaded(false);
   }, [sort, include, exclude]);
 
   const fetchMore = () => {
     if (allLoaded) return;
-    getCatalog(page, 30, sort, include, exclude).then((data) => {
-      ref.current?.endLoading();
-      setManga((e) => e.concat(data));
-      setPage((e) => e + 1);
-      if (data.length === 0) {
-        setAllLoaded(true);
-      }
-    });
+    if (!inProgressNetworkReq) {
+      setInProgressNetworkReq(true);
+      getCatalog(page, 50, sort, include, exclude).then((data) => {
+        setInProgressNetworkReq(false);
+        setManga((e) => e.concat(data));
+        setDataProvider(dataProvider.cloneWithRows(manga.concat(data)));
+        setPage((e) => e + 1);
+        if (data.length === 0) {
+          setAllLoaded(true);
+        }
+      });
+    }
+  };
+
+  const rowRenderer = (_, data) => <MangaPreview manga={data} />;
+
+  const renderFooter = () => {
+    return inProgressNetworkReq ? (
+      <ActivityIndicator style={{ margin: 10 }} size="large" color={'black'} />
+    ) : (
+      <View style={{ height: 60 }} />
+    );
   };
 
   return (
     <>
-      <WaterfallList
-        ref={ref}
-        data={manga}
-        heightForItem={() => 186}
-        renderItem={(item) => <MangaPreview manga={item} />}
+      <RecyclerListView
+        style={{ flex: 1 }}
+        contentContainerStyle={{ marginHorizontal: 5 }}
         onEndReached={fetchMore}
-        numColumns={3}
-        onLoading={fetchMore}
-        style={{ marginHorizontal: 4 }}
-        allLoaded={allLoaded}
+        dataProvider={dataProvider}
+        layoutProvider={layoutProvider}
+        rowRenderer={rowRenderer}
+        renderFooter={renderFooter}
       />
       <NavBar
         config={config}
@@ -76,27 +115,4 @@ const CatalogScreen = ({ route }) => {
   );
 };
 
-const Placeholder = () => {
-  const { theme } = useTheme();
-  return (
-    <View style={{ backgroundColor: theme.foreground, marginTop: 10 }}>
-      {Array.from(Array(5)).map((_, idx) => (
-        <View
-          key={idx}
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            marginBottom: 10,
-          }}
-        >
-          <MangaPlaceholder />
-          <View style={{ width: 20 }} />
-          <MangaPlaceholder />
-          <View style={{ width: 20 }} />
-          <MangaPlaceholder />
-        </View>
-      ))}
-    </View>
-  );
-};
 export default optimizeHeavyScreen(CatalogScreen);
