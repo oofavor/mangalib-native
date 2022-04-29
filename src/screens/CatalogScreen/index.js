@@ -22,7 +22,7 @@ const CatalogScreen = ({ route }) => {
   const [inProgressNetworkReq, setInProgressNetworkReq] = useState(false);
   const [dataProvider, setDataProvider] = useState(
     new DataProvider((r1, r2) => {
-      return r1 !== r2;
+      return r1.id !== r2.id;
     })
   );
   const [layoutProvider, setLayoutProvider] = useState(

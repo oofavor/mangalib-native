@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ActivityIndicator, Dimensions } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { TextPrimary, TextSecondary } from '../../../components/Text';
 import useTheme from '../../../hooks/useTheme';
@@ -11,57 +11,70 @@ import { getChapters } from '../../../services';
 import BlankButton from '../../../components/Button/BlankButton';
 import { ScrollView } from 'react-native';
 import moment from 'moment';
-
+import {
+  DataProvider,
+  LayoutProvider,
+  RecyclerListView,
+} from 'recyclerlistview';
+const screenWidth = Dimensions.get('window').width;
 const ChaptersModule = () => {
   const manga = useManga();
   const [chapters, setChapters] = useState([]);
   const [page, setPage] = useState(1);
-  const ref = useRef();
   const [allLoaded, setAllLoaded] = useState(false);
+  const [inProgressNetworkReq, setInProgressNetworkReq] = useState(false);
+  const [dataProvider, setDataProvider] = useState(
+    new DataProvider((r1, r2) => {
+      return r1.id !== r2.id;
+    })
+  );
+  const [layoutProvider, setLayoutProvider] = useState(
+    new LayoutProvider(
+      () => 'VSEL',
+      (_, dim) => {
+        dim.width = screenWidth;
+        dim.height = 57;
+      }
+    )
+  );
 
   useEffect(() => {
     fetchMore();
   }, [manga]);
 
   const fetchMore = () => {
-    if (manga?.branches) {
+    if (manga?.branches && !inProgressNetworkReq) {
+      setInProgressNetworkReq(true);
       getChapters(manga.branches[0].id, page).then((data) => {
+        setPage((e) => e + 1);
+        setInProgressNetworkReq(false);
         setChapters((e) => e.concat(data));
+        setDataProvider(dataProvider.cloneWithRows(chapters.concat(data)));
         if (data.length === 0) setAllLoaded(true);
       });
-      setPage((e) => e + 1);
     }
   };
 
-  const renderItem = (item, index) => (
-    <ChapterPreview chapter={item} key={index} />
-  );
+  const rowRenderer = (_, data) => <ChapterPreview chapter={data} />;
+
+  const renderFooter = () => {
+    return inProgressNetworkReq ? (
+      <ActivityIndicator style={{ margin: 10 }} size="large" color={'black'} />
+    ) : (
+      <View style={{ height: 60 }} />
+    );
+  };
 
   return (
-    <ScrollView
-      allLoaded={allLoaded}
-      ref={ref}
-      heightForIndexPath={(item, index) => 57}
+    <RecyclerListView
+      style={{ flex: 1 }}
+      contentContainerStyle={{ marginHorizontal: 5 }}
       onEndReached={fetchMore}
-      onEndReachedThreshold={0.5}
-      data={chapters}
-      renderItem={renderItem}
-      renderHeader={() => (
-        <View style={{ overflow: 'hidden' }}>
-          <View style={{ marginTop: 20 }}>
-            <RippleButton onPress={() => {}} style={styles.sortContainer}>
-              <MaterialIcons name="sort" size={18} />
-              <TextPrimary size={16}>Сортировать</TextPrimary>
-            </RippleButton>
-          </View>
-        </View>
-      )}
-      keyExtractor={(item, idx) => item.id}
-      numColumns={1}
-      onLoading={fetchMore}
-    >
-      {chapters.map(renderItem)}
-    </ScrollView>
+      dataProvider={dataProvider}
+      layoutProvider={layoutProvider}
+      rowRenderer={rowRenderer}
+      renderFooter={renderFooter}
+    />
   );
 };
 
