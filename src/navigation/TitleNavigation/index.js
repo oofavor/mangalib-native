@@ -10,10 +10,9 @@ const Tab = createBottomTabNavigator();
 const TitleNavigation = () => {
   return (
     <Tab.Navigator
-      screenOptions={({ navigation }) => ({
-        detachPreviousScreen: !navigation.isFocused(),
+      screenOptions={{
         headerShown: false,
-      })}
+      }}
     >
       <Tab.Screen component={InfoModule} name="InfoModule" />
       <Tab.Screen component={ChaptersModule} name="ChaptersModule" />

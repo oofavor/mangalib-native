@@ -1,14 +1,19 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Dimensions, ActivityIndicator } from 'react-native';
-import MangaPreview from './MangaPreview';
-import { optimizeHeavyScreen } from 'react-navigation-heavy-screen';
-import { getCatalog, getCatalogMetadata } from '../../services';
-import NavBar from './NavBar';
 import {
   DataProvider,
   LayoutProvider,
   RecyclerListView,
 } from 'recyclerlistview';
+import { optimizeHeavyScreen } from 'react-navigation-heavy-screen';
+import ContentLoader, { Rect } from 'react-content-loader/native';
+
+import MangaPreview from './MangaPreview';
+import { getCatalog, getCatalogMetadata } from '../../services';
+import NavBar from './NavBar';
+import ItemAnimator from './ItemAnimator';
+import useTheme from '../../hooks/useTheme';
+
 const screenWidth = Dimensions.get('window').width - 10;
 
 const CatalogScreen = ({ route }) => {
@@ -36,7 +41,6 @@ const CatalogScreen = ({ route }) => {
   );
 
   useEffect(() => {
-    fetchMore();
     getCatalogMetadata().then((res) => {
       for (const key in res) {
         // settings type for each item
@@ -64,6 +68,12 @@ const CatalogScreen = ({ route }) => {
     setPage(1);
     setAllLoaded(false);
   }, [sort, include, exclude]);
+
+  useEffect(() => {
+    if (!manga.length) {
+      fetchMore();
+    }
+  }, [manga]);
 
   const fetchMore = () => {
     if (allLoaded) return;
@@ -93,15 +103,20 @@ const CatalogScreen = ({ route }) => {
 
   return (
     <>
-      <RecyclerListView
-        style={{ flex: 1 }}
-        contentContainerStyle={{ marginHorizontal: 5 }}
-        onEndReached={fetchMore}
-        dataProvider={dataProvider}
-        layoutProvider={layoutProvider}
-        rowRenderer={rowRenderer}
-        renderFooter={renderFooter}
-      />
+      {manga.length ? (
+        <RecyclerListView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ marginHorizontal: 5 }}
+          onEndReached={fetchMore}
+          dataProvider={dataProvider}
+          layoutProvider={layoutProvider}
+          rowRenderer={rowRenderer}
+          renderFooter={renderFooter}
+          itemAnimator={new ItemAnimator()}
+        />
+      ) : (
+        <Placeholder />
+      )}
       <NavBar
         config={config}
         setSort={setSort}
@@ -114,5 +129,41 @@ const CatalogScreen = ({ route }) => {
     </>
   );
 };
-
+const Placeholder = () => {
+  const tileWidth = screenWidth / 3 - 5;
+  const tileHeight = 175;
+  const marginVertical = 4;
+  const marginHorizontal = 5;
+  const initHeight = 4;
+  const { theme } = useTheme();
+  return (
+    <ContentLoader>
+      {Array.from(Array(5)).map((_, i) => (
+        <>
+          <Rect
+            x={marginHorizontal}
+            y={initHeight + tileHeight * i + marginVertical * i}
+            width={tileWidth}
+            height={tileHeight}
+            rx={4}
+          />
+          <Rect
+            x={marginHorizontal + screenWidth / 3}
+            y={initHeight + tileHeight * i + marginVertical * i}
+            width={tileWidth}
+            height={tileHeight}
+            rx={4}
+          />
+          <Rect
+            x={marginHorizontal + (screenWidth / 3) * 2}
+            y={initHeight + tileHeight * i + marginVertical * i}
+            width={tileWidth}
+            height={tileHeight}
+            rx={4}
+          />
+        </>
+      ))}
+    </ContentLoader>
+  );
+};
 export default optimizeHeavyScreen(CatalogScreen);

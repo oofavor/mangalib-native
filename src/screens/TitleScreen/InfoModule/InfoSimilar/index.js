@@ -6,7 +6,7 @@ import { getSimilar } from '../../../../services';
 import { useManga } from '../../MangaContext';
 import Preview from './Preview';
 
-const InfoSimilar = (props) => {
+const InfoSimilar = () => {
   const manga = useManga();
   const [similar, setSimilar] = useState([]);
 
@@ -20,7 +20,7 @@ const InfoSimilar = (props) => {
 
   return (
     <>
-      {Boolean(similar.length) && (
+      {!!similar.length && (
         <Section>
           <Heading>Похожее</Heading>
           <FlatList

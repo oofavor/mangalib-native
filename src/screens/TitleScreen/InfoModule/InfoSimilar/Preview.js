@@ -8,7 +8,7 @@ import RippleButton from '../../../../components/Button/RippleButton';
 import Borderless from '../../../../components/Button/Borderless';
 import { baseUrl } from '../../../../constants/urls';
 import { useNavigation } from '@react-navigation/native';
-const { width } = Dimensions.get('window');
+
 const Preview = ({ data }) => {
   const { theme } = useTheme();
   const navigation = useNavigation();

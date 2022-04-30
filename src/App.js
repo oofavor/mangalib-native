@@ -1,19 +1,17 @@
 import React, { useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import MainNavigation from './navigation';
-import { ThemeProvider } from './contexts/theme';
-
 import { useFonts } from 'expo-font';
+
+import MainNavigation from './navigation';
 import { edgeToEdgeMode } from './utils/uiModes';
-import UserContext from './contexts/user/userContext';
-import UserProvider from './contexts/user/userProvider';
+import { ThemeProvider } from './contexts/theme';
+import { UserProvider } from './contexts/user';
 
 const App = () => {
   useEffect(() => {
     edgeToEdgeMode();
   }, []);
 
-  // load fonts
   useFonts({
     OpenSans300: require('../assets/fonts/OpenSans/OpenSans300.ttf'),
     OpenSans400: require('../assets/fonts/OpenSans/OpenSans400.ttf'),

@@ -1,10 +1,10 @@
-import ContentLoader, { Rect } from 'react-content-loader/native';
-import { View } from 'react-native';
+import { Rect } from 'react-content-loader/native';
 
-const MangaPlaceholder = () => (
-  <ContentLoader width={110} height={160}>
-    <Rect height={160} width={110} rx={5} />
-  </ContentLoader>
+const MangaPlaceholder = ({ x, y }) => (
+  <>
+    <Rect height={160} width={110} rx={5} x={x} y={y} />
+    <Rect height={10} width={110} rx={5} x={x} y={y + 170} />
+  </>
 );
 
 export default MangaPlaceholder;

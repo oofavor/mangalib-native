@@ -1,5 +1,5 @@
-import React from 'react';
-import { Image, StyleSheet, View, Pressable } from 'react-native';
+import React, { useEffect } from 'react';
+import { Image, StyleSheet, View, LayoutAnimation } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 
@@ -9,7 +9,6 @@ import BlankButton from '../../../components/Button/BlankButton';
 
 const MangaPreview = ({ manga }) => {
   const navigation = useNavigation();
-  
   return (
     <BlankButton
       style={styles.wrapper}
@@ -42,6 +41,7 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     borderRadius: 5,
     zIndex: 1,
+    marginRight: 10,
   },
   mangaImage: {
     width: 110,

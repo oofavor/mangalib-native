@@ -4,11 +4,13 @@ import UserContext from './userContext';
 
 const UserProvider = ({ children }) => {
   const [token, setToken] = useState('');
-  useEffect(() => refetch());
+  useEffect(() => {
+    refetch();
+  }, []);
 
   const refetch = () => {
     getToken().then((res) => {
-      if (!res.error) {
+      if (!res.error && res.value !== token) {
         setToken(res.value);
       }
     });

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { LayoutAnimation, FlatList } from 'react-native';
 import MangaPreview from './MangaPreview';
 import { getRecentTop } from '../../../services';
-import Animated, { FadeIn } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import MangaPlaceholder from '../../../components/Placeholder/MangaPlaceholder';
+import ContentLoader from 'react-content-loader/native';
 
 const MangaCarousel = () => {
   const [manga, setManga] = useState([]);
@@ -11,36 +12,31 @@ const MangaCarousel = () => {
   useEffect(() => {
     getRecentTop().then((data) => {
       setManga(data);
+      LayoutAnimation.configureNext(
+        LayoutAnimation.create(300, 'easeOut', 'opacity')
+      );
     });
   }, []);
 
-  return (
-    <ScrollView horizontal overScrollMode="never">
-      {manga.length !== 0 ? (
-        manga.map((item) => (
-          <Animated.View
-            style={{ marginRight: 10 }}
-            key={item.id}
-            entering={FadeIn}
-          >
-            <MangaPreview manga={item} />
-          </Animated.View>
-        ))
-      ) : (
-        <Placeholder />
-      )}
-    </ScrollView>
+  return manga.length ? (
+    <FlatList
+      data={manga}
+      horizontal
+      overScrollMode="never"
+      renderItem={({ item }) => <MangaPreview manga={item} key={item.id} />}
+    />
+  ) : (
+    <Placeholder />
   );
 };
 
 const Placeholder = () => (
-  <>
-    <MangaPlaceholder />
-    <View style={{ width: 10 }} />
-    <MangaPlaceholder />
-    <View style={{ width: 10 }} />
-    <MangaPlaceholder />
-  </>
+  <ContentLoader width={470} height={205}>
+    <MangaPlaceholder x={0} y={0} />
+    <MangaPlaceholder x={120} y={0} />
+    <MangaPlaceholder x={240} y={0} />
+    <MangaPlaceholder x={360} y={0} />
+  </ContentLoader>
 );
 
 export default MangaCarousel;
