@@ -66,15 +66,17 @@ const ChaptersModule = () => {
   };
 
   return (
-    <RecyclerListView
-      style={{ flex: 1 }}
-      contentContainerStyle={{ marginHorizontal: 5 }}
-      onEndReached={fetchMore}
-      dataProvider={dataProvider}
-      layoutProvider={layoutProvider}
-      rowRenderer={rowRenderer}
-      renderFooter={renderFooter}
-    />
+    !!chapters.length && (
+      <RecyclerListView
+        style={{ flex: 1 }}
+        contentContainerStyle={{ marginHorizontal: 5 }}
+        onEndReached={fetchMore}
+        dataProvider={dataProvider}
+        layoutProvider={layoutProvider}
+        rowRenderer={rowRenderer}
+        renderFooter={renderFooter}
+      />
+    )
   );
 };
 

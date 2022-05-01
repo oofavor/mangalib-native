@@ -7,10 +7,10 @@ import { useManga } from '../../MangaContext';
 const Cover = () => {
   const manga = useManga();
   return (
-    <View style={{ width: 400, height: 340 }}>
+    <View style={{ width: '100%', height: 340 }}>
       <ImageBackground
         style={{
-          width: 400,
+          width: '100%',
           height: 360,
           alignItems: 'center',
           justifyContent: 'flex-end',

@@ -5,6 +5,7 @@ import BlankButton from '../../components/Button/BlankButton';
 import { TextSecondary } from '../../components/Text';
 import useTheme from '../../hooks/useTheme';
 import {
+  BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet';
@@ -12,13 +13,13 @@ import FilterModal from './FilterModal';
 import SortModal from './SortModal';
 
 const NavBar = ({
-  setSort,
-  sort,
-  setInclude,
-  include,
-  setExclude,
-  exclude,
   config,
+  handleConfig,
+  getIncluded,
+  refetch,
+  sort,
+  handleSort,
+  ordering,
 }) => {
   const { theme } = useTheme();
   const filterModalRef = useRef(null);
@@ -34,16 +35,19 @@ const NavBar = ({
     sortModalRef.current?.present();
   }, []);
 
-  const handleSheetChanges = useCallback((index) => {
+  const handleSheetChanges = (index) => {
     console.log('handleSheetChanges', index);
-  }, []);
+    if (index === -1) {
+      refetch();
+    }
+  };
 
   return (
     <BottomSheetModalProvider>
       <View
         style={{
-          flexDirection: 'row',
           backgroundColor: theme.foreground,
+          flexDirection: 'row',
           paddingVertical: 5,
         }}
       >
@@ -64,9 +68,9 @@ const NavBar = ({
             weight={600}
             size={14}
             style={{
+              color: theme.buttonDefaultColor,
               textAlign: 'center',
               textAlignVertical: 'center',
-              color: theme.buttonDefaultColor,
             }}
           >
             Сортировать
@@ -88,9 +92,9 @@ const NavBar = ({
           <TextSecondary
             size={14}
             style={{
+              color: theme.buttonDefaultColor,
               textAlign: 'center',
               textAlignVertical: 'center',
-              color: theme.buttonDefaultColor,
             }}
             weight={600}
           >
@@ -100,11 +104,11 @@ const NavBar = ({
       </View>
       <BottomSheetModal
         ref={sortModalRef}
-        index={1}
+        index={2}
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
       >
-        <SortModal setSort={setSort} sort={sort} />
+        <SortModal sort={sort} handleSort={handleSort} ordering={ordering} />
       </BottomSheetModal>
       <BottomSheetModal
         ref={filterModalRef}
@@ -113,11 +117,9 @@ const NavBar = ({
         onChange={handleSheetChanges}
       >
         <FilterModal
-          include={include}
-          setInclude={setInclude}
-          exclude={exclude}
-          setExclude={setExclude}
+          handleConfig={handleConfig}
           config={config}
+          getIncluded={getIncluded}
         />
       </BottomSheetModal>
     </BottomSheetModalProvider>

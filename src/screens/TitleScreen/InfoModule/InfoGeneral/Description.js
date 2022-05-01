@@ -5,9 +5,10 @@ import { useManga } from '../../MangaContext';
 import { decode } from 'html-entities';
 
 const Description = () => {
-  const [numLines, setNumLines] = useState(4);
   const manga = useManga();
-  console.log();
+  const [numLines, setNumLines] = useState(4);
+  const [showMoreButton, setShowMoreButton] = useState(false);
+
   return (
     <View style={styles.container}>
       <TextPrimary
@@ -15,6 +16,9 @@ const Description = () => {
         numberOfLines={numLines}
         ellipsizeMode="clip"
         style={styles.text}
+        onTextLayout={(e) => {
+          setShowMoreButton(e.nativeEvent.lines.length > 4);
+        }}
       >
         {/* Replaces html tags with ASCII alternatives */}
         {decode(manga.description)
@@ -26,11 +30,16 @@ const Description = () => {
           .replace(/<strong>/g, '')
           .replace(/<\/strong>/g, '')}
       </TextPrimary>
-      <TouchableOpacity onPress={() => setNumLines((e) => (e === 4 ? 0 : 4))}>
-        <TextPrimary size={14} style={styles.buttonLabel}>
-          {numLines === 4 ? 'Подробнее...' : 'Свернуть'}
-        </TextPrimary>
-      </TouchableOpacity>
+      {showMoreButton && (
+        <TouchableOpacity
+          // sets numLines to 0 to show all text
+          onPress={() => setNumLines((e) => (e === 4 ? 0 : 4))}
+        >
+          <TextPrimary size={14} style={styles.buttonLabel}>
+            {numLines === 4 ? 'Подробнее...' : 'Свернуть'}
+          </TextPrimary>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

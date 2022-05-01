@@ -3,6 +3,8 @@ import { Pressable, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import useTheme from '../../hooks/useTheme';
 const CheckboxThree = ({ size = 20, state = 'none', ...props }) => {
+  // none -> yes -> no
+  
   const { theme } = useTheme();
   const name = state === 'none' ? '' : state === 'yes' ? 'check' : 'clear';
   const color =

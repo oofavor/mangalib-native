@@ -11,6 +11,7 @@ import {
 } from '../../../components/Button';
 import { getReplies } from '../../../services';
 import { baseUrl } from '../../../constants/urls';
+import { decode } from 'html-entities';
 
 const Comment = ({ comment }) => {
   const { theme } = useTheme();
@@ -78,7 +79,7 @@ const Comment = ({ comment }) => {
               setShowMoreButton(e.nativeEvent.lines.length > 6)
             }
           >
-            {comment.text}
+            {decode(comment.text)}
           </TextPrimary>
           {!showAllText && showMoreButton && (
             <LinearGradient

@@ -14,49 +14,8 @@ import { useNavigation } from '@react-navigation/native';
 import { optimizeHeavyScreen } from 'react-navigation-heavy-screen';
 import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 
-const FilterModal = ({ setInclude, setExclude, include, exclude, config }) => {
+const FilterModal = ({ getIncluded, handleConfig, config }) => {
   const { theme } = useTheme();
-  const includeItem = (item) => {
-    if (include.includes(item)) {
-      setInclude(include.filter((i) => i !== item));
-    } else {
-      setInclude([...include, item]);
-    }
-  };
-
-  const excludeItem = (item) => {
-    if (exclude.includes(item)) {
-      setExclude(exclude.filter((i) => i !== item));
-    } else {
-      setExclude([...exclude, item]);
-    }
-  };
-  const getCheckboxState = (item, handleThree = false) => {
-    if (!handleThree) {
-      return include.includes(item);
-    }
-    return include.includes(item)
-      ? 'yes'
-      : exclude.includes(item)
-      ? 'no'
-      : null;
-  };
-
-  const getCheckboxHandler = (item, handleThree = false) => {
-    const state = getCheckboxState(item, handleThree);
-    if (!handleThree) {
-      return includeItem(item);
-    }
-    if (state === 'yes') {
-      includeItem(item);
-      return excludeItem(item);
-    }
-    if (state === 'no') {
-      return excludeItem(item);
-    }
-    return includeItem(item);
-  };
-
   const genreModalRef = useRef(null);
   const tagModalRef = useRef(null);
 
@@ -83,7 +42,7 @@ const FilterModal = ({ setInclude, setExclude, include, exclude, config }) => {
         </TextPrimary>
         <View style={styles.navigateButtonInfo}>
           <TextSecondary numberOfLines={1} style={styles.navigateButtonChosen}>
-            {`${include
+            {`${getIncluded()
               .filter((item) => item.type === 'genres')
               .map((item) => item.name)}`}
           </TextSecondary>
@@ -99,7 +58,7 @@ const FilterModal = ({ setInclude, setExclude, include, exclude, config }) => {
         </TextPrimary>
         <View style={styles.navigateButtonInfo}>
           <TextSecondary numberOfLines={1} style={styles.navigateButtonChosen}>
-            {`${include
+            {`${getIncluded()
               .filter((item) => item.type === 'categories')
               .map((item) => item.name)}`}
           </TextSecondary>
@@ -114,9 +73,9 @@ const FilterModal = ({ setInclude, setExclude, include, exclude, config }) => {
           {config['age_limit'].map((item) => (
             <RippleButton
               style={[styles.checkboxContainer, styles.checkbox25pc]}
-              onPress={() => getCheckboxHandler(item)}
+              onPress={() => handleConfig(item)}
             >
-              <Checkbox state={getCheckboxState(item)} />
+              <Checkbox state={item.state} />
               <TextPrimary style={styles.checkboxTitle}>
                 {item.name}
               </TextPrimary>
@@ -132,9 +91,9 @@ const FilterModal = ({ setInclude, setExclude, include, exclude, config }) => {
           {config['types'].map((item) => (
             <RippleButton
               style={[styles.checkboxContainer, styles.checkbox50pc]}
-              onPress={() => getCheckboxHandler(item, true)}
+              onPress={() => handleConfig(item, true)}
             >
-              <CheckboxThree state={getCheckboxState(item, true)} />
+              <CheckboxThree state={item.state} />
               <TextPrimary style={styles.checkboxTitle}>
                 {item.name}
               </TextPrimary>
@@ -150,9 +109,9 @@ const FilterModal = ({ setInclude, setExclude, include, exclude, config }) => {
           {config['status'].map((item) => (
             <RippleButton
               style={[styles.checkboxContainer, styles.checkbox50pc]}
-              onPress={() => getCheckboxHandler(item)}
+              onPress={() => handleConfig(item)}
             >
-              <Checkbox state={getCheckboxState(item)} />
+              <Checkbox state={item.state} />
               <TextPrimary style={styles.checkboxTitle}>
                 {item.name}
               </TextPrimary>
@@ -175,9 +134,9 @@ const FilterModal = ({ setInclude, setExclude, include, exclude, config }) => {
               {config['genres'].map((item) => (
                 <RippleButton
                   style={[styles.checkboxContainer, { flexBasis: '100%' }]}
-                  onPress={() => getCheckboxHandler(item, true)}
+                  onPress={() => handleConfig(item, true)}
                 >
-                  <CheckboxThree state={getCheckboxState(item, true)} />
+                  <CheckboxThree state={item.state} />
                   <TextPrimary style={styles.checkboxTitle}>
                     {item.name}
                   </TextPrimary>
@@ -187,7 +146,13 @@ const FilterModal = ({ setInclude, setExclude, include, exclude, config }) => {
           </View>
         </BottomSheetScrollView>
       </BottomSheetModal>
-      <BottomSheetModal ref={tagModalRef} index={1} snapPoints={snapPoints}>
+
+      <BottomSheetModal
+        ref={tagModalRef}
+        index={1}
+        snapPoints={snapPoints}
+        $modal
+      >
         <BottomSheetScrollView style={{ padding: 7 }}>
           <View style={styles.sectionContainer}>
             <TextPrimary size={14} weight={600}>
@@ -197,9 +162,9 @@ const FilterModal = ({ setInclude, setExclude, include, exclude, config }) => {
               {config['categories'].map((item) => (
                 <RippleButton
                   style={[styles.checkboxContainer, { flexBasis: '100%' }]}
-                  onPress={() => getCheckboxHandler(item, true)}
+                  onPress={() => handleConfig(item, true)}
                 >
-                  <CheckboxThree state={getCheckboxState(item, true)} />
+                  <CheckboxThree state={item.state} />
                   <TextPrimary style={styles.checkboxTitle}>
                     {item.name}
                   </TextPrimary>

@@ -2,7 +2,12 @@ import React from 'react';
 import { Pressable, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import useTheme from '../../hooks/useTheme';
-const Checkbox = ({ size = 20, color = 'orange', state = false, ...props }) => {
+const Checkbox = ({
+  size = 20,
+  color = 'orange',
+  state = 'none',
+  ...props
+}) => {
   const { theme } = useTheme();
   return (
     <Pressable
@@ -21,7 +26,7 @@ const Checkbox = ({ size = 20, color = 'orange', state = false, ...props }) => {
         ...props.style,
       }}
     >
-      {!state ? (
+      {state === 'none' ? (
         <View
           style={{
             backgroundColor: theme.inputBg,
