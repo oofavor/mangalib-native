@@ -1,17 +1,17 @@
 # Clone of [mangalib](https://mangalib.me/) PWA to React Native.
 
+## If you work at [Mangalib](https://mangalib.me/)
+If you can, you may give me your api endpoints and stuff... <b>I won't leak them. I promise</b>.
+
 ## Why it's made and for who?
-I started this project because I wanted to level my skills in development. 
+Mangalib and remanga don't have their own apps and relies only on PWAs, which are quite bad in terms of perfomance and usablitity. 
 
-Mangalib and remanga don't have their own apps and relies only on PWAs, which are quite bad in terms of perfomance and usablitity. My app is well... I think I should've started writing this app in the flutter in the first place. It lacks in perfomance even tho not as critical as PWAs.  
+I wanted to make a native app that looks almost like Mangalib PWA, but with improved UX. 
 
-You may use my code to show how to blend a million different patterns, how not to start big project development and just why not to use react native.
-
+Unfortunatly, mangalib doesn't have open api and I have to use remanga's api, which as stated below lacks in some areas like notifications and etc.
 
 ## For employers and HRs
-The codebase is pretty messy, don't look at it, just check how many files created and that it works...
-
-Feel free to employ me for remote work (please do)!
+`pleaseHireMe(remote)(pls).then(result => console.error('you will make more money'))`
 
 ## Known bugs
 - Project uses react-native-largelist so because of hypersensitivity users can encounter accident presses
