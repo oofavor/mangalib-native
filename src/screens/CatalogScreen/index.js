@@ -17,6 +17,7 @@ import useCatalog from '../../hooks/useCatalog';
 const screenWidth = Dimensions.get('window').width - 10;
 
 const CatalogScreen = ({ route }) => {
+  const { theme } = useTheme();
   const [dataProvider, setDataProvider] = useState(
     new DataProvider((r1, r2) => {
       return r1.id !== r2.id;
@@ -64,18 +65,24 @@ const CatalogScreen = ({ route }) => {
       <View style={{ height: 60 }} />
     );
 
-  return manga.length ? (
-    <>
-      <RecyclerListView
-        style={{ flex: 1 }}
-        contentContainerStyle={{ marginHorizontal: 5 }}
-        onEndReached={fetchMore}
-        dataProvider={dataProvider}
-        layoutProvider={layoutProvider}
-        rowRenderer={rowRenderer}
-        renderFooter={renderFooter}
-        itemAnimator={new ItemAnimator()}
-      />
+  return (
+    <View style={{ backgroundColor: theme.foreground, flex: 1 }}>
+      {manga.length ? (
+        <>
+          <RecyclerListView
+            style={{ flex: 1 }}
+            contentContainerStyle={{ marginHorizontal: 5 }}
+            onEndReached={fetchMore}
+            dataProvider={dataProvider}
+            layoutProvider={layoutProvider}
+            rowRenderer={rowRenderer}
+            renderFooter={renderFooter}
+            itemAnimator={new ItemAnimator()}
+          />
+        </>
+      ) : (
+        <Placeholder />
+      )}
       <NavBar
         config={config}
         handleConfig={handleConfig}
@@ -85,23 +92,20 @@ const CatalogScreen = ({ route }) => {
         ordering={ordering}
         sort={sort}
       />
-    </>
-  ) : (
-    <Placeholder />
+    </View>
   );
 };
 
 const Placeholder = () => {
   const tileWidth = screenWidth / 3 - 5;
   const tileHeight = 175;
-  const marginVertical = 4;
-  const marginHorizontal = 5;
+  const marginVertical = 6;
+  const marginHorizontal = 4;
   const initHeight = 4;
-  const { theme } = useTheme();
   return (
     <ContentLoader>
       {Array.from(Array(5)).map((_, i) => (
-        <>
+        <React.Fragment key={i}>
           <Rect
             x={marginHorizontal}
             y={initHeight + tileHeight * i + marginVertical * i}
@@ -110,20 +114,20 @@ const Placeholder = () => {
             rx={4}
           />
           <Rect
-            x={marginHorizontal + screenWidth / 3}
+            x={marginHorizontal * 2 + screenWidth / 3}
             y={initHeight + tileHeight * i + marginVertical * i}
             width={tileWidth}
             height={tileHeight}
             rx={4}
           />
           <Rect
-            x={marginHorizontal + (screenWidth / 3) * 2}
+            x={marginHorizontal * 3 + (screenWidth / 3) * 2}
             y={initHeight + tileHeight * i + marginVertical * i}
             width={tileWidth}
             height={tileHeight}
             rx={4}
           />
-        </>
+        </React.Fragment>
       ))}
     </ContentLoader>
   );

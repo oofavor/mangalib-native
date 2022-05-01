@@ -1,28 +1,36 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, View, ActivityIndicator, Dimensions } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  ActivityIndicator,
+  Dimensions,
+  LayoutAnimation,
+} from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { TextPrimary, TextSecondary } from '../../../components/Text';
 import useTheme from '../../../hooks/useTheme';
-import RippleButton from '../../../components/Button/RippleButton';
 import Borderless from '../../../components/Button/Borderless';
 import { useNavigation } from '@react-navigation/native';
 import { useManga } from '../MangaContext';
 import { getChapters } from '../../../services';
 import BlankButton from '../../../components/Button/BlankButton';
-import { ScrollView } from 'react-native';
 import moment from 'moment';
 import {
   DataProvider,
   LayoutProvider,
   RecyclerListView,
 } from 'recyclerlistview';
+import ContentLoader, { Rect, Circle } from 'react-content-loader/native';
+
 const screenWidth = Dimensions.get('window').width;
 const ChaptersModule = () => {
+  const { theme } = useTheme();
   const manga = useManga();
   const [chapters, setChapters] = useState([]);
   const [page, setPage] = useState(1);
   const [allLoaded, setAllLoaded] = useState(false);
   const [inProgressNetworkReq, setInProgressNetworkReq] = useState(false);
+
   const [dataProvider, setDataProvider] = useState(
     new DataProvider((r1, r2) => {
       return r1.id !== r2.id;
@@ -45,7 +53,7 @@ const ChaptersModule = () => {
   const fetchMore = () => {
     if (manga?.branches && !inProgressNetworkReq) {
       setInProgressNetworkReq(true);
-      getChapters(manga.branches[0].id, page).then((data) => {
+      getChapters(manga.branches[0].id, page, 100).then((data) => {
         setPage((e) => e + 1);
         setInProgressNetworkReq(false);
         setChapters((e) => e.concat(data));
@@ -66,17 +74,21 @@ const ChaptersModule = () => {
   };
 
   return (
-    !!chapters.length && (
-      <RecyclerListView
-        style={{ flex: 1 }}
-        contentContainerStyle={{ marginHorizontal: 5 }}
-        onEndReached={fetchMore}
-        dataProvider={dataProvider}
-        layoutProvider={layoutProvider}
-        rowRenderer={rowRenderer}
-        renderFooter={renderFooter}
-      />
-    )
+    <View style={{ flex: 1, backgroundColor: theme.foreground }}>
+      {chapters.length ? (
+        <RecyclerListView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ marginHorizontal: 5 }}
+          onEndReached={fetchMore}
+          dataProvider={dataProvider}
+          layoutProvider={layoutProvider}
+          rowRenderer={rowRenderer}
+          renderFooter={renderFooter}
+        />
+      ) : (
+        <Placeholder />
+      )}
+    </View>
   );
 };
 
@@ -129,6 +141,26 @@ const ChapterPreview = ({ chapter }) => {
         </Borderless>
       </BlankButton>
     </View>
+  );
+};
+
+const Placeholder = () => {
+  return (
+    <ContentLoader>
+      {Array.from(Array(20)).map((_, i) => (
+        <React.Fragment key={i}>
+          <Circle cx={32} cy={32 + 50 * i} r={16} />
+          <Rect
+            x={60}
+            y={16 + 50 * i}
+            width={200 * (Math.random() + 0.1)}
+            height={10}
+            rx={3}
+          />
+          <Rect x={60} y={34 + 50 * i} width={120} height={10} rx={3} />
+        </React.Fragment>
+      ))}
+    </ContentLoader>
   );
 };
 

@@ -56,9 +56,9 @@ export const getTitle = async (title) => {
   return data.content;
 };
 
-export const getChapters = async (branchId, page = 1) => {
+export const getChapters = async (branchId, page = 1, count = 50) => {
   const data = await getRequest(
-    `/api/titles/chapters/?branch_id=${branchId}&page=${page}&count=60&ordering=-index`
+    `/api/titles/chapters/?branch_id=${branchId}&page=${page}&count=${count}&ordering=-index`
   );
   return data.content;
 };
