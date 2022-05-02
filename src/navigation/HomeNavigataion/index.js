@@ -1,7 +1,9 @@
 import React from 'react';
+import { TouchableOpacity, Pressable, Vibration } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { TextPrimary } from '../../components/Text';
 import useTheme from '../../hooks/useTheme';
 import HomeScreen from '../../screens/HomeScreen';
 import CatalogScreen from '../../screens/CatalogScreen';
@@ -13,6 +15,25 @@ import NotificationScreen from '../../screens/NotificationScreen';
 import useUser from '../../hooks/useUser';
 const Tab = createBottomTabNavigator();
 
+// tab bar icons according to the route name
+const names = {
+  HomeScreen: 'home',
+  CatalogScreen: 'view-list',
+  SettingsScreen: 'settings',
+  ProfileScreen: 'person',
+  NotificationScreen: 'notifications',
+  LoginScreen: 'person',
+};
+
+const labels = {
+  HomeScreen: 'Главная',
+  CatalogScreen: 'Каталог',
+  SettingsScreen: 'Настройки',
+  ProfileScreen: 'Профиль',
+  NotificationScreen: 'Уведомления',
+  LoginScreen: 'Профиль',
+};
+Vibration;
 const HomeNavigation = () => {
   const insets = useSafeAreaInsets();
   const { theme } = useTheme();
@@ -20,7 +41,7 @@ const HomeNavigation = () => {
 
   return (
     <Tab.Navigator
-      screenOptions={{
+      screenOptions={({ route }) => ({
         headerShown: false,
         tabBarStyle: {
           height: insets.bottom + 50,
@@ -28,126 +49,51 @@ const HomeNavigation = () => {
           backgroundColor: theme.primary,
           borderTopWidth: 0,
         },
-      }}
+        tabBarButton: (props) => (
+          <Pressable
+            {...props}
+            onLongPress={() => {
+              Vibration.vibrate([0, 16]);
+            }}
+            android_ripple={{
+              borderless: true,
+              radius: 50,
+              color: theme.ripple,
+            }}
+          />
+        ),
+        tabBarIcon: (props) => (
+          <MaterialIcons
+            name={names[route.name]}
+            size={24}
+            color={
+              props.focused
+                ? theme.buttonPrimaryColor
+                : theme.buttonDefaultColor
+            }
+          />
+        ),
+        tabBarLabel: ({ focused }) => (
+          <TextPrimary
+            weight={600}
+            numberOfLines={1}
+            size={10}
+            style={{ color: focused ? theme.textPrimary : theme.textMuted }}
+          >
+            {labels[route.name]}
+          </TextPrimary>
+        ),
+      })}
       initialRouteName="HomeScreen"
     >
-      <Tab.Screen
-        component={HomeScreen}
-        name="HomeScreen"
-        options={{
-          tabBarShowLabel: false,
-          tabBarLabel: 'Home',
-          tabBarIcon: (props) => (
-            <MaterialIcons
-              {...props}
-              name="home"
-              color={
-                props.focused
-                  ? theme.buttonPrimaryColor
-                  : theme.buttonDefaultColor
-              }
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="CatalogScreen"
-        component={CatalogScreen}
-        options={{
-          tabBarShowLabel: false,
-          tabBarLabel: 'Search',
-          tabBarIcon: (props) => (
-            <MaterialIcons
-              {...props}
-              name="library-books"
-              color={
-                props.focused
-                  ? theme.buttonPrimaryColor
-                  : theme.buttonDefaultColor
-              }
-            />
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="NotificationScreen"
-        component={NotificationScreen}
-        options={{
-          tabBarShowLabel: false,
-          tabBarLabel: 'Notifications',
-          tabBarIcon: (props) => (
-            <MaterialIcons
-              {...props}
-              name="notifications"
-              color={
-                props.focused
-                  ? theme.buttonPrimaryColor
-                  : theme.buttonDefaultColor
-              }
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="SettingsScreen"
-        component={SettingsScreen}
-        options={{
-          tabBarShowLabel: false,
-          tabBarLabel: 'Add',
-          tabBarIcon: (props) => (
-            <MaterialIcons
-              {...props}
-              name="settings"
-              color={
-                props.focused
-                  ? theme.buttonPrimaryColor
-                  : theme.buttonDefaultColor
-              }
-            />
-          ),
-        }}
-      />
+      <Tab.Screen name="HomeScreen" component={HomeScreen} />
+      <Tab.Screen name="CatalogScreen" component={CatalogScreen} />
+      <Tab.Screen name="NotificationScreen" component={NotificationScreen} />
+      <Tab.Screen name="SettingsScreen" component={SettingsScreen} />
       {isLogged ? (
-        <Tab.Screen
-          name="ProfileScreen"
-          component={ProfileScreen}
-          options={{
-            tabBarShowLabel: false,
-            tabBarLabel: 'Profile',
-            tabBarIcon: (props) => (
-              <MaterialIcons
-                {...props}
-                name="portrait"
-                color={
-                  props.focused
-                    ? theme.buttonPrimaryColor
-                    : theme.buttonDefaultColor
-                }
-              />
-            ),
-          }}
-        />
+        <Tab.Screen name="ProfileScreen" component={ProfileScreen} />
       ) : (
-        <Tab.Screen
-          name="LoginScreen"
-          component={LoginScreen}
-          options={{
-            tabBarShowLabel: false,
-            tabBarLabel: 'Login',
-            tabBarIcon: (props) => (
-              <MaterialIcons
-                {...props}
-                name="portrait"
-                color={
-                  props.focused
-                    ? theme.buttonPrimaryColor
-                    : theme.buttonDefaultColor
-                }
-              />
-            ),
-          }}
-        />
+        <Tab.Screen name="LoginScreen" component={LoginScreen} />
       )}
     </Tab.Navigator>
   );
