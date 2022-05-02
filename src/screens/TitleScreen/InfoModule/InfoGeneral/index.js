@@ -11,11 +11,17 @@ import useTheme from '../../../../hooks/useTheme';
 import Genres from './Genres';
 
 const InfoGeneral = () => {
-
   return (
     <Section style={{ marginTop: 0 }}>
       {/* Correction for Section styles */}
-      <View style={{ marginHorizontal: -12, marginTop: -6 }}>
+      <View
+        style={{
+          marginHorizontal: -12,
+          marginTop: -6,
+          borderBottomWidth: 1,
+          borderBottomColor: 'red',
+        }}
+      >
         <Cover />
         <MediaInfo />
       </View>

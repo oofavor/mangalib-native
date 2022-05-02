@@ -1,39 +1,40 @@
 import React, { useState } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View, ScrollView } from 'react-native';
 import { Heading, TextPrimary } from '../../../components/Text';
 import { MaterialIcons } from '@expo/vector-icons';
 import useTheme from '../../../hooks/useTheme';
-import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
-import RippleButton from '../../../components/Button/RippleButton';
-import Borderless from '../../../components/Button/Borderless';
+import { RippleButton, Borderless } from '../../../components/Button';
 import { useManga } from '../MangaContext';
+import { baseUrl } from '../../../constants/urls';
 
-const ChooseTranslation = (props) => {
+const ChooseTranslation = ({ setCurrentBranch }) => {
   const [active, setActive] = useState(0);
   const { theme } = useTheme();
   const manga = useManga();
+
   return (
     <View style={{ paddingTop: 12 }}>
-      <Heading>Выбрать перевод</Heading>
-      <View style={styles.chipContainer}>
-        {manga?.branches.map((e, idx) => (
+      <Heading style={{ paddingLeft: 12 }}>Выбрать перевод</Heading>
+      <ScrollView horizontal>
+        {manga?.branches.map((branch, idx) => (
           <RippleButton
+            key={idx}
             onPress={() => {
               if (idx === active) return;
               setActive(idx);
             }}
-            key={idx}
-            style={[
-              styles.chip,
-              {
-                backgroundColor: theme.backgroundElevated2,
-                opacity: active === idx ? 1 : 0.6,
-              },
-            ]}
+            style={{
+              ...styles.chip,
+              backgroundColor: theme.backgroundElevated2,
+              opacity: active === idx ? 1 : 0.6,
+            }}
           >
-            <Image source={{ uri: e.url }} style={styles.image} />
+            <Image
+              source={{ uri: `${baseUrl}${branch.img}` }}
+              style={styles.image}
+            />
             <TextPrimary size={13} weight={600} style={styles.text}>
-              {e.name}
+              {branch.publishers[0].name}
             </TextPrimary>
             <Borderless color="orange">
               <MaterialIcons
@@ -44,16 +45,12 @@ const ChooseTranslation = (props) => {
             </Borderless>
           </RippleButton>
         ))}
-      </View>
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  chipContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
   chip: {
     flexDirection: 'row',
     padding: 7,
@@ -61,9 +58,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     elevation: 2,
     borderRadius: 5,
-    marginRight: 10,
+    margin: 2,
+    marginRight: 12,
     maxWidth: 300,
-    height: 35,
   },
   image: {
     aspectRatio: 1,

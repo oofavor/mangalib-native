@@ -1,28 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
-import faker from 'faker';
-import MangaPreview from './MangaPreview';
-import Divider from './Divider';
-import { Section } from '../../../components/Container';
-import { getLatestChapters } from '../../../services';
-import { TextPrimary } from '../../../components/Text';
+import { View, StyleSheet } from 'react-native';
 import ContentLoader, { Rect } from 'react-content-loader/native';
 
-// fake data, actuall data will be served later
-data = [
-  { image: faker.image.abstract(512, 512) },
-  { image: faker.image.abstract(512, 512) },
-  { image: faker.image.abstract(512, 512) },
-  { image: faker.image.abstract(512, 512) },
-];
+import { getLatestChapters } from '../../../services';
+import { Section } from '../../../components/Container';
+import { TextPrimary } from '../../../components/Text';
+import MangaPreview from './MangaPreview';
 
 const MangaUpdates = () => {
   const [chapters, setChapters] = useState([]);
+
   useEffect(() => {
     getLatestChapters().then((data) => {
       setChapters(data);
     });
   }, []);
+
   return (
     <Section>
       <TextPrimary size={17} weight={600}>
@@ -31,7 +24,7 @@ const MangaUpdates = () => {
       {chapters.map((manga, idx) => (
         <View key={manga.id}>
           <MangaPreview manga={manga} />
-          {idx !== data.length - 1 && <Divider />}
+          {idx !== chapters.length - 1 && <View style={styles.divider} />}
         </View>
       ))}
       {!chapters.length && <Placeholder />}
@@ -52,4 +45,14 @@ const Placeholder = () => {
     </ContentLoader>
   );
 };
+
+const styles = StyleSheet.create({
+  divider: {
+    width: '100%',
+    height: 1,
+    backgroundColor: 'lightgray',
+    borderRadius: 10,
+  },
+});
+
 export default MangaUpdates;

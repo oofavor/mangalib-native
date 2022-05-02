@@ -1,36 +1,33 @@
-import React, { useEffect } from 'react';
-import { Image, StyleSheet, View, LayoutAnimation } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import React from 'react';
+import { Image, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient';
 
-import { TextPrimary } from '../../../components/Text';
 import { baseUrl } from '../../../constants/urls';
-import BlankButton from '../../../components/Button/BlankButton';
+import { TextPrimary } from '../../../components/Text';
+import { BlankButton } from '../../../components/Button';
 
 const MangaPreview = ({ manga }) => {
   const navigation = useNavigation();
+
+  const imageSource = { uri: `${baseUrl}/${manga.img.mid}` };
+  const shadows = ['transparent', 'rgba(0,0,0,.01)', 'rgba(0,0,0,.8)'];
+
+  const navigateToManga = () =>
+    navigation.navigate('TitleScreen', { title: manga.dir });
+
   return (
-    <BlankButton
-      style={styles.wrapper}
-      onPress={() => navigation.navigate('TitleScreen', { title: manga.dir })}
-    >
+    <BlankButton style={styles.wrapper} onPress={navigateToManga}>
       <View style={styles.innerContainer}>
-        <Image
-          source={{ uri: `${baseUrl}/${manga.img.mid}` }}
-          style={styles.mangaImage}
-        />
-        <LinearGradient
-          // shadow for image
-          colors={['transparent', 'rgba(0,0,0,.01)', 'rgba(0,0,0,.8)']}
-          style={styles.mangaShadow}
-        />
+        <Image source={imageSource} style={styles.mangaImage} />
+        <LinearGradient colors={shadows} style={styles.mangaShadow} />
         <TextPrimary style={styles.mangaText} numberOfLines={2}>
           Глава {manga.count_chapters}
         </TextPrimary>
       </View>
-      <View style={{ marginVertical: 2 }}>
-        <TextPrimary numberOfLines={2}>{manga.rus_name}</TextPrimary>
-      </View>
+      <TextPrimary numberOfLines={2} style={styles.titleText}>
+        {manga.rus_name}
+      </TextPrimary>
     </BlankButton>
   );
 };
@@ -72,6 +69,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  titleText: { marginVertical: 2 },
 });
 
 export default MangaPreview;

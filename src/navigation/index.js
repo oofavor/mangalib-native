@@ -8,7 +8,7 @@ const NavigationRoot = () => {
   const { theme } = useTheme();
 
   // for fixing the white space
-  // when transitionting screens in the dark mode
+  // when transitioning screens in the dark mode
   const navTheme = {
     ...DefaultTheme,
     colors: {

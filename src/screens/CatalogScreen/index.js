@@ -78,6 +78,10 @@ const CatalogScreen = ({ route }) => {
             rowRenderer={rowRenderer}
             renderFooter={renderFooter}
             itemAnimator={new ItemAnimator()}
+            applyWindowCorrection={(offsetX, offsetY, windowCorrection) => {
+              windowCorrection.windowShift = 80;
+              windowCorrection.startCorrection = -80;
+            }}
           />
         </>
       ) : (

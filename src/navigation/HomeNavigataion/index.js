@@ -1,18 +1,18 @@
 import React from 'react';
 import { TouchableOpacity, Pressable, Vibration } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { MaterialIcons } from '@expo/vector-icons';
 
-import { TextPrimary } from '../../components/Text';
 import useTheme from '../../hooks/useTheme';
+import { TextPrimary } from '../../components/Text';
 import HomeScreen from '../../screens/HomeScreen';
 import CatalogScreen from '../../screens/CatalogScreen';
-import { MaterialIcons } from '@expo/vector-icons';
 import SettingsScreen from '../../screens/SettingsScreen';
 import ProfileScreen from '../../screens/ProfileScreen';
 import LoginScreen from '../../screens/LoginScreen';
 import NotificationScreen from '../../screens/NotificationScreen';
 import useUser from '../../hooks/useUser';
+
 const Tab = createBottomTabNavigator();
 
 // tab bar icons according to the route name
@@ -33,9 +33,8 @@ const labels = {
   NotificationScreen: 'Уведомления',
   LoginScreen: 'Профиль',
 };
-Vibration;
+
 const HomeNavigation = () => {
-  const insets = useSafeAreaInsets();
   const { theme } = useTheme();
   const { isLogged } = useUser();
 
@@ -44,10 +43,8 @@ const HomeNavigation = () => {
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarStyle: {
-          height: insets.bottom + 50,
-          paddingBottom: insets.bottom,
+          height: 65,
           backgroundColor: theme.primary,
-          borderTopWidth: 0,
         },
         tabBarButton: (props) => (
           <Pressable
@@ -55,11 +52,13 @@ const HomeNavigation = () => {
             onLongPress={() => {
               Vibration.vibrate([0, 16]);
             }}
-            android_ripple={{
-              borderless: true,
-              radius: 50,
-              color: theme.ripple,
-            }}
+            android_ripple={
+              !props.focused && {
+                borderless: true,
+                radius: 50,
+                color: theme.ripple,
+              }
+            }
           />
         ),
         tabBarIcon: (props) => (

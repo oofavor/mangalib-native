@@ -2,7 +2,7 @@ import React from 'react';
 import { Text } from 'react-native';
 import useTheme from '../../hooks/useTheme';
 
-const TextPrimary = ({ weight = 400, size = 13, ...props }) => {
+const TextPrimary = ({ weight = 400, size = 13, color, ...props }) => {
   const { theme } = useTheme();
   return (
     <Text
@@ -10,7 +10,7 @@ const TextPrimary = ({ weight = 400, size = 13, ...props }) => {
       style={{
         fontSize: size,
         fontFamily: theme.font[weight],
-        color: theme.textPrimary,
+        color: color || theme.textPrimary,
         ...props.style,
       }}
     />

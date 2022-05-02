@@ -3,10 +3,14 @@ import CookieManager from '@react-native-cookies/cookies';
 import { useNavigation } from '@react-navigation/native';
 import { useRef } from 'react';
 import WebView from 'react-native-webview';
+import useUser from '../../hooks/useUser';
 import { saveToken } from '../../utils/loginStorage';
+
 const LoginModal = () => {
   const webViewRef = useRef();
   const navigation = useNavigation();
+  const { refetch } = useUser();
+
   const CHECK_COOKIE = `
     ReactNativeWebView.postMessage("Cookie: " + document.cookie);
     true;
@@ -44,6 +48,7 @@ const LoginModal = () => {
         const userData = JSON.parse(decodedUserData);
         const token = userData['access_token'];
         saveToken(token);
+        refetch();
         navigation.goBack();
       }
     }

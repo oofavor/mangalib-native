@@ -16,7 +16,7 @@ const UserProvider = ({ children }) => {
     });
   };
 
-  const value = { token, isLogged: token.length > 0 };
+  const value = { token, isLogged: token.length > 0, refetch };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

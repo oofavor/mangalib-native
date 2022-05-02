@@ -1,89 +1,57 @@
 import React from 'react';
-import {
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  Pressable,
-} from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import useTheme from '../../../hooks/useTheme';
-import Table from './Table';
-import faker from 'faker';
-import { TextPrimary, TextSecondary } from '../../../components/Text';
-import BlankButton from '../../../components/Button/BlankButton';
-import { baseUrl } from '../../../constants/urls';
+import { Image, StyleSheet, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
 import 'moment/locale/ru'; // doesnt work without this line
-import { useNavigation } from '@react-navigation/native';
 
-const data = [
-  faker.name.firstName(),
-  faker.name.firstName(),
-  faker.name.firstName(),
-  faker.name.firstName(),
-  faker.name.firstName(),
-];
+import useTheme from '../../../hooks/useTheme';
+import { baseUrl } from '../../../constants/urls';
+import { TextPrimary, TextSecondary } from '../../../components/Text';
+import { BlankButton } from '../../../components/Button';
+import Table from './Table';
+
 const MangaPreview = ({ manga }) => {
   const { theme } = useTheme();
   const navigation = useNavigation();
+  const imageSource = { uri: `${baseUrl}${manga.img.low}` };
+
+  const navigateToManga = () => {
+    navigation.navigate('TitleScreen', { title: manga.dir });
+  };
+
+  const getTimeFrom = () =>
+    moment(Date.now() - manga.upload_date.toFixed(0))
+      .locale('ru')
+      .fromNow();
+
   return (
     <View style={styles.wrapper}>
-      <BlankButton
-        style={styles.mangaWrapper}
-        onPress={() => {
-          navigation.navigate('TitleScreen', { title: manga.dir });
-        }}
-      >
-        <Image
-          source={{ uri: `${baseUrl}${manga.img.low}` }}
-          style={styles.mangaImage}
-        />
-        {/* <LinearGradient
-          // shadow for image
-          colors={['rgba(0,0,0,.8)', 'transparent', 'rgba(0,0,0,.01)']}
-          style={styles.mangaShadow}
-        />
-        <TextPrimary style={styles.mangaText}>Манга</TextPrimary> */}
+      <BlankButton style={styles.mangaWrapper} onPress={navigateToManga}>
+        <Image source={imageSource} style={styles.mangaImage} />
+        {/* Add shadow here if API has type of manga */}
       </BlankButton>
-      <View style={{ flex: 1 }}>
+      <View style={styles.flex}>
         <View style={styles.infoWrapper}>
-          <TextPrimary style={{ flex: 1 }} numberOfLines={1} fontWeight="600">
-            {manga['rus_name']}
+          <TextPrimary style={styles.flex} numberOfLines={1} fontWeight="600">
+            {manga.rus_name}
           </TextPrimary>
-          {manga['is_hottest'] && (
-            <TextPrimary
-              style={{
-                textAlign: 'center',
-                backgroundColor: 'red',
-                color: 'white',
-                borderRadius: 10,
-                paddingHorizontal: 5,
-                fontSize: 10,
-                justifyContent: 'center',
-              }}
-            >
-              популярное
-            </TextPrimary>
+          {manga.is_hottest && (
+            <TextPrimary style={styles.specialLabel}>популярное</TextPrimary>
           )}
         </View>
         <View
-          style={[
-            styles.infoWrapper,
-            {
-              paddingBottom: 4,
-              borderBottomColor: theme.primary,
-              borderBottomWidth: 1,
-            },
-          ]}
+          style={{
+            ...styles.infoWrapper,
+            borderBottomColor: theme.primary,
+            paddingBottom: 4,
+            borderBottomWidth: 1,
+          }}
         >
-          <TextSecondary style={{ flex: 1 }} numberOfLines={1}>
-            {manga['en_name']}
+          <TextSecondary style={styles.flex} numberOfLines={1}>
+            {manga.en_name}
           </TextSecondary>
-          <TextSecondary numberOfLines={1}>
-            {moment(Date.now() - manga['upload_date'].toFixed(0))
-              .locale('ru')
-              .fromNow()}
+          <TextSecondary numberOfLines={1} style={styles.timestamp}>
+            {getTimeFrom()}
           </TextSecondary>
         </View>
         <Table data={[[manga.tome, manga.chapter, manga.name]]} />
@@ -91,6 +59,15 @@ const MangaPreview = ({ manga }) => {
     </View>
   );
 };
+
+// shadow for image
+/* 
+<LinearGradient
+  colors={['rgba(0,0,0,.8)', 'transparent', 'rgba(0,0,0,.01)']}
+  style={styles.mangaShadow}
+/>
+<TextPrimary style={styles.mangaText}>Манга</TextPrimary> 
+*/
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -125,7 +102,20 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  infoText: {},
+  specialLabel: {
+    textAlign: 'center',
+    backgroundColor: 'red',
+    color: 'white',
+    borderRadius: 10,
+    paddingHorizontal: 5,
+    marginLeft: 5,
+    fontSize: 10,
+    justifyContent: 'center',
+  },
+  flex: { flex: 1 },
+  timestamp: {
+    marginLeft: 5,
+  },
 });
 
 export default MangaPreview;
