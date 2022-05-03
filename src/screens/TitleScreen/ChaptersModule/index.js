@@ -22,6 +22,7 @@ import { TextPrimary } from '../../../components/Text';
 import ChooseTranslation from './ChooseTranslation';
 
 const screenWidth = Dimensions.get('window').width;
+// sort an array containing only 0, 1 and 2
 
 const layoutProvider = new LayoutProvider(
   () => 'YES',

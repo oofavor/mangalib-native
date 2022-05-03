@@ -1,14 +1,13 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
-import { Section } from '../../../../components/Container';
+import { Section } from '../../../components/Container';
 import {
   Heading,
   TextPrimary,
   TextSecondary,
-} from '../../../../components/Text';
-import Line from './Line';
+} from '../../../components/Text';
 
+// Placeholder data
 const data = {
   1: {
     num: 40958,
@@ -41,7 +40,8 @@ const data = {
     grade: 'Другое',
   },
 };
-const InfoCount = (props) => {
+
+const InfoCount = () => {
   return (
     <Section>
       <Heading>В списках у 86963 человек</Heading>
@@ -52,6 +52,25 @@ const InfoCount = (props) => {
       <Line {...data[5]} />
       <Line {...data[6]} />
     </Section>
+  );
+};
+
+const Line = ({ num, percent, grade }) => {
+  return (
+    <View style={styles.lineContainer}>
+      <TextPrimary size={13} style={styles.gradeText}>
+        {grade}
+      </TextPrimary>
+      <View style={styles.gradeLineContainer}>
+        <View style={{ ...styles.line, width: `${percent}%` }} />
+      </View>
+      <TextPrimary weight={600} size={13}>
+        {percent}%
+      </TextPrimary>
+      <TextSecondary style={{ marginLeft: 'auto' }} size={13}>
+        {num}
+      </TextSecondary>
+    </View>
   );
 };
 
@@ -66,5 +85,23 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     textAlignVertical: 'bottom',
   },
+  lineContainer: {
+    flexDirection: 'row',
+    marginBottom: 10,
+    alignItems: 'center',
+  },
+  gradeLineContainer: {
+    width: '53%',
+    height: 10,
+    backgroundColor: 'hsla(240,5%,48%,.09)',
+    borderRadius: 20,
+    marginRight: 5,
+  },
+  gradeText: {
+    marginRight: 5,
+    width: '20%',
+  },
+  line: { backgroundColor: '#ffa332', zIndex: 5, height: 10, borderRadius: 20 },
 });
+
 export default InfoCount;

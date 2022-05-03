@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Dimensions, View, LayoutAnimation } from 'react-native';
-import { getTitle } from '../../services';
-import { MangaContext } from './MangaContext';
-import Loading from '../../components/Placeholder/Loading';
-import TitleNavigation from '../../navigation/TitleNavigation';
+import ContentLoader, { Rect } from 'react-content-loader/native';
 import { useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
-import ContentLoader, { Rect, Circle } from 'react-content-loader/native';
-import useTheme from '../../hooks/useTheme';
 
-// get width of the screen
+import { getTitle } from '../../services';
+import useTheme from '../../hooks/useTheme';
+import { MangaContext } from './MangaContext';
+import TitleNavigation from '../../navigation/TitleNavigation';
+
 const screenWidth = Dimensions.get('window').width;
+
+// TODO: Don't update the state if user navigated back
+// and the promise is still pending
+
 const TitleScreen = ({ route }) => {
   const [manga, setManga] = useState();
   const navigation = useNavigation();
@@ -29,7 +32,10 @@ const TitleScreen = ({ route }) => {
         LayoutAnimation.create(300, 'easeIn', 'opacity')
       );
     });
-    navigation.setOptions({ headerShown: false, });
+    navigation.setOptions({
+      headerShown: false,
+      detachPreviousScreen: !navigation.isFocused(),
+    });
   }, []);
 
   return (

@@ -35,7 +35,7 @@ const MangaPreview = ({ manga }) => {
           <TextPrimary style={styles.flex} numberOfLines={1} fontWeight="600">
             {manga.rus_name}
           </TextPrimary>
-          {manga.is_hottest && (
+          {!manga.is_hottest && (
             <TextPrimary style={styles.specialLabel}>популярное</TextPrimary>
           )}
         </View>

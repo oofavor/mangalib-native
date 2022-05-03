@@ -1,13 +1,8 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Section } from '../../../../components/Container';
-import {
-  Heading,
-  TextPrimary,
-  TextSecondary,
-} from '../../../../components/Text';
-import Line from './Line';
+import { Section } from '../../../components/Container';
+import { Heading, TextPrimary, TextSecondary } from '../../../components/Text';
 
 const data = {
   1: {
@@ -41,7 +36,7 @@ const data = {
     grade: 5,
   },
 };
-const InfoRating = (props) => {
+const InfoRating = () => {
   return (
     <Section>
       <View style={styles.headingContainer}>
@@ -65,6 +60,35 @@ const InfoRating = (props) => {
     </Section>
   );
 };
+const Line = ({ color, num, percent, grade }) => {
+  return (
+    <View style={styles.lineContainer}>
+      <TextPrimary size={13} style={styles.gradeText}>
+        {grade}
+      </TextPrimary>
+      <MaterialIcons
+        name="star"
+        color="rgba(0,0,0,0.35)"
+        style={styles.gradeText}
+      />
+      <View style={styles.gradeLineContainer}>
+        <View
+          style={{
+            width: `${percent}%`,
+            backgroundColor: color,
+            ...styles.line,
+          }}
+        />
+      </View>
+      <TextPrimary weight={600} size={13}>
+        {percent}%
+      </TextPrimary>
+      <TextSecondary style={{ marginLeft: 'auto' }} size={13}>
+        {num}
+      </TextSecondary>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   headingContainer: {
@@ -77,6 +101,27 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     textAlignVertical: 'bottom',
   },
-
+  lineContainer: {
+    flexDirection: 'row',
+    marginBottom: 10,
+    alignItems: 'center',
+  },
+  gradeLineContainer: {
+    width: '70%',
+    height: 10,
+    backgroundColor: 'hsla(240,5%,48%,.09)',
+    borderRadius: 20,
+    marginRight: 5,
+  },
+  gradeText: {
+    marginRight: 5,
+  },
+  line: { zIndex: 5, height: 10, borderRadius: 20 },
+  lineContainer: {
+    flexDirection: 'row',
+    marginBottom: 10,
+    alignItems: 'center',
+  },
 });
+
 export default InfoRating;

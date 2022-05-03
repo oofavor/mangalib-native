@@ -3,25 +3,22 @@ import { Image, StyleSheet, View } from 'react-native';
 import { Text, TextPrimary, TextSecondary } from '../../../components/Text';
 import { MaterialIcons } from '@expo/vector-icons';
 import useTheme from '../../../hooks/useTheme';
-import { RippleButton } from '../../../components/Button';
+import { RippleButton, BlankButton } from '../../../components/Button';
+import { baseUrl } from '../../../constants/urls';
 
 const Discussion = (props) => {
   const { theme } = useTheme();
+  const imageSource = { uri: `${baseUrl}${props.comment?.user.avatar.low}` };
+
   return (
     <View style={[styles.container, { borderColor: theme.borderLight }]}>
-      <RippleButton style={{ padding: 10 }}>
+      <RippleButton style={{ padding: 10, borderRadius: 6 }}>
         {/* Main Info */}
         <View style={styles.mainInfoContainer}>
           <TextPrimary style={styles.mainInfoLabel} weight={600} size={15}>
             Ищу Тайтл где гг жениться и имеет гарем
           </TextPrimary>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
+          <View style={styles.userInfo}>
             <MaterialIcons size={13} name="chat" color="#868e96" />
             <TextSecondary size={13}>1337</TextSecondary>
             <MaterialIcons
@@ -35,32 +32,21 @@ const Discussion = (props) => {
         </View>
         {/* Details */}
         <View style={{ marginTop: 5 }}>
-          <RippleButton
-            style={[
-              styles.topDetailsContainer,
-              { marginRight: 'auto', flex: 1 },
-            ]}
-          >
-            <Image
-              source={{ uri: 'https://i.imgur.com/msRGMnX.gif' }}
-              style={[styles.image, { overlayColor: theme.foreground }]}
-            />
-            <TextPrimary
-              numberOfLines={1}
-              style={{ width: 100, marginRight: 5 }}
-            >
+          <BlankButton style={styles.topDetailsContainer}>
+            <Image source={imageSource} style={styles.image} />
+            <TextPrimary numberOfLines={1} style={styles.username}>
               Дракон [обычный]
             </TextPrimary>
             <TextSecondary>Х недели назад</TextSecondary>
-          </RippleButton>
-          <View style={{ flexDirection: 'row', marginTop: 10 }}>
+          </BlankButton>
+          <View style={styles.chipGroup}>
             <View style={styles.chipContainer}>
-              <View style={[styles.chip]}>
+              <View style={styles.chip}>
                 <Text weight={700} size={12} style={styles.chipText}>
                   Обсуждения
                 </Text>
               </View>
-              <View style={[styles.chip]}>
+              <View style={styles.chip}>
                 <Text weight={700} size={12} style={styles.chipText}>
                   Обсуждения
                 </Text>
@@ -94,12 +80,15 @@ const styles = StyleSheet.create({
   topDetailsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    marginRight: 'auto',
+    flex: 1,
   },
   image: {
     width: 22,
     height: 22,
     borderRadius: 5,
     marginRight: 8,
+    overflow: 'hidden',
   },
   chip: {
     backgroundColor: 'red',
@@ -116,5 +105,12 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
   },
+  username: { width: 100, marginRight: 5 },
+  userInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  chipGroup: { flexDirection: 'row', marginTop: 10 },
 });
 export default Discussion;

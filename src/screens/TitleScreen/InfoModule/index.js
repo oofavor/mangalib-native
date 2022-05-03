@@ -14,10 +14,10 @@ const InfoModule = () => {
   return (
     <ScrollView>
       <InfoGeneral />
-      {false && <InfoRelated />}
-      <InfoSimilar />
-      {false && <InfoCount />}
-      {false && <InfoRating />}
+      {/* <InfoRelated /> */}
+      {/* <InfoSimilar /> */}
+      {/* <InfoCount /> */}
+      {/* <InfoRating /> */}
       <View style={{ height: insets.bottom }} />
     </ScrollView>
   );

@@ -2,7 +2,7 @@ import React from 'react';
 import { Text } from 'react-native';
 import useTheme from '../../hooks/useTheme';
 
-const TextSecondary = ({ weight = 400, size = 12, ...props }) => {
+const TextSecondary = ({ weight = 400, size = 12, color, ...props }) => {
   const { theme } = useTheme();
   return (
     <Text
@@ -10,7 +10,7 @@ const TextSecondary = ({ weight = 400, size = 12, ...props }) => {
       style={{
         fontSize: size,
         fontFamily: theme.font[weight],
-        color: theme.textMuted,
+        color: color || theme.textMuted,
         ...props.style,
       }}
     />

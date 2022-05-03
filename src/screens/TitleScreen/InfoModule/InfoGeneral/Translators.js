@@ -1,26 +1,27 @@
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
-import { RectButton } from 'react-native-gesture-handler';
-import RippleButton from '../../../../components/Button/RippleButton';
-import { Heading, TextPrimary } from '../../../../components/Text';
-import { baseUrl } from '../../../../constants/urls';
+import { Image, ScrollView, StyleSheet, View } from 'react-native';
+
 import useTheme from '../../../../hooks/useTheme';
 import { useManga } from '../../MangaContext';
+import { baseUrl } from '../../../../constants/urls';
+import { RippleButton } from '../../../../components/Button/';
+import { Heading, TextPrimary } from '../../../../components/Text';
 
 const Translators = () => {
   const { theme } = useTheme();
   const manga = useManga();
+
   return (
     <View>
       <Heading style={styles.heading}>Переводчики</Heading>
-      <View style={styles.container} horizontal>
+      <ScrollView contentContainerStyle={styles.container} horizontal>
         {manga.publishers.map((item) => (
           <RippleButton
-            key={item.id} // todo
-            style={[
-              styles.chip,
-              { backgroundColor: theme.backgroundElevated2 },
-            ]}
+            key={item.id}
+            style={{
+              ...styles.chip,
+              backgroundColor: theme.backgroundElevated2,
+            }}
           >
             <Image
               style={styles.image}
@@ -31,7 +32,7 @@ const Translators = () => {
             </TextPrimary>
           </RippleButton>
         ))}
-      </View>
+      </ScrollView>
     </View>
   );
 };
@@ -54,6 +55,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    paddingVertical: 5,
   },
   text: {
     paddingVertical: 5,

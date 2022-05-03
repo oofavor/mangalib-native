@@ -1,26 +1,9 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { TextPrimary, TextSecondary } from '../../../../components/Text';
-import { Section } from '../../../../components/Container';
 import { useManga } from '../../MangaContext';
 
-const info = {
-  status: 'Онгоинг',
-  translationStatus: 'Продолжается',
-  chaptersAmount: '817',
-  format: 'в цвете',
-  author: ['Gift Of Liberation'],
-  artist: ['Ranzai Studio'],
-  publisher: [
-    'AC.QQ (Tencent)',
-    'MangaToon',
-    'WebComics',
-    'Billibilli Comics',
-    'INKR',
-  ],
-};
-
-const Table = (props) => {
+const Table = () => {
   const manga = useManga();
   return (
     <View>

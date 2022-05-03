@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { Section } from '../../../../components/Container';
 import Description from './Description';
@@ -12,16 +12,8 @@ import Genres from './Genres';
 
 const InfoGeneral = () => {
   return (
-    <Section style={{ marginTop: 0 }}>
-      {/* Correction for Section styles */}
-      <View
-        style={{
-          marginHorizontal: -12,
-          marginTop: -6,
-          borderBottomWidth: 1,
-          borderBottomColor: 'red',
-        }}
-      >
+    <Section>
+      <View style={styles.alignment}>
         <Cover />
         <MediaInfo />
       </View>
@@ -33,4 +25,12 @@ const InfoGeneral = () => {
   );
 };
 
+const styles = StyleSheet.create({
+  alignment: {
+    marginHorizontal: -12,
+    marginTop: -6,
+    borderBottomWidth: 1,
+    borderBottomColor: 'red',
+  },
+});
 export default InfoGeneral;

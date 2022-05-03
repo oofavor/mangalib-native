@@ -4,48 +4,51 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { TextPrimary } from '../../../../components/Text';
 import useTheme from '../../../../hooks/useTheme';
 import { useManga } from '../../MangaContext';
+
 const Genres = () => {
   const navigation = useNavigation();
   const manga = useManga();
   const [hide, setHide] = useState(true);
-  const { theme } = useTheme();
   const genres = [
     ...manga.genres.map((item) => ({ ...item, type: 'genres' })),
     ...manga.categories.map((item) => ({ ...item, type: 'categories' })),
   ];
 
-  const renderItem = (e, idx) => {
-    if (hide && idx > 20) {
-      return null;
-    }
+  const onPress = (item, idx) =>
+    hide && idx === 20
+      ? setHide(!hide)
+      : navigation.navigate('CatalogScreen', { include: [item] });
 
-    return (
-      <TouchableOpacity
-        key={e.type + e.id}
-        style={[
-          {
-            borderColor: theme.borderBase,
-            backgroundColor: theme.backgroundFill4,
-          },
-          styles.chip,
-        ]}
-        onPress={() =>
-          hide && idx === 20
-            ? setHide(!hide)
-            : navigation.navigate('CatalogScreen', { include: [e] })
-        }
-      >
-        <TextPrimary
-          size={14}
-          style={{ color: theme.text2, ...styles.genreText }}
-        >
-          {hide && idx === 20 ? '...' : e.name}
-        </TextPrimary>
-      </TouchableOpacity>
+  const renderItem = (item, idx) =>
+    (!hide || idx <= 20) && (
+      <Genre
+        info={item}
+        onPress={() => onPress(item, idx)}
+        isLast={hide && idx === 20}
+        key={item.type + item.id}
+      />
     );
-  };
 
   return <View style={styles.container}>{genres.map(renderItem)}</View>;
+};
+
+const Genre = ({ info, isLast, ...props }) => {
+  const { theme } = useTheme();
+
+  return (
+    <TouchableOpacity
+      style={{
+        ...styles.chip,
+        borderColor: theme.borderBase,
+        backgroundColor: theme.backgroundFill4,
+      }}
+      {...props}
+    >
+      <TextPrimary size={14} color={theme.text2} style={styles.genreText}>
+        {isLast ? '...' : info.name}
+      </TextPrimary>
+    </TouchableOpacity>
+  );
 };
 
 const styles = StyleSheet.create({

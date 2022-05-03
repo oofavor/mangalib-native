@@ -1,13 +1,29 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, View, StyleSheet } from 'react-native';
+import { decode } from 'html-entities';
+
 import { TextPrimary } from '../../../../components/Text';
 import { useManga } from '../../MangaContext';
-import { decode } from 'html-entities';
 
 const Description = () => {
   const manga = useManga();
   const [numLines, setNumLines] = useState(4);
   const [showMoreButton, setShowMoreButton] = useState(false);
+
+  const onTextLayout = (e) => {
+    setShowMoreButton(e.nativeEvent.lines.length > 4);
+  };
+
+  const showMoreHandler = () => setNumLines((e) => (e === 4 ? 0 : 4));
+
+  const descriptionText = decode(manga.description)
+    .replace(/\r\n/g, '<br />')
+    .replace(/(<br \/>)/g, '\n')
+    .replace(/\n+/g, '\n')
+    .replace(/<p>/g, '')
+    .replace(/<\/p>/g, '')
+    .replace(/<strong>/g, '')
+    .replace(/<\/strong>/g, '');
 
   return (
     <View style={styles.container}>
@@ -16,25 +32,12 @@ const Description = () => {
         numberOfLines={numLines}
         ellipsizeMode="clip"
         style={styles.text}
-        onTextLayout={(e) => {
-          setShowMoreButton(e.nativeEvent.lines.length > 4);
-        }}
+        onTextLayout={onTextLayout}
       >
-        {/* Replaces html tags with ASCII alternatives */}
-        {decode(manga.description)
-          .replace(/\r\n/g, '<br />')
-          .replace(/(<br \/>)/g, '\n')
-          .replace(/\n+/g, '\n')
-          .replace(/<p>/g, '')
-          .replace(/<\/p>/g, '')
-          .replace(/<strong>/g, '')
-          .replace(/<\/strong>/g, '')}
+        {descriptionText}
       </TextPrimary>
       {showMoreButton && (
-        <TouchableOpacity
-          // sets numLines to 0 to show all text
-          onPress={() => setNumLines((e) => (e === 4 ? 0 : 4))}
-        >
+        <TouchableOpacity onPress={showMoreHandler}>
           <TextPrimary size={14} style={styles.buttonLabel}>
             {numLines === 4 ? 'Подробнее...' : 'Свернуть'}
           </TextPrimary>

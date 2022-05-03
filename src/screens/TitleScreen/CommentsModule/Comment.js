@@ -12,41 +12,44 @@ import {
 import { getReplies } from '../../../services';
 import { baseUrl } from '../../../constants/urls';
 import { decode } from 'html-entities';
+import moment from 'moment';
+const greenRipple = {
+  color: 'rgba(0,255,0,0.3)',
+  borderless: true,
+  radius: 16,
+};
+
+const redRipple = {
+  color: 'rgba(255,0,0,0.3)',
+  borderless: true,
+  radius: 16,
+};
 
 const Comment = ({ comment }) => {
   const { theme } = useTheme();
   const [showAllText, setShow] = useState(false);
   const [showMoreButton, setShowMoreButton] = useState(false);
   const [showSubcomments, setShowSubcomments] = useState(false);
-
   const [subComments, setSubComments] = useState([]);
+
   const fetchSubcomments = () => {
     setShowSubcomments(true);
     getReplies(comment.id).then((res) => {
       setSubComments(res);
     });
   };
-  const numberOfVotes = 10;
-  const greenRipple = {
-    color: 'rgba(0,255,0,0.3)',
-    borderless: true,
-    radius: 16,
-  };
-  const redRipple = {
-    color: 'rgba(255,0,0,0.3)',
-    borderless: true,
-    radius: 16,
-  };
+  const imageSource = { uri: `${baseUrl}${comment.user.avatar.low}` };
+  const shadow = ['transparent', theme.foreground];
+
+  const onTextLayout = (e) => setShowMoreButton(e.nativeEvent.lines.length > 6);
+
   return (
     <View style={{ marginTop: 12 }}>
       {/* Top Info */}
       <View style={styles.topInfoContainer}>
         <RippleButton style={{ padding: 3, margin: -3 }}>
           <View style={styles.topInfoContainer}>
-            <Image
-              source={{ uri: `${baseUrl}${comment.user.avatar.low}` }}
-              style={[styles.avatar, { overlayColor: theme.foreground }]}
-            />
+            <Image source={imageSource} style={styles.avatar} />
             <View>
               <TextPrimary
                 size={13}
@@ -56,16 +59,17 @@ const Comment = ({ comment }) => {
               >
                 {comment.user.username}
               </TextPrimary>
-              <TextSecondary>X дней назад</TextSecondary>
+              <TextSecondary>
+                {moment(Date.now() - new Date(comment.date)).fromNow()}
+              </TextSecondary>
             </View>
           </View>
         </RippleButton>
-        <MaterialIcons
-          name="sports-basketball"
-          size={16}
-          color="blue"
-          style={{ marginLeft: 'auto' }}
-        />
+        {comment.is_pinned && (
+          <TextPrimary style={styles.chip} weight={700} size={12} color="#fff">
+            Закреплен
+          </TextPrimary>
+        )}
       </View>
       {/* Comment body*/}
       <View>
@@ -75,17 +79,12 @@ const Comment = ({ comment }) => {
             size={14}
             style={{ lineHeight: 22 }}
             ellipsizeMode="clip"
-            onTextLayout={(e) =>
-              setShowMoreButton(e.nativeEvent.lines.length > 6)
-            }
+            onTextLayout={onTextLayout}
           >
             {decode(comment.text)}
           </TextPrimary>
           {!showAllText && showMoreButton && (
-            <LinearGradient
-              style={styles.gradient}
-              colors={['transparent', theme.foreground]}
-            />
+            <LinearGradient style={styles.gradient} colors={shadow} />
           )}
         </View>
         {showMoreButton && (
@@ -109,7 +108,7 @@ const Comment = ({ comment }) => {
       <View style={styles.controlTabContainer}>
         <View style={{ marginRight: 'auto', flexDirection: 'row' }}>
           <RippleButton style={styles.answerButton}>
-            <TextPrimary style={{ color: theme.primary }} size={14}>
+            <TextPrimary size={14} color={theme.primary}>
               ответить
             </TextPrimary>
           </RippleButton>
@@ -130,12 +129,10 @@ const Comment = ({ comment }) => {
         </Pressable>
         <TextPrimary
           weight={600}
-          style={{
-            ...styles.controlTabIcon,
-            color: numberOfVotes < 0 ? '#f44336' : '#3cce7b',
-          }}
+          color={comment.score < 0 ? '#f44336' : '#3cce7b'}
+          style={styles.controlTabIcon}
         >
-          16
+          {comment.score}
         </TextPrimary>
         <Pressable android_ripple={redRipple} style={styles.controlTabIcon}>
           <MaterialIcons
@@ -147,11 +144,8 @@ const Comment = ({ comment }) => {
       </View>
       {/* Get Replies button */}
       {!showSubcomments && !!comment['count_replies'] && (
-        <BlankButton
-          style={{ padding: 7, marginRight: 'auto' }}
-          onPress={fetchSubcomments}
-        >
-          <TextSecondary style={{ color: theme.textMuted }}>
+        <BlankButton style={styles.showMoreButton} onPress={fetchSubcomments}>
+          <TextSecondary color={theme.textMuted}>
             Развернуть ветку
           </TextSecondary>
         </BlankButton>
@@ -192,6 +186,7 @@ const styles = StyleSheet.create({
     height: 24,
     borderRadius: 5,
     marginRight: 8,
+    overflow: 'hidden',
   },
   showMoreButton: {
     marginRight: 'auto',
@@ -212,6 +207,16 @@ const styles = StyleSheet.create({
     borderColor: 'lightgrey',
     paddingLeft: 9,
     paddingTop: 7,
+  },
+  getRepliesButton: { padding: 7, marginRight: 'auto' },
+  chip: {
+    marginLeft: 'auto',
+    backgroundColor: '#007feb',
+    paddingVertical: 2,
+    paddingHorizontal: 6,
+    borderRadius: 3,
+    alignSelf: 'flex-start',
+    marginTop: 4,
   },
 });
 export default Comment;
