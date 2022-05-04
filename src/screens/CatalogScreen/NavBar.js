@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useMemo, useRef } from 'react';
-import { View, Pressable } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import BlankButton from '../../components/Button/BlankButton';
 import { TextSecondary } from '../../components/Text';
 import useTheme from '../../hooks/useTheme';
@@ -44,59 +44,29 @@ const NavBar = ({
 
   return (
     <BottomSheetModalProvider>
-      <View
-        style={{
-          backgroundColor: theme.foreground,
-          flexDirection: 'row',
-          paddingVertical: 5,
-        }}
-      >
+      <View style={{ backgroundColor: theme.foreground, ...styles.container }}>
         <BlankButton
-          style={{
-            backgroundColor: theme.buttonDefaultBg,
-            borderRadius: 5,
-            flex: 1,
-            height: 28,
-            marginHorizontal: 4,
-            justifyContent: 'center',
-          }}
-          onPress={() => {
-            sortModalShow();
-          }}
+          style={{ backgroundColor: theme.buttonDefaultBg, ...styles.button }}
+          onPress={sortModalShow}
         >
           <TextSecondary
             weight={600}
             size={14}
-            style={{
-              color: theme.buttonDefaultColor,
-              textAlign: 'center',
-              textAlignVertical: 'center',
-            }}
+            style={styles.centerText}
+            color={theme.buttonDefaultColor}
           >
             Сортировать
           </TextSecondary>
         </BlankButton>
         <BlankButton
-          onPress={() => {
-            filterModalShow();
-          }}
-          style={{
-            backgroundColor: theme.buttonDefaultBg,
-            borderRadius: 5,
-            flex: 1,
-            height: 28,
-            marginHorizontal: 4,
-            justifyContent: 'center',
-          }}
+          onPress={filterModalShow}
+          style={{ backgroundColor: theme.buttonDefaultBg, ...styles.button }}
         >
           <TextSecondary
             size={14}
-            style={{
-              color: theme.buttonDefaultColor,
-              textAlign: 'center',
-              textAlignVertical: 'center',
-            }}
+            style={styles.centerText}
             weight={600}
+            color={theme.buttonDefaultColor}
           >
             Фильтры
           </TextSecondary>
@@ -104,7 +74,7 @@ const NavBar = ({
       </View>
       <BottomSheetModal
         ref={sortModalRef}
-        index={2}
+        index={1}
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
       >
@@ -125,5 +95,17 @@ const NavBar = ({
     </BottomSheetModalProvider>
   );
 };
+
+const styles = StyleSheet.create({
+  centerText: { textAlign: 'center', textAlignVertical: 'center' },
+  button: {
+    borderRadius: 5,
+    flex: 1,
+    height: 28,
+    marginHorizontal: 4,
+    justifyContent: 'center',
+  },
+  container: { flexDirection: 'row', paddingVertical: 5 },
+});
 
 export default NavBar;

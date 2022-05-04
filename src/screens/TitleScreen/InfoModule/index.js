@@ -1,12 +1,12 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 import InfoGeneral from './InfoGeneral';
 import InfoRelated from './InfoRelated';
 import InfoSimilar from './InfoSimilar';
 import InfoRating from './InfoRating';
 import InfoCount from './InfoCount';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ScrollView } from 'react-native';
 
 const InfoModule = () => {
   const insets = useSafeAreaInsets();
@@ -15,7 +15,7 @@ const InfoModule = () => {
     <ScrollView>
       <InfoGeneral />
       {/* <InfoRelated /> */}
-      {/* <InfoSimilar /> */}
+      <InfoSimilar />
       {/* <InfoCount /> */}
       {/* <InfoRating /> */}
       <View style={{ height: insets.bottom }} />

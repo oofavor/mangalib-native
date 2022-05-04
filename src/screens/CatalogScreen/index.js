@@ -10,7 +10,7 @@ import ContentLoader, { Rect } from 'react-content-loader/native';
 
 import MangaPreview from './MangaPreview';
 import NavBar from './NavBar';
-import ItemAnimator from './ItemAnimator';
+import ItemAnimator from '../../utils/ItemAnimator';
 import useTheme from '../../hooks/useTheme';
 import useCatalog from '../../hooks/useCatalog';
 

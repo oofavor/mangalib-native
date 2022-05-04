@@ -11,12 +11,9 @@ import useTheme from '../../../../hooks/useTheme';
 import Genres from './Genres';
 
 const InfoGeneral = () => {
+  const { theme } = useTheme();
   return (
     <Section>
-      <View style={styles.alignment}>
-        <Cover />
-        <MediaInfo />
-      </View>
       <Table />
       <Description />
       <Genres />
@@ -33,4 +30,5 @@ const styles = StyleSheet.create({
     borderBottomColor: 'red',
   },
 });
+
 export default InfoGeneral;

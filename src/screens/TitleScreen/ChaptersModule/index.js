@@ -17,12 +17,11 @@ import ContentLoader, { Rect, Circle } from 'react-content-loader/native';
 import useTheme from '../../../hooks/useTheme';
 import useChapters from '../../../hooks/useChapters';
 import { useManga } from '../MangaContext';
-import ChapterPreview from './ChapterPreview';
 import { TextPrimary } from '../../../components/Text';
+import ChapterPreview from './ChapterPreview';
 import ChooseTranslation from './ChooseTranslation';
 
 const screenWidth = Dimensions.get('window').width;
-// sort an array containing only 0, 1 and 2
 
 const layoutProvider = new LayoutProvider(
   () => 'YES',

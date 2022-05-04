@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState } from 'react';
 import { getChapters } from '../services';
 
 const useChapters = (initialBranch, onChapterChange, count = 100) => {

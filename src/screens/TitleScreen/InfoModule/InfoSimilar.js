@@ -16,7 +16,7 @@ const InfoSimilar = () => {
   const [similar, setSimilar] = useState([]);
 
   useEffect(() => {
-    if (manga?.dir && !similar.length) {
+    if (manga.dir && !similar.length) {
       getSimilar(manga.dir).then((data) => {
         setSimilar(data);
       });

@@ -70,10 +70,11 @@ const FilterModal = ({ getIncluded, handleConfig, config }) => {
           Возрастной рейтинг
         </TextPrimary>
         <View style={styles.checkboxGroup}>
-          {config['age_limit'].map((item) => (
+          {config['age_limit'].map((item, idx) => (
             <RippleButton
               style={[styles.checkboxContainer, styles.checkbox25pc]}
               onPress={() => handleConfig(item)}
+              key={idx + item.name}
             >
               <Checkbox state={item.state} />
               <TextPrimary style={styles.checkboxTitle}>
@@ -88,10 +89,11 @@ const FilterModal = ({ getIncluded, handleConfig, config }) => {
           Тип
         </TextPrimary>
         <View style={styles.checkboxGroup}>
-          {config['types'].map((item) => (
+          {config['types'].map((item, idx) => (
             <RippleButton
               style={[styles.checkboxContainer, styles.checkbox50pc]}
               onPress={() => handleConfig(item, true)}
+              key={idx + item.name}
             >
               <CheckboxThree state={item.state} />
               <TextPrimary style={styles.checkboxTitle}>
@@ -106,10 +108,11 @@ const FilterModal = ({ getIncluded, handleConfig, config }) => {
           Статус тайтла
         </TextPrimary>
         <View style={styles.checkboxGroup}>
-          {config['status'].map((item) => (
+          {config['status'].map((item, idx) => (
             <RippleButton
               style={[styles.checkboxContainer, styles.checkbox50pc]}
               onPress={() => handleConfig(item)}
+              key={idx + item.name}
             >
               <Checkbox state={item.state} />
               <TextPrimary style={styles.checkboxTitle}>
@@ -131,10 +134,11 @@ const FilterModal = ({ getIncluded, handleConfig, config }) => {
               Жанры
             </TextPrimary>
             <View style={styles.checkboxGroup}>
-              {config['genres'].map((item) => (
+              {config['genres'].map((item, idx) => (
                 <RippleButton
                   style={[styles.checkboxContainer, { flexBasis: '100%' }]}
                   onPress={() => handleConfig(item, true)}
+                  key={idx + item.name}
                 >
                   <CheckboxThree state={item.state} />
                   <TextPrimary style={styles.checkboxTitle}>
@@ -159,10 +163,11 @@ const FilterModal = ({ getIncluded, handleConfig, config }) => {
               Теги
             </TextPrimary>
             <View style={styles.checkboxGroup}>
-              {config['categories'].map((item) => (
+              {config['categories'].map((item, idx) => (
                 <RippleButton
                   style={[styles.checkboxContainer, { flexBasis: '100%' }]}
                   onPress={() => handleConfig(item, true)}
+                  key={idx + item.name}
                 >
                   <CheckboxThree state={item.state} />
                   <TextPrimary style={styles.checkboxTitle}>
