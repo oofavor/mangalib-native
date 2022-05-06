@@ -68,22 +68,17 @@ const CatalogScreen = ({ route }) => {
   return (
     <View style={{ backgroundColor: theme.foreground, flex: 1 }}>
       {manga.length ? (
-        <>
-          <RecyclerListView
-            style={{ flex: 1 }}
-            contentContainerStyle={{ marginHorizontal: 5 }}
-            onEndReached={fetchMore}
-            dataProvider={dataProvider}
-            layoutProvider={layoutProvider}
-            rowRenderer={rowRenderer}
-            renderFooter={renderFooter}
-            itemAnimator={new ItemAnimator()}
-            applyWindowCorrection={(offsetX, offsetY, windowCorrection) => {
-              windowCorrection.windowShift = 80;
-              windowCorrection.startCorrection = -80;
-            }}
-          />
-        </>
+        <RecyclerListView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ marginHorizontal: 5 }}
+          onEndReached={fetchMore}
+          dataProvider={dataProvider}
+          layoutProvider={layoutProvider}
+          rowRenderer={rowRenderer}
+          renderFooter={renderFooter}
+          itemAnimator={new ItemAnimator()}
+          renderAheadOffset={300}
+        />
       ) : (
         <Placeholder />
       )}

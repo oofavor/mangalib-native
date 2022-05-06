@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   ActivityIndicator,
@@ -13,6 +13,7 @@ import {
   RecyclerListView,
 } from 'recyclerlistview';
 import ContentLoader, { Rect, Circle } from 'react-content-loader/native';
+import { OptimizedHeavyScreen } from 'react-navigation-heavy-screen';
 
 import useTheme from '../../../hooks/useTheme';
 import useChapters from '../../../hooks/useChapters';
@@ -20,14 +21,16 @@ import { useManga } from '../MangaContext';
 import { TextPrimary } from '../../../components/Text';
 import ChapterPreview from './ChapterPreview';
 import ChooseTranslation from './ChooseTranslation';
+import Animated, { FadeIn, SlideInDown } from 'react-native-reanimated';
+import ItemAnimator from '../../../utils/ItemAnimator';
 
 const screenWidth = Dimensions.get('window').width;
 
 const layoutProvider = new LayoutProvider(
-  () => 'YES',
-  (_, dim) => {
+  (idx) => (idx === 0 ? 'HEADER' : 'CHAPTER'),
+  (idx, dim) => {
     dim.width = screenWidth;
-    dim.height = 57;
+    dim.height = idx === 'HEADER' ? 100 : 57;
   }
 );
 
@@ -40,27 +43,30 @@ const ChaptersModule = () => {
   );
 
   const onChapterChange = (chapters) =>
-    setDataProvider((prev) => prev.cloneWithRows(chapters));
+    setDataProvider((prev) => prev.cloneWithRows(['HEADER', ...chapters]));
 
-  const { chapters, fetch, allLoaded, isLoading, isError } = useChapters(
-    manga.branches[0],
-    onChapterChange
+  const {
+    chapters,
+    fetch,
+    allLoaded,
+    isLoading,
+    isError,
+    changeBranch,
+    currentBranch,
+  } = useChapters(manga.branches[0], onChapterChange);
+
+  const rowRenderer = useCallback(
+    (_, data) =>
+      data === 'HEADER' ? (
+        <ChooseTranslation
+          changeBranch={changeBranch}
+          currentBranch={currentBranch}
+        />
+      ) : (
+        <ChapterPreview chapter={data} />
+      ),
+    [chapters]
   );
-
-  useEffect(() => {
-    fetch().then(() => {
-      LayoutAnimation.configureNext(
-        LayoutAnimation.create(300, 'easeIn', 'opacity')
-      );
-    });
-  }, []);
-
-  const rowRenderer = (_, data) =>
-    data === 'HEADER' ? (
-      <ChooseTranslation />
-    ) : (
-      <ChapterPreview chapter={data} />
-    );
 
   const renderFooter = () =>
     isError ? (
@@ -78,26 +84,22 @@ const ChaptersModule = () => {
     );
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.foreground }}>
+    <Animated.View style={{ flex: 1, backgroundColor: theme.foreground }}>
       {chapters.length ? (
         <RecyclerListView
-          style={{ flex: 1 }}
           contentContainerStyle={{ marginHorizontal: 5 }}
           onEndReached={fetch}
           dataProvider={dataProvider}
           layoutProvider={layoutProvider}
           rowRenderer={rowRenderer}
           renderFooter={renderFooter}
-          applyWindowCorrection={(offsetX, offsetY, windowCorrection) => {
-            windowCorrection.windowShift = 80;
-            windowCorrection.startCorrection = -120;
-            windowCorrection.endCorrection = 65;
-          }}
+          renderAheadOffse={300}
+          itemAnimator={new ItemAnimator()}
         />
       ) : (
         <Placeholder />
       )}
-    </View>
+    </Animated.View>
   );
 };
 

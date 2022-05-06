@@ -14,6 +14,12 @@ const InfoGeneral = () => {
   const { theme } = useTheme();
   return (
     <Section>
+      <View
+        style={{ ...styles.alignment, borderBottomColor: theme.borderBase }}
+      >
+        <Cover />
+        <MediaInfo />
+      </View>
       <Table />
       <Description />
       <Genres />

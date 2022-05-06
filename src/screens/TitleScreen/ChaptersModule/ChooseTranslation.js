@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { Image, StyleSheet, View, ScrollView } from 'react-native';
 import { Heading, TextPrimary } from '../../../components/Text';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -7,8 +7,7 @@ import { RippleButton, Borderless } from '../../../components/Button';
 import { useManga } from '../MangaContext';
 import { baseUrl } from '../../../constants/urls';
 
-const ChooseTranslation = ({ setCurrentBranch }) => {
-  const [active, setActive] = useState(0);
+const ChooseTranslation = ({ changeBranch, currentBranch }) => {
   const { theme } = useTheme();
   const manga = useManga();
 
@@ -20,13 +19,13 @@ const ChooseTranslation = ({ setCurrentBranch }) => {
           <RippleButton
             key={idx}
             onPress={() => {
-              if (idx === active) return;
-              setActive(idx);
+              if (branch.id === currentBranch.id) return;
+              changeBranch(branch);
             }}
             style={{
               ...styles.chip,
               backgroundColor: theme.backgroundElevated2,
-              opacity: active === idx ? 1 : 0.6,
+              opacity: branch.id === currentBranch.id ? 1 : 0.6,
             }}
           >
             <Image

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -100,4 +100,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChapterPreview;
+export default memo(ChapterPreview);

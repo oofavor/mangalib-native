@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Image, Pressable, StyleSheet, View } from 'react-native';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 import { TextPrimary, TextSecondary } from '../../../components/Text';
 import { MaterialIcons } from '@expo/vector-icons';
 import useTheme from '../../../hooks/useTheme';
@@ -13,6 +13,8 @@ import { getReplies } from '../../../services';
 import { baseUrl } from '../../../constants/urls';
 import { decode } from 'html-entities';
 import moment from 'moment';
+import ContentLoader, { Circle, Rect } from 'react-content-loader/native';
+
 const greenRipple = {
   color: 'rgba(0,255,0,0.3)',
   borderless: true,
@@ -38,6 +40,7 @@ const Comment = ({ comment }) => {
       setSubComments(res);
     });
   };
+
   const imageSource = { uri: `${baseUrl}${comment.user.avatar.low}` };
   const shadow = ['transparent', theme.foreground];
 
@@ -47,16 +50,11 @@ const Comment = ({ comment }) => {
     <View style={{ marginTop: 12 }}>
       {/* Top Info */}
       <View style={styles.topInfoContainer}>
-        <RippleButton style={{ padding: 3, margin: -3 }}>
+        <RippleButton style={{ padding: 3, margin: -3, width: '95%' }}>
           <View style={styles.topInfoContainer}>
             <Image source={imageSource} style={styles.avatar} />
             <View>
-              <TextPrimary
-                size={13}
-                weight={700}
-                numberOfLines={1}
-                style={{ flex: 1 }}
-              >
+              <TextPrimary size={13} weight={700} numberOfLines={1}>
                 {comment.user.username}
               </TextPrimary>
               <TextSecondary>
@@ -151,14 +149,33 @@ const Comment = ({ comment }) => {
         </BlankButton>
       )}
       {/* Subcomments (nested) */}
-      {showSubcomments && (
-        <View style={styles.subcommentContainer}>
-          {subComments.map((subComment) => (
-            <Comment comment={subComment} key={subComment.id} />
-          ))}
-        </View>
-      )}
+      {showSubcomments &&
+        (subComments.length ? (
+          <View style={styles.subcommentContainer}>
+            {subComments.map((subComment) => (
+              <Comment comment={subComment} key={subComment.id} />
+            ))}
+          </View>
+        ) : (
+          <Placeholder />
+        ))}
     </View>
+  );
+};
+
+const Placeholder = () => {
+  const generate = () => 300 * Math.max(Math.random(), 0.5);
+  return (
+    <ContentLoader height={132} width={300}>
+      <Circle cx={20} cy={25} r={16} />
+      <Rect x={42} y={14} width={160} height={10} cx={4} />
+      <Rect x={42} y={28} width={100} height={10} cx={4} />
+      {/* Comment Lines */}
+      <Rect x={4} y={60} width={generate()} height={12} cx={4} />
+      <Rect x={4} y={80} width={generate()} height={12} cx={4} />
+      <Rect x={4} y={100} width={generate()} height={12} cx={4} />
+      <Rect x={4} y={120} width={generate()} height={12} cx={4} />
+    </ContentLoader>
   );
 };
 

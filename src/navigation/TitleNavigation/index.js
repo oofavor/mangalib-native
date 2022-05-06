@@ -1,7 +1,6 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import React from 'react';
-import { Vibration, Pressable, View } from 'react-native';
+import { Vibration, Pressable } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import useTheme from '../../hooks/useTheme';
@@ -11,10 +10,8 @@ import CommentsModule from '../../screens/TitleScreen/CommentsModule';
 import DiscussionsModule from '../../screens/TitleScreen/DiscussionsModule';
 import InfoModule from '../../screens/TitleScreen/InfoModule';
 import { useManga } from '../../screens/TitleScreen/MangaContext';
-import Cover from '../../screens/TitleScreen/InfoModule/InfoGeneral/Cover';
-import MediaInfo from '../../screens/TitleScreen/InfoModule/InfoGeneral/MediaInfo';
-import Animated, { useAnimatedStyle } from 'react-native-reanimated';
-const Tab = createMaterialTopTabNavigator();
+
+const Tab = createBottomTabNavigator();
 
 const names = {
   ChaptersModule: 'view-list',
@@ -30,30 +27,12 @@ const labels = {
   InfoModule: 'Информация',
 };
 
-// TODO: collapsable TabBar
-
-const Cus = ({ layout }) => {
-  const styles = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateY: 0 }],
-    };
-  });
-
-  return (
-    <Animated.View style={styles}>
-      <Cover />
-      <MediaInfo />
-    </Animated.View>
-  );
-};
-
 const TitleNavigation = () => {
   const { theme } = useTheme();
   const manga = useManga();
 
   return (
     <Tab.Navigator
-      tabBar={(props) => <Cus {...props} />}
       screenOptions={({ route }) => ({
         tabBarScrollEnabled: true,
         headerStyle: { backgroundColor: theme.primary, height: 80 },
@@ -101,6 +80,7 @@ const TitleNavigation = () => {
           </TextPrimary>
         ),
       })}
+      backBehavior="none"
     >
       <Tab.Screen component={InfoModule} name="InfoModule" />
       <Tab.Screen component={ChaptersModule} name="ChaptersModule" />
