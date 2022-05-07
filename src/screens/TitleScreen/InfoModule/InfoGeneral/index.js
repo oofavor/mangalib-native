@@ -15,7 +15,10 @@ const InfoGeneral = () => {
   return (
     <Section>
       <View
-        style={{ ...styles.alignment, borderBottomColor: theme.borderBase }}
+        style={{
+          ...styles.alignment,
+          borderBottomColor: theme.borderBase,
+        }}
       >
         <Cover />
         <MediaInfo />

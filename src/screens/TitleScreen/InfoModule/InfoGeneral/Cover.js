@@ -25,13 +25,13 @@ const styles = StyleSheet.create({
     height: 340,
   },
   backgroundImage: {
-    width: '100%',
     height: 360,
     alignItems: 'center',
     justifyContent: 'flex-end',
-    overflow: 'hidden',
-    position: 'absolute',
     backgroundColor: 'grey',
+    opacity: 0.99,
+    zIndex: -10,
+    position: 'relative',
   },
   shadow: { position: 'absolute', left: 0, right: 0, top: 0, height: '100%' },
   image: {

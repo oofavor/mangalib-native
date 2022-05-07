@@ -13,6 +13,7 @@ import NavBar from './NavBar';
 import ItemAnimator from '../../utils/ItemAnimator';
 import useTheme from '../../hooks/useTheme';
 import useCatalog from '../../hooks/useCatalog';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 
 const screenWidth = Dimensions.get('window').width - 10;
 
@@ -68,17 +69,19 @@ const CatalogScreen = ({ route }) => {
   return (
     <View style={{ backgroundColor: theme.foreground, flex: 1 }}>
       {manga.length ? (
-        <RecyclerListView
-          style={{ flex: 1 }}
-          contentContainerStyle={{ marginHorizontal: 5 }}
-          onEndReached={fetchMore}
-          dataProvider={dataProvider}
-          layoutProvider={layoutProvider}
-          rowRenderer={rowRenderer}
-          renderFooter={renderFooter}
-          itemAnimator={new ItemAnimator()}
-          renderAheadOffset={300}
-        />
+        <Animated.View style={{ flex: 1 }} entering={FadeInDown.duration(400)}>
+          <RecyclerListView
+            style={{ flex: 1 }}
+            contentContainerStyle={{ marginHorizontal: 5 }}
+            onEndReached={fetchMore}
+            dataProvider={dataProvider}
+            layoutProvider={layoutProvider}
+            rowRenderer={rowRenderer}
+            renderFooter={renderFooter}
+            itemAnimator={new ItemAnimator()}
+            renderAheadOffset={300}
+          />
+        </Animated.View>
       ) : (
         <Placeholder />
       )}

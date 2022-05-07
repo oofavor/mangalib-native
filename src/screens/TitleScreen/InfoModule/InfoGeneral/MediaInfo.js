@@ -56,7 +56,8 @@ const MediaInfo = () => {
 const styles = StyleSheet.create({
   container: {
     paddingTop: 8,
-    paddingBottom: 20,
+    paddingBottom: 12,
+    paddingHorizontal: 10,
     alignItems: 'center',
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
