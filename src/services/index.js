@@ -83,24 +83,6 @@ export const getSimilar = async (title) => {
   return data.content;
 };
 
-export const getCurrentUser = async () => {
-  const data = await getRequest('/api/users/current/');
-  return data.content;
-};
-
-export const getUserData = async (userId) => {
-  const data = await getRequest(`/api/users/${userId}/`);
-  return data.content;
-};
-
-export const getUserBookmarks = async (page = 1, count = 24, type = 0) => {
-  const userData = await getCurrentUser();
-  const data = await getRequest(
-    `/api/users/${userData.id}/bookmarks/?type=${type}&count=${count}&page=${page}`
-  );
-  return data.content;
-};
-
 export const getComments = async (titleId, page = 1) => {
   const comments = await getRequest(
     `/api/activity/comments/?title_id=${titleId}&page=${page}&ordering=-id`
@@ -131,4 +113,24 @@ export const getCatalogMetadata = async () => {
     '/api/forms/titles/?get=genres&get=categories&get=types&get=status&get=age_limit'
   );
   return metadata.content;
+};
+
+export const getCurrentUser = async () => {
+  const data = await getRequest('/api/users/current/');
+  return data.content;
+};
+
+export const getUserData = async (userId) => {
+  const data = await getRequest(`/api/users/${userId}/`);
+  return data.content;
+};
+
+export const getBookmarks = async (userId, page = 1, type = 0, count = 24) => {
+  console.log(
+    `/api/users/${userId}/bookmarks/?type=${type}&count=${count}&page=${page}`
+  );
+  const data = await getRequest(
+    `/api/users/${userId}/bookmarks/?type=${type}&count=${count}&page=${page}`
+  );
+  return data.content;
 };
