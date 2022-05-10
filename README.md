@@ -1,4 +1,6 @@
 # Clone of [mangalib](https://mangalib.me/) PWA to React Native.
+## Current status
+Currently app is not being deleveloped due inability to fully integrate with availiable API
 
 ## If you work at [Mangalib](https://mangalib.me/)
 If you can, you may give me your api endpoints and stuff... <b>I won't leak them. I promise</b>.
@@ -14,9 +16,6 @@ Unfortunatly, mangalib doesn't have open api and I have to use remanga's api, wh
 `pleaseHireMe(remote)(pls).then(result => console.error('you will make more money'))`
 
 ## Known bugs
-- Project uses react-native-largelist so because of hypersensitivity users can encounter accident presses
 - [Mangalib](https://mangalib.me/) API is hidden behind their SSR so this project uses [remanga](https://remanga.org/) api which lacks in some areas (notifications, title details such as the author and the artist)
-- Loading the app takes a lot of time, and it's not just React Native performance, api calls resolve only after ~30sec after app loaded
-- When navigating from TitleScreen back there's is a glitch happens which flicks the image
 
 
