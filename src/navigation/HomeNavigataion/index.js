@@ -8,7 +8,7 @@ import { TextPrimary } from '../../components/Text';
 import HomeScreen from '../../screens/HomeScreen';
 import CatalogScreen from '../../screens/CatalogScreen';
 import SettingsScreen from '../../screens/SettingsScreen';
-import ProfileScreen from '../../screens/ProfileScreen';
+import UserScreen from '../../screens/UserScreen';
 import LoginScreen from '../../screens/LoginScreen';
 import NotificationScreen from '../../screens/NotificationScreen';
 import useUser from '../../hooks/useUser';
@@ -90,7 +90,7 @@ const HomeNavigation = () => {
       <Tab.Screen name="NotificationScreen" component={NotificationScreen} />
       <Tab.Screen name="SettingsScreen" component={SettingsScreen} />
       {isLogged ? (
-        <Tab.Screen name="ProfileScreen" component={ProfileScreen} />
+        <Tab.Screen name="ProfileScreen" component={UserScreen} />
       ) : (
         <Tab.Screen name="LoginScreen" component={LoginScreen} />
       )}

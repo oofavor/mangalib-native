@@ -14,6 +14,7 @@ import { baseUrl } from '../../../constants/urls';
 import { decode } from 'html-entities';
 import moment from 'moment';
 import ContentLoader, { Circle, Rect } from 'react-content-loader/native';
+import { useNavigation } from '@react-navigation/native';
 
 const greenRipple = {
   color: 'rgba(0,255,0,0.3)',
@@ -33,7 +34,7 @@ const Comment = ({ comment }) => {
   const [showMoreButton, setShowMoreButton] = useState(false);
   const [showSubcomments, setShowSubcomments] = useState(false);
   const [subComments, setSubComments] = useState([]);
-
+  const navigation = useNavigation();
   const fetchSubcomments = () => {
     setShowSubcomments(true);
     getReplies(comment.id).then((res) => {
@@ -46,11 +47,18 @@ const Comment = ({ comment }) => {
 
   const onTextLayout = (e) => setShowMoreButton(e.nativeEvent.lines.length > 6);
 
+  const navigateToUser = () => {
+    navigation.navigate('UserScreen', { user: comment.user.id });
+  };
+
   return (
     <View style={{ marginTop: 12 }}>
       {/* Top Info */}
       <View style={styles.topInfoContainer}>
-        <RippleButton style={{ padding: 3, margin: -3, width: '95%' }}>
+        <RippleButton
+          style={{ padding: 3, margin: -3, width: '95%' }}
+          onPress={navigateToUser}
+        >
           <View style={styles.topInfoContainer}>
             <Image source={imageSource} style={styles.avatar} />
             <View>

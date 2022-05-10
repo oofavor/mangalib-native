@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getBookmarks } from '../services';
 
-const useBookmarks = (userId, type) => {
+const useBookmarks = (userId, type, onFetch) => {
   const [bookmarks, setBookmarks] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,10 +26,11 @@ const useBookmarks = (userId, type) => {
     if (isLoading || allLoaded) return;
     setIsLoading(true);
     const res = await getBookmarks(userId, page, current);
-    setBookmarks((prev) => prev.concat(res));
+    setBookmarks((prev) => prev.concat(res.content));
     setPage((prev) => prev + 1);
+    onFetch(res.props);
     setIsLoading(false);
-    if (res.length === 0) setAllLoaded(true);
+    if (res.content.length < 50) setAllLoaded(true);
   };
 
   return { fetch, bookmarks, isLoading, allLoaded };

@@ -21,8 +21,13 @@ import { useManga } from '../MangaContext';
 import { TextPrimary } from '../../../components/Text';
 import ChapterPreview from './ChapterPreview';
 import ChooseTranslation from './ChooseTranslation';
-import Animated, { FadeIn, SlideInDown } from 'react-native-reanimated';
+import Animated, {
+  FadeIn,
+  FadeInDown,
+  SlideInDown,
+} from 'react-native-reanimated';
 import ItemAnimator from '../../../utils/ItemAnimator';
+import { FadeFromBottom } from '../../../components/Animated';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -84,22 +89,24 @@ const ChaptersModule = () => {
     );
 
   return (
-    <Animated.View style={{ flex: 1, backgroundColor: theme.foreground }}>
+    <View style={{ flex: 1, backgroundColor: theme.foreground }}>
       {chapters.length ? (
-        <RecyclerListView
-          contentContainerStyle={{ marginHorizontal: 5 }}
-          onEndReached={fetch}
-          dataProvider={dataProvider}
-          layoutProvider={layoutProvider}
-          rowRenderer={rowRenderer}
-          renderFooter={renderFooter}
-          renderAheadOffse={300}
-          itemAnimator={new ItemAnimator()}
-        />
+        <FadeFromBottom style={{ flex: 1 }}>
+          <RecyclerListView
+            contentContainerStyle={{ marginHorizontal: 5 }}
+            onEndReached={fetch}
+            dataProvider={dataProvider}
+            layoutProvider={layoutProvider}
+            rowRenderer={rowRenderer}
+            renderFooter={renderFooter}
+            renderAheadOffse={300}
+            itemAnimator={new ItemAnimator()}
+          />
+        </FadeFromBottom>
       ) : (
         <Placeholder />
       )}
-    </Animated.View>
+    </View>
   );
 };
 

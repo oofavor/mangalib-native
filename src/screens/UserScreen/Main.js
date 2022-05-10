@@ -2,9 +2,8 @@ import { Image, Pressable, StyleSheet, View } from 'react-native';
 import { TextPrimary, TextSecondary } from '../../components/Text';
 import useTheme from '../../hooks/useTheme';
 
-const Main = ({ user }) => {
+const Main = ({ user, loggedInUser }) => {
   const { theme } = useTheme();
-
   return (
     <View
       style={{
@@ -14,19 +13,12 @@ const Main = ({ user }) => {
       }}
     >
       {/* Profile Info */}
-      <Image
-        style={styles.imageOverlay}
-        source={{
-          uri: 'https://api.remanga.org/media/titles/one_hundred_to_make_god/693ce5fef73a07dec62d9a15bdbcae2d.jpg',
-        }}
-      />
+      <Image style={styles.imageOverlay} source={{ uri: user.avatar }} />
       <View style={styles.info}>
         <Image
           resizeMode="cover"
           style={styles.image}
-          source={{
-            uri: 'https://api.remanga.org/media/titles/one_hundred_to_make_god/693ce5fef73a07dec62d9a15bdbcae2d.jpg',
-          }}
+          source={{ uri: user.avatar }}
         />
         <View>
           <TextPrimary size={16} weight={600}>
@@ -37,16 +29,42 @@ const Main = ({ user }) => {
           </TextSecondary>
         </View>
       </View>
-      <Pressable
-        style={{
-          backgroundColor: theme.buttonDefaultBg,
-          ...styles.button,
-        }}
-      >
-        <TextPrimary size={13} style={{ color: theme.buttonDefaultColor }}>
-          Настройки
-        </TextPrimary>
-      </Pressable>
+      {loggedInUser ? (
+        <Pressable
+          style={{
+            backgroundColor: theme.buttonDefaultBg,
+            marginRight: 'auto',
+            ...styles.button,
+          }}
+        >
+          <TextPrimary size={13} color={theme.buttonDefaultColor}>
+            Настройки
+          </TextPrimary>
+        </Pressable>
+      ) : (
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
+          <Pressable
+            style={{
+              backgroundColor: theme.buttonDefaultBg,
+              ...styles.button,
+            }}
+          >
+            <TextPrimary size={13} color={theme.buttonDefaultColor}>
+              Написать
+            </TextPrimary>
+          </Pressable>
+          <Pressable
+            style={{
+              backgroundColor: '#3cce7b',
+              ...styles.button,
+            }}
+          >
+            <TextPrimary size={13} color="#fff">
+              Добавить в друзья
+            </TextPrimary>
+          </Pressable>
+        </View>
+      )}
       <Pressable style={{ paddingVertical: 8, paddingHorizontal: 12 }}>
         <TextSecondary size={14}>
           Показать информацию о пользователе
@@ -73,7 +91,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 6,
     marginBottom: 8,
-    marginRight: 'auto',
     height: 26,
     borderRadius: 3,
     paddingHorizontal: 8,

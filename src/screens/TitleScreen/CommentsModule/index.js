@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Section } from '../../../components/Container';
+import { FadeFromBottom } from '../../../components/Animated';
 import { getComments } from '../../../services';
 import { useManga } from '../MangaContext';
 import Comment from './Comment';
@@ -7,6 +8,7 @@ import { Button, ScrollView } from 'react-native';
 import ContentLoader, { Rect, Circle } from 'react-content-loader/native';
 import useTheme from '../../../hooks/useTheme';
 import useComments from '../../../hooks/useComments';
+import Input from './Input';
 
 // TODO: Add Placeholder
 const CommentsModule = () => {
@@ -17,20 +19,27 @@ const CommentsModule = () => {
   );
 
   return (
-    <ScrollView
-      contentContainerStyle={{
-        backgroundColor: theme.foreground,
-        paddingHorizontal: 12,
-        paddingTop: 6,
-      }}
-    >
-      {comments.length ? (
-        comments.map((comment, idx) => <Comment comment={comment} key={idx} />)
-      ) : (
-        <Placeholder />
-      )}
-      <Button title="Show more" onPress={fetch} />
-    </ScrollView>
+    <>
+      <ScrollView
+        contentContainerStyle={{
+          backgroundColor: theme.foreground,
+          paddingHorizontal: 12,
+          paddingTop: 6,
+        }}
+      >
+        {comments.length ? (
+          <FadeFromBottom>
+            {comments.map((comment, idx) => (
+              <Comment comment={comment} key={idx} />
+            ))}
+          </FadeFromBottom>
+        ) : (
+          <Placeholder />
+        )}
+        <Button title="Show more" onPress={fetch} />
+      </ScrollView>
+      <Input />
+    </>
   );
 };
 

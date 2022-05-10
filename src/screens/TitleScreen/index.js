@@ -52,7 +52,7 @@ const TitleScreen = ({ route }) => {
     <View style={{ backgroundColor: theme.foreground, flex: 1 }}>
       {manga ? (
         <Animated.View
-          entering={FadeInDown.easing(Easing.bezier(0.1, 0.9, 1, 1))}
+          entering={FadeInDown}
           style={{ flex: 1 }}
         >
           <MangaContext.Provider value={manga}>

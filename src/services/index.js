@@ -125,12 +125,12 @@ export const getUserData = async (userId) => {
   return data.content;
 };
 
-export const getBookmarks = async (userId, page = 1, type = 0, count = 24) => {
+export const getBookmarks = async (userId, page = 1, type = 0, count = 50) => {
   console.log(
     `/api/users/${userId}/bookmarks/?type=${type}&count=${count}&page=${page}`
   );
   const data = await getRequest(
     `/api/users/${userId}/bookmarks/?type=${type}&count=${count}&page=${page}`
   );
-  return data.content;
+  return data;
 };

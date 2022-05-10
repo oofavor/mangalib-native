@@ -34,7 +34,6 @@ const TitleNavigation = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarScrollEnabled: true,
         headerStyle: { backgroundColor: theme.primary, height: 80 },
         headerTitle: () => (
           <TextPrimary size={20} weight={600} numberOfLines={1}>

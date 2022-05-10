@@ -1,14 +1,22 @@
-import { Image, StyleSheet, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 import { Text, TextPrimary, TextSecondary } from '../../components/Text';
 import { baseUrl } from '../../constants/urls';
 import useTheme from '../../hooks/useTheme';
 
-const MangaPreview = ({ manga }) => {
+const MangaPreview = ({ manga, loggedInUser }) => {
   const { theme } = useTheme();
+  const navigation = useNavigation();
   const imageSource = { uri: `${baseUrl}${manga.title.img.mid}` };
+
+  const navigateToManga = () =>
+    navigation.push('TitleScreen', { title: manga.title.dir });
+    
   return (
     <View style={styles.container}>
-      <Image source={imageSource} style={styles.image} />
+      <Pressable onPress={navigateToManga}>
+        <Image source={imageSource} style={styles.image} />
+      </Pressable>
       <View
         style={{
           borderBottomColor: theme.borderBase,
@@ -27,12 +35,15 @@ const MangaPreview = ({ manga }) => {
         <TextPrimary size={12} style={{ marginTop: 5 }}>
           Последняя глава {manga.title['count_chapters']}
         </TextPrimary>
-        <View style={styles.bottomInfo}>
-          <TextSecondary>
-            Продолжить [{manga['read_progress']}-{manga['read_progress_total']}]
-          </TextSecondary>
-          <TextPrimary>$</TextPrimary>
-        </View>
+        {loggedInUser && (
+          <View style={styles.bottomInfo}>
+            <TextSecondary>
+              Продолжить [{manga['read_progress']}-
+              {manga['read_progress_total']}]
+            </TextSecondary>
+            <TextPrimary>$</TextPrimary>
+          </View>
+        )}
       </View>
     </View>
   );

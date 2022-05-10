@@ -69,7 +69,7 @@ const CatalogScreen = ({ route }) => {
   return (
     <View style={{ backgroundColor: theme.foreground, flex: 1 }}>
       {manga.length ? (
-        <Animated.View style={{ flex: 1 }} entering={FadeInDown.duration(400)}>
+        <Animated.View style={{ flex: 1 }} entering={FadeInDown}>
           <RecyclerListView
             style={{ flex: 1 }}
             contentContainerStyle={{ marginHorizontal: 5 }}

@@ -1,8 +1,10 @@
+import ContentLoader, { Rect } from 'react-content-loader/native';
 import { Pressable, ScrollView, StyleSheet } from 'react-native';
 import { TextPrimary } from '../../components/Text';
 import useTheme from '../../hooks/useTheme';
 
-const Nav = ({ type, setType }) => {
+const Nav = ({ type, setType, bookmarksData }) => {
+  console.log(bookmarksData?.bookmark_types ?? 'no data');
   return (
     <ScrollView
       horizontal
@@ -10,24 +12,20 @@ const Nav = ({ type, setType }) => {
       overScrollMode="never"
       showsHorizontalScrollIndicator={false}
     >
-      <Tab num={194} active={type === 0} onPress={() => setType(0)}>
-        Читаю
-      </Tab>
-      <Tab num={194} active={type === 1} onPress={() => setType(1)}>
-        Буду читать
-      </Tab>
-      <Tab num={194} active={type === 2} onPress={() => setType(2)}>
-        Прочитано
-      </Tab>
-      <Tab num={194} active={type === 3} onPress={() => setType(3)}>
-        Брошено
-      </Tab>
-      <Tab num={194} active={type === 4} onPress={() => setType(4)}>
-        Отложено
-      </Tab>
-      <Tab num={194} active={type === 5} onPress={() => setType(5)}>
-        Не интересно
-      </Tab>
+      {bookmarksData?.bookmark_types ? (
+        bookmarksData?.bookmark_types?.map((bookmark, _) => (
+          <Tab
+            key={bookmark.id}
+            num={bookmark.count}
+            active={type === bookmark.id}
+            onPress={() => setType(bookmark.id)}
+          >
+            {bookmark.name}
+          </Tab>
+        ))
+      ) : (
+        <Placeholder />
+      )}
     </ScrollView>
   );
 };
@@ -53,6 +51,18 @@ const Tab = ({ children, num, active, ...props }) => {
         {num}
       </TextPrimary>
     </Pressable>
+  );
+};
+
+const Placeholder = () => {
+  const { theme } = useTheme();
+  return (
+    <ContentLoader foregroundColor={theme.foreground} height={45} width={410}>
+      <Rect x={0} y={10} width={90} height={30} rx={3} />
+      <Rect x={100} y={10} width={100} height={30} rx={3} />
+      <Rect x={210} y={10} width={80} height={30} rx={3} />
+      <Rect x={300} y={10} width={90} height={30} rx={3} />
+    </ContentLoader>
   );
 };
 

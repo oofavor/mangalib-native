@@ -13,6 +13,7 @@ import LoginModal from '../../screens/LoginModal';
 import HomeNavigation from '../HomeNavigataion';
 import useTheme from '../../hooks/useTheme';
 import SearchIcon from './SearchIcon';
+import UserScreen from '../../screens/UserScreen';
 
 const Stack = createStackNavigator();
 
@@ -65,6 +66,7 @@ const MainNavigation = () => {
         name="LoginModal"
         options={screenOptions.modal}
       />
+      <Stack.Screen component={UserScreen} name="UserScreen" />
     </Stack.Navigator>
   );
 };

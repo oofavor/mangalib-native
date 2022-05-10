@@ -11,44 +11,27 @@ const Table = () => {
         <TextSecondary size={14} style={styles.keyText}>
           Статус Тайтла
         </TextSecondary>
-        <TextPrimary size={14}>{manga?.status?.name}</TextPrimary>
+        <TextPrimary size={14}>{manga.status.name}</TextPrimary>
       </View>
       <View style={styles.entry}>
         <TextSecondary size={14} style={styles.keyText}>
           Статус перевода
         </TextSecondary>
-        <TextPrimary size={14}>{manga?.status?.name}</TextPrimary>
+        <TextPrimary size={14}>{manga.status.name}</TextPrimary>
       </View>
       <View style={styles.entry}>
         <TextSecondary size={14} style={styles.keyText}>
           Загружено Глав
         </TextSecondary>
-        <TextPrimary size={14}>{manga?.count_chapters}</TextPrimary>
+        <TextPrimary size={14}>{manga.count_chapters}</TextPrimary>
       </View>
       <View style={styles.entry}>
         <TextSecondary size={14} style={styles.keyText}>
           Формат Выпуска
         </TextSecondary>
-        <TextPrimary size={14}>{manga?.type?.name}</TextPrimary>
+        <TextPrimary size={14}>{manga.type.name}</TextPrimary>
       </View>
-      <View style={styles.entry}>
-        <TextSecondary size={14} style={styles.keyText}>
-          Автор
-        </TextSecondary>
-        <TextPrimary size={14}>{'no info'}</TextPrimary>
-      </View>
-      <View style={styles.entry}>
-        <TextSecondary size={14} style={styles.keyText}>
-          Художник
-        </TextSecondary>
-        <TextPrimary size={14}>{'no info'}</TextPrimary>
-      </View>
-      <View style={styles.entry}>
-        <TextSecondary size={14} style={styles.keyText}>
-          Издатель
-        </TextSecondary>
-        <TextPrimary size={14}>{}</TextPrimary>
-      </View>
+
     </View>
   );
 };
