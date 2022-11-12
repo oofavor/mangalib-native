@@ -1,6 +1,6 @@
 # Clone of [mangalib](https://mangalib.me/) PWA to React Native.
 ## Current status
-Currently app is not being deleveloped due inability to fully integrate with availiable API
+Currently app is not being developed due inability to fully integrate with availiable API
 
 ## If you work at [Mangalib](https://mangalib.me/)
 If you can, you may give me your api endpoints and stuff... <b>I won't leak them. I promise</b>.
